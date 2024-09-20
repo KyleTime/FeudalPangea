@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://cr4vr0cr3qss8"]
+
+[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
+[ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.cs" id="2_rwbkr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmc2q"]
+albedo_color = Color(0.34902, 0, 0.34902, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_opd4q"]
+material = SubResource("StandardMaterial3D_gmc2q")
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_so0c4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1se20"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pmxi1"]
+
+[node name="Cathedral" type="Node3D"]
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(30.0022, 0, 0, 0, 1, 0, 0, 0, 30.0022, 0, 0, 0)
+mesh = SubResource("PlaneMesh_opd4q")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_so0c4")
+
+[node name="Player" parent="." instance=ExtResource("1_3o2o2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="CamOrigin" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45185, 0)
+script = ExtResource("2_rwbkr")
+
+[node name="CamOriginX" type="Node3D" parent="Player/CamOrigin"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CamOrigin/CamOriginX"]
+spring_length = 4.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="Player/CamOrigin/CamOriginX/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 3.75983, 0, 0, 0, 9.89296, 9.22256, 1.80203, -0.273794)
+mesh = SubResource("BoxMesh_1se20")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_pmxi1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.448, 0)
+light_energy = 4.505
+omni_range = 41.5548
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 14.1363, 0, 0, 0, 97.8707, -14.4079, 6.31522, -2.98243)
+mesh = SubResource("BoxMesh_1se20")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("BoxShape3D_pmxi1")
