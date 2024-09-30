@@ -1,12 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=24 format=3 uid="uid://bosu0j6amay5p"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerHealth.cs" id="2_n8hir"]
-[ext_resource type="Script" path="res://Scripts/Player/PlayerAttack.cs" id="3_g6rfs"]
+[ext_resource type="Script" path="res://Scripts/Player/PlayerAnimation.cs" id="4_cifv2"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerMovement.cs" id="4_te5vt"]
+[ext_resource type="Script" path="res://Scripts/Weapon.cs" id="5_p3sf1"]
 
-[sub_resource type="Animation" id="Animation_m3f3w"]
-resource_name = "Idle"
+[sub_resource type="Animation" id="Animation_n7ddw"]
+resource_name = "Air"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -14,10 +16,10 @@ tracks/0/path = NodePath("Movement/Body:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, -3.14159, 0)]
+"values": [Vector3(0.0872665, 0, 0), Vector3(-0.0872665, 0, 0), Vector3(0.0872665, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_6kx4h"]
@@ -29,10 +31,122 @@ tracks/0/path = NodePath("Movement/Body:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, -3.14159, 0), Vector3(1.0472, -3.01992e-07, 3.14159)]
+"values": [Vector3(0, 0, 0), Vector3(-2.0944, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Movement/Weapon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.18303, 0.85494, 0.646046), Vector3(1.18303, 0.126942, -1.02633)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Movement/Weapon:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.610865, 1.5708, 0), Vector3(0.336787, 2.09061, -2.09443)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Movement/Weapon:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m3f3w"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Movement/Body:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Movement/Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.05, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Movement/Body:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.05, 0.95, 1.05), Vector3(1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Movement/Weapon:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.18303, 0.86498, 0.646046)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Movement/Weapon:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.610865, 1.5708, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Movement/Weapon:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_xubwn"]
@@ -47,14 +161,205 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, -3.14159, 0)]
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Movement/Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Movement/Body:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Movement/Weapon:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.18303, 0.883869, 0.646046)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Movement/Weapon:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.610865, 1.5708, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Movement/Weapon:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1yx0g"]
+resource_name = "Walk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Movement/Body:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.1, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.1, 0), Vector3(0, 0.117035, 0), Vector3(0, -0.1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Movement/Body:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.1, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.12766, 0, 0), Vector3(0.215339, 0, 0), Vector3(-0.0317475, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Movement/Body:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(-0.1, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1, 0.9, 1), Vector3(1, 1, 1), Vector3(1, 0.9, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Movement/Weapon:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1.18303, 0.860563, 0.646046), Vector3(1.18303, 0.846582, 0.855343), Vector3(1.18303, 0.860563, 0.646046)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Movement/Weapon:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.610865, 1.5708, 0), Vector3(-0.592601, 1.41274, 0.277975), Vector3(-0.610865, 1.5708, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Movement/Weapon:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pmopi"]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Movement/Body:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Movement/Body:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.155003, -0.138399, 0.00156219), Vector3(-0.244629, 0.286043, -0.0711119)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Movement/Weapon:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1.18303, 0.883869, 0.646046), Vector3(-0.141734, 0.121018, 0.646046), Vector3(-0.00887561, 0.0497142, -0.0524636)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Movement/Weapon:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.610865, 1.5708, 0), Vector3(-0.301048, -1.61374, -0.0159947), Vector3(0.176573, 1.50642, -0.047023)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mmbxd"]
 _data = {
+"Air": SubResource("Animation_n7ddw"),
+"Attack": SubResource("Animation_pmopi"),
 "Dive": SubResource("Animation_6kx4h"),
 "Idle": SubResource("Animation_m3f3w"),
-"RESET": SubResource("Animation_xubwn")
+"RESET": SubResource("Animation_xubwn"),
+"Walk": SubResource("Animation_1yx0g")
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
@@ -83,6 +388,12 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_rov86"]
 material = SubResource("StandardMaterial3D_6nguw")
 
+[sub_resource type="BoxMesh" id="BoxMesh_qps2x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0adcd"]
+radius = 0.25
+height = 1.8
+
 [node name="Player" type="CharacterBody3D"]
 axis_lock_angular_x = true
 axis_lock_angular_z = true
@@ -93,14 +404,12 @@ script = ExtResource("1_fmy2y")
 [node name="Health" type="Node" parent="."]
 script = ExtResource("2_n8hir")
 
-[node name="Attack" type="Node" parent="."]
-script = ExtResource("3_g6rfs")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_mmbxd")
 }
 autoplay = "Idle"
+script = ExtResource("4_cifv2")
 
 [node name="Movement" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -108,26 +417,25 @@ shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
 
 [node name="Body" type="MeshInstance3D" parent="Movement"]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_t8vyt")
 skeleton = NodePath("../..")
 
 [node name="Bol" type="MeshInstance3D" parent="Movement/Body"]
-transform = Transform3D(0.512276, 0, 0, 0, 0.538574, 0, 0, 0, 0.310116, -0.262258, 0.379796, -0.35884)
+transform = Transform3D(0.512276, 0, 0, 0, 0.538574, 0, 0, 0, 0.310116, -0.26226, 0.379796, -0.374624)
 mesh = SubResource("SphereMesh_1334e")
 skeleton = NodePath("../..")
 
 [node name="pupil" type="MeshInstance3D" parent="Movement/Body/Bol"]
-transform = Transform3D(0.46679, 2.13163e-14, 0, 1.42109e-14, 0.535142, 0, 0, 0, 0.5088, 0, 0, -0.523803)
+transform = Transform3D(0.46679, 2.13163e-14, 1.13687e-13, 1.42109e-14, 0.535142, 0, 2.27374e-13, 0, 0.5088, -1.49012e-06, 0, -0.385101)
 mesh = SubResource("SphereMesh_7obsi")
 
 [node name="Bol2" type="MeshInstance3D" parent="Movement/Body"]
-transform = Transform3D(0.512276, 0, 0, 0, 0.538574, 0, 0, 0, 0.310116, 0.248383, 0.379796, -0.35884)
+transform = Transform3D(0.512276, 0, 0, 0, 0.538574, 0, 0, 0, 0.310116, 0.248381, 0.379796, -0.374624)
 mesh = SubResource("SphereMesh_1334e")
 skeleton = NodePath("../..")
 
 [node name="pupil" type="MeshInstance3D" parent="Movement/Body/Bol2"]
-transform = Transform3D(0.46679, 2.13163e-14, 0, 1.42109e-14, 0.535142, 0, 0, 0, 0.5088, 0, 0, -0.457297)
+transform = Transform3D(0.46679, 2.13163e-14, 5.68434e-14, 1.42109e-14, 0.535142, 0, 2.27374e-13, 0, 0.5088, -1.37091e-06, 0, -0.318596)
 mesh = SubResource("SphereMesh_7obsi")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Movement/Body"]
@@ -138,3 +446,25 @@ skeleton = NodePath("../..")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Movement/Body/MeshInstance3D2"]
 transform = Transform3D(0.660127, 0, 0, 0, 2.69976, 0, 0, 0, 0.615748, 0, 3.3743, 0)
 mesh = SubResource("CylinderMesh_rov86")
+
+[node name="WallJumpRay" type="RayCast3D" parent="Movement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.198333, -0.112084)
+target_position = Vector3(0, 0, -1)
+
+[node name="Weapon" type="Area3D" parent="Movement"]
+transform = Transform3D(-3.61999e-06, -0.573576, 0.819152, 0, 0.819152, 0.573576, -1, 2.07634e-06, -2.96532e-06, 1.18303, 0.883869, 0.646046)
+script = ExtResource("5_p3sf1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Movement/Weapon"]
+transform = Transform3D(0.249988, 0, -0.0143987, -8.06608e-11, 0.25, 8.9492e-08, 0.00239979, -1.53925e-12, 1.49993, 0, 2.38419e-07, -1.4374)
+mesh = SubResource("BoxMesh_qps2x")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Movement/Weapon"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1.4374)
+shape = SubResource("CapsuleShape3D_0adcd")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, -0.573576, 0.819152, 0, 0.819152, 0.573576, -1, 2.50718e-08, -3.58063e-08, 1.18303, 1.88634, 0.646046)
+
+[connection signal="body_entered" from="Movement/Weapon" to="Movement/Weapon" method="OnBodyEntered"]

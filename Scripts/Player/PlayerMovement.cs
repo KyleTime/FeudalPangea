@@ -6,9 +6,7 @@ using System;
 //it will NOT move itself tho
 public partial class PlayerMovement : Node3D
 {
-	public enum PlayerState {Grounded, OpenAir, WallSlide, Dive, Stun, StunAir, Attack, AttackAir}
-
-	public PlayerState playerState = PlayerState.Grounded;
+	public CreatureState creatureState = CreatureState.Grounded;
 
 	public Vector3 velocity;
 	
@@ -16,17 +14,24 @@ public partial class PlayerMovement : Node3D
 	public bool grounded = false;
 	public bool wall = false;
 	public Basis basis; //way to orient self for velocity calculations
-	public Node3D body; //model to orient towards movement
+	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
+	public Area3D hitbox; //hitbox of the weapon the player is carrying NOTE: might redo how this works later
 
 	//movement attributes
-	[Export]private float speed = 10f;
+	[Export]public float speed = 10f;
 	[Export]private float acceleration = 20f;
 	[Export]private float deceleration = 10f;
 	[Export]private float airMod = 0.5f;
 	[Export]private float jumpPower = 10;
 	[Export]private float stunTimer = 1;
+	[Export]private float diveUpdraft = 5;
+	[Export]private float diveSpeedMod = 2;
+	[Export]private float wallJumpMod = 1;
 
 	[Export]private float maxSlideFallingSpeed = -2.5f;
+
+	[Export]private float attackTime = 1;
+	private float attackTimer;
 
 	public PlayerMovement()
 	{	
@@ -36,13 +41,18 @@ public partial class PlayerMovement : Node3D
 	public override void _Ready()
 	{
 		basis = new Basis();
+		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
+		hitbox = GetNode<Area3D>("Weapon");
 	}
 
     [Signal]
 	public delegate void AttackSignalEventHandler();
 
+	[Signal]
+	public delegate void StateChangeEventHandler();
+
 	/// <summary>
-	/// Reads the input from the player and changes "velocity" and updates "playerState"
+	/// Reads the input from the player and changes "velocity" and updates "creatureState"
 	/// </summary>
 	/// <param name="delta">deltatime</param>
 	/// <param name="b">the basis of the camera direction</param>
@@ -54,50 +64,88 @@ public partial class PlayerMovement : Node3D
 		this.grounded = grounded;
 		this.wall = wall;
 		ReadInput(delta);
-		RotateBody();
+
+		if(!Attacking())
+		{
+			RotateBody();
+			hitbox.Monitorable = false;
+			hitbox.Monitoring = false;
+		}
+		else if(hitbox.Monitoring == false)
+		{
+			hitbox.Monitorable = true;
+			hitbox.Monitoring = true;
+		}
 	}
 
 	private void ReadInput(double delta) {
 
-		float XInput = Input.GetAxis("LEFT", "RIGHT");
-		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");
-
-		Run(delta, XInput, ZInput);
-
-		if(grounded && !(playerState == PlayerState.Grounded) && velocity.Y < 0)
-			playerState = PlayerState.Grounded;
-		else if(!(playerState == PlayerState.Dive) && !grounded)
-			playerState = PlayerState.OpenAir;
-
-		if(Input.IsActionJustPressed("JUMP") && playerState == PlayerState.Grounded)
+		if(attackTimer < 0)
 		{
-			playerState = PlayerState.OpenAir;
-			GD.Print("JUMP!");
-			Jump();
+			creatureState = CreatureState.OpenAir;
+			attackTimer = 0;
 		}
 
-		if(Input.IsActionJustPressed("DIVE") && !(playerState == PlayerState.Grounded))
+		float XInput = 0;
+		float ZInput = 0;
+
+		if(!Attacking())
 		{
-			playerState = PlayerState.Dive;
-			GD.Print("DIVE!");
+			XInput = Input.GetAxis("LEFT", "RIGHT");
+			ZInput = Input.GetAxis("FORWARD", "BACKWARD");
+
+			if(grounded && !(creatureState == CreatureState.Grounded) && velocity.Y < 0)
+				SetState(CreatureState.Grounded);
+			else if(!(creatureState == CreatureState.Dive) && !grounded)
+				SetState(CreatureState.OpenAir);
+		}
+		else
+			attackTimer -= (float)delta;
+		
+		Run(delta, XInput, ZInput);
+
+		if(wall && !grounded && creatureState == CreatureState.OpenAir)
+		{
+			SetState(CreatureState.WallSlide);
+		}
+
+		if(Input.IsActionJustPressed("JUMP"))
+		{
+			if(creatureState == CreatureState.Grounded){
+				SetState(CreatureState.OpenAir);
+				Jump();
+			}
+			else if(creatureState == CreatureState.WallSlide && wallJumpRay.GetCollider() != null)
+			{
+				SetState(CreatureState.OpenAir);
+				WallJump();
+			}
+		}
+
+		if(Input.IsActionJustPressed("DIVE") && creatureState == CreatureState.OpenAir)
+		{
+			SetState(CreatureState.Dive);
 			Dive();
 		}
 
-		if(wall && !grounded && playerState == PlayerState.OpenAir)
+		if(Input.IsActionJustPressed("ATTACK") && (creatureState == CreatureState.Grounded || creatureState == CreatureState.OpenAir))
 		{
-			playerState = PlayerState.WallSlide;
+			if(creatureState == CreatureState.Grounded)
+				SetState(CreatureState.Attack);
+			else
+				SetState(CreatureState.AttackAir);
+			
+			Attack();
 		}
 
 		//gravity lol
 		velocity.Y -= 9.8f * (float)delta;
 		if(grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
-		if(playerState == PlayerState.WallSlide && velocity.Y < maxSlideFallingSpeed)
+		if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
 		{
 			velocity.Y = maxSlideFallingSpeed;
 		}
-
-		GD.Print("STATE: " + playerState.ToString());
 	}
 
 	private void RotateBody()
@@ -112,11 +160,11 @@ public partial class PlayerMovement : Node3D
 
 	private void Run(double delta, float XInput, float ZInput) {
 		
-		if(playerState == PlayerState.OpenAir)
+		if(creatureState == CreatureState.OpenAir)
 		{
 			delta *= airMod;
 		}
-		else if(playerState == PlayerState.Dive)
+		else if(creatureState == CreatureState.Dive)
 		{
 			//slow down acceleration whilst diving
 			delta *= 0.1f;
@@ -144,7 +192,7 @@ public partial class PlayerMovement : Node3D
 				velocity = new Vector3(runVector.X, velocity.Y, runVector.Z);
 			}
 		}
-		else if(!(playerState == PlayerState.Dive))
+		else if(!(creatureState == CreatureState.Dive))
 		{
 			Vector3 runVector = velocity;
 			float yVel = velocity.Y;
@@ -168,19 +216,63 @@ public partial class PlayerMovement : Node3D
 		velocity.Y = jumpPower;
 	}
 
+	private void WallJump(){
+
+		Vector3 zDir = Transform.Basis.Z;
+		zDir.Y = 0;
+		zDir = zDir.Normalized();
+
+		velocity = zDir * speed;
+		velocity.Y = jumpPower * wallJumpMod;
+	}
+
 	private void Dive() {
 
 		velocity.Y = 0;
 
-		Vector3 zDir = basis.Z;
+		Vector3 zDir = Transform.Basis.Z;
 		zDir.Y = 0;
 		zDir = zDir.Normalized();
 
-		velocity = -speed * zDir;
+		velocity = -speed * diveSpeedMod * zDir;
+		velocity.Y = diveUpdraft;
+	}
+
+	private void SetState(CreatureState newState)
+	{
+		creatureState = newState;
+
+		EmitSignal(SignalName.StateChange);
 	}
 
 	private void Attack() {
+		attackTimer = attackTime;
+
+		LookAtInput();
+
 		//emit the attack signal
 		EmitSignal(SignalName.AttackSignal);
 	}
+
+	private void LookAtInput()
+	{
+		float XInput = Input.GetAxis("LEFT", "RIGHT");
+		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");
+
+		if(XInput == 0 && ZInput == 0)
+		{
+			return;
+		}
+
+		LookAt(GlobalPosition + basis.Z * ZInput + basis.X * XInput);
+
+		Rotation = new Vector3(0, Rotation.Y, 0);
+	}
+
+	private bool Attacking()
+	{
+		return creatureState == CreatureState.Attack || creatureState == CreatureState.AttackAir;
+	}
+
+
 }
