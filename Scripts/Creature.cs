@@ -1,4 +1,6 @@
 
+using Godot;
+
 /// <summary>
 /// The basic functions that every 'creature' must be able to perform
 /// Anything that is a thing and does things must follow these guidelines
@@ -9,6 +11,7 @@ public interface Creature
 	void ChangeHP(int change, DamageSource source);
 	void Death(DamageSource source);
 	void Stun(float time);
+	void Push(Vector3 force);
 	CreatureState GetState();
 }
 

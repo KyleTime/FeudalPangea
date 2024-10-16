@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=11 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.cs" id="2_rwbkr"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
 [ext_resource type="PackedScene" uid="uid://djmm85xcjm5nm" path="res://Scenes/breakable.tscn" id="4_iu738"]
+[ext_resource type="Script" path="res://Scripts/Hitbox.cs" id="5_b601n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pgwni"]
 albedo_color = Color(0.12549, 0.25098, 0.160784, 1)
@@ -13,10 +14,14 @@ material = SubResource("StandardMaterial3D_pgwni")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pmxi1"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_cwvfi"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_se4yo"]
+
 [node name="Cathedral" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_3o2o2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
 
 [node name="CamOrigin" type="Node3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45185, 0)
@@ -57,6 +62,23 @@ shape = SubResource("BoxShape3D_pmxi1")
 
 [node name="DeathPlane" parent="." instance=ExtResource("3_8wqe5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -40, 0)
+collision_mask = 13
 
 [node name="Breakable" parent="." instance=ExtResource("4_iu738")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3, 3)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.96353, 3.43045, 0.138236)
+collision_mask = 5
+script = ExtResource("5_b601n")
+dmg = 10000
+push_force = 20.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("SphereShape3D_cwvfi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("SphereMesh_se4yo")
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

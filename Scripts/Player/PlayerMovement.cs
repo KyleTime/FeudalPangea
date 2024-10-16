@@ -15,7 +15,6 @@ public partial class PlayerMovement : Node3D
 	public bool wall = false;
 	public Basis basis; //way to orient self for velocity calculations
 	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
-	public Area3D hitbox; //hitbox of the weapon the player is carrying NOTE: might redo how this works later
 
 	//movement attributes
 	[Export]public float speed = 10f;
@@ -30,8 +29,7 @@ public partial class PlayerMovement : Node3D
 
 	[Export]private float maxSlideFallingSpeed = -2.5f;
 
-	[Export]private float attackTime = 1;
-	private float attackTimer;
+	[Export]public bool doneAttacking = false;
 
 	public PlayerMovement()
 	{	
@@ -42,7 +40,6 @@ public partial class PlayerMovement : Node3D
 	{
 		basis = new Basis();
 		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
-		hitbox = GetNode<Area3D>("Weapon");
 	}
 
     [Signal]
@@ -64,78 +61,38 @@ public partial class PlayerMovement : Node3D
 		this.grounded = grounded;
 		this.wall = wall;
 		ReadInput(delta);
-
-		if(!Attacking())
-		{
-			RotateBody();
-			hitbox.Monitorable = false;
-			hitbox.Monitoring = false;
-		}
-		else if(hitbox.Monitoring == false)
-		{
-			hitbox.Monitorable = true;
-			hitbox.Monitoring = true;
-		}
 	}
 
 	private void ReadInput(double delta) {
-
-		if(attackTimer < 0)
+		switch (creatureState)
 		{
-			creatureState = CreatureState.OpenAir;
-			attackTimer = 0;
-		}
-
-		float XInput = 0;
-		float ZInput = 0;
-
-		if(!Attacking())
-		{
-			XInput = Input.GetAxis("LEFT", "RIGHT");
-			ZInput = Input.GetAxis("FORWARD", "BACKWARD");
-
-			if(grounded && !(creatureState == CreatureState.Grounded) && velocity.Y < 0)
-				SetState(CreatureState.Grounded);
-			else if(!(creatureState == CreatureState.Dive) && !grounded)
-				SetState(CreatureState.OpenAir);
-		}
-		else
-			attackTimer -= (float)delta;
-		
-		Run(delta, XInput, ZInput);
-
-		if(wall && !grounded && creatureState == CreatureState.OpenAir)
-		{
-			SetState(CreatureState.WallSlide);
-		}
-
-		if(Input.IsActionJustPressed("JUMP"))
-		{
-			if(creatureState == CreatureState.Grounded){
-				SetState(CreatureState.OpenAir);
-				Jump();
-			}
-			else if(creatureState == CreatureState.WallSlide && wallJumpRay.GetCollider() != null)
-			{
-				SetState(CreatureState.OpenAir);
-				WallJump();
-			}
-		}
-
-		if(Input.IsActionJustPressed("DIVE") && creatureState == CreatureState.OpenAir)
-		{
-			SetState(CreatureState.Dive);
-			Dive();
-		}
-
-		if(Input.IsActionJustPressed("ATTACK") && (creatureState == CreatureState.Grounded || creatureState == CreatureState.OpenAir))
-		{
-			if(creatureState == CreatureState.Grounded)
-				SetState(CreatureState.Attack);
-			else
-				SetState(CreatureState.AttackAir);
-			
-			Attack();
+			case CreatureState.Grounded:
+				State_Grounded(delta);
+				break;
+			case CreatureState.OpenAir:
+				State_OpenAir(delta);
+				break;
+			case CreatureState.WallSlide:
+				State_WallSlide(delta);
+				break;
+			case CreatureState.Dive:
+				State_Dive(delta);
+				break;
+			case CreatureState.Stun:
+				State_Stun(delta);
+				break;
+			case CreatureState.StunAir:
+				State_StunAir(delta);
+				break;
+			case CreatureState.Attack:
+				State_Attack(delta);
+				break;
+			case CreatureState.AttackAir:
+				State_AttackAir(delta);
+				break;
+			default:
+				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
+				break;
 		}
 
 		//gravity lol
@@ -148,9 +105,201 @@ public partial class PlayerMovement : Node3D
 		}
 	}
 
-	private void RotateBody()
+	private void Move(double delta, float mod = 1, bool decelerate = true){
+		float XInput = Input.GetAxis("LEFT", "RIGHT");
+		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");	
+		Run(delta * mod, XInput, ZInput);
+	}
+
+#region States
+	private void State_Grounded(double delta)
 	{
-		Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z);
+		Move(delta);
+		RotateBody();
+
+		if(Input.IsActionJustPressed("JUMP"))
+		{
+			Jump();
+		}
+
+		TryAttack();
+		TryOpenAir();
+		TryDive();
+	}
+
+	private void State_OpenAir(double delta)
+	{
+		Move(delta);
+		RotateBody();
+
+		TryAttackAir();
+		TryWallSlide();
+		TryGrounded();
+		TryDive();
+	}
+
+	private void State_Dive(double delta)
+	{
+		Move(delta, 0.4f, false);
+		RotateBody();
+
+		TryGrounded();
+	}
+
+	private void State_WallSlide(double delta)
+	{
+		Move(delta, 0.6f);
+		RotateBody();
+
+		if(Input.IsActionJustPressed("JUMP") && wallJumpRay.GetCollider() != null)
+		{
+			WallJump();
+		}
+
+		TryGrounded();
+		//we don't want to transition out unless we're definitely not on a wall
+		if(wallJumpRay.GetCollider() == null)
+			TryOpenAir();
+	}
+
+	private void State_Stun(double delta)
+	{
+		RotateBody(-1);
+
+		if(stunTimer > 0){
+			stunTimer -= (float)delta;
+
+			Decelerate(delta);
+
+			if(!grounded)
+				SetState(CreatureState.StunAir);
+		}
+		else
+		{
+			TryGrounded();
+		}
+	}
+
+	//little note: StunAir may look exactly the same as Stun, but that's largely just because the state is mostly for the animator
+	private void State_StunAir(double delta)
+	{
+		RotateBody(-1);
+
+		if(stunTimer > 0){
+			stunTimer -= (float)delta;
+
+			Decelerate(delta);
+
+			if(grounded)
+				SetState(CreatureState.Stun);
+		}
+		else
+		{
+			TryOpenAir();
+		}
+	}
+
+	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
+	private void State_Attack(double delta)
+	{
+		if(doneAttacking)
+		{
+			TryGrounded();
+			TryOpenAir();
+		}
+
+		Decelerate(delta);
+	}
+
+	private void State_AttackAir(double delta)
+	{
+		if(doneAttacking)
+		{
+			TryOpenAir();
+			TryGrounded();
+		}
+
+		Decelerate(delta);
+	}
+#endregion
+
+#region Transitions
+	/// <summary>
+	/// Checks if we can go back to grounded
+	/// </summary>
+	private bool TryGrounded()
+	{
+		bool valid = grounded && velocity.Y < 0;
+
+		if(valid)
+			SetState(CreatureState.Grounded);
+
+		return valid;
+	}
+
+	/// <summary>
+	/// Checks if we are in the air
+	/// </summary>
+	private bool TryOpenAir()
+	{
+		bool valid = !grounded && !wall;
+
+		if(valid)
+			SetState(CreatureState.OpenAir);
+
+		return valid;
+	}
+
+	private bool TryWallSlide()
+	{
+		bool valid = !grounded && wall;
+
+		if(valid)
+			SetState(CreatureState.OpenAir);
+
+		return valid;
+	}
+
+	private bool TryDive()
+	{
+		bool valid = Input.IsActionJustPressed("DIVE");
+
+		if(valid)
+		{
+			SetState(CreatureState.Dive);
+		}
+
+		return valid;
+	}
+
+	private bool TryAttack()
+	{
+		bool valid = Input.IsActionJustPressed("ATTACK") && grounded;
+
+		if(valid)
+		{
+			SetState(CreatureState.Attack);
+		}
+
+		return valid;
+	}
+
+	private bool TryAttackAir()
+	{
+		bool valid = Input.IsActionJustPressed("ATTACK") && !grounded;
+
+		if(valid)
+		{
+			SetState(CreatureState.AttackAir);
+		}
+
+		return valid;
+	}
+#endregion
+
+	private void RotateBody(float mod = 1)
+	{
+		Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
 		if(flatVelocity.Length() > 1){
 			LookAt(GlobalPosition + flatVelocity);
 
@@ -158,17 +307,7 @@ public partial class PlayerMovement : Node3D
 		}
 	}
 
-	private void Run(double delta, float XInput, float ZInput) {
-		
-		if(creatureState == CreatureState.OpenAir)
-		{
-			delta *= airMod;
-		}
-		else if(creatureState == CreatureState.Dive)
-		{
-			//slow down acceleration whilst diving
-			delta *= 0.1f;
-		}
+	private void Run(double delta, float XInput, float ZInput, bool decelerate = true) {
 
 		Vector3 xDir = basis.X;
 		xDir.Y = 0;
@@ -179,36 +318,46 @@ public partial class PlayerMovement : Node3D
 
 		if(XInput != 0 || ZInput != 0)
 		{
-			velocity += XInput * xDir * acceleration * (float)delta;
-			velocity += ZInput * zDir * acceleration * (float)delta;
-
-			float runningSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
-
-			//this will need to be changed later, it caps speed to the "speed" variable
-			//if we want momentum and shit, fix it
-			if (runningSpeed > speed)
-			{
-				Vector3 runVector = new Vector3(velocity.X, 0, velocity.Z).Normalized() * speed;
-				velocity = new Vector3(runVector.X, velocity.Y, runVector.Z);
-			}
+			Accelerate(XInput, ZInput, xDir, zDir, delta);
 		}
-		else if(!(creatureState == CreatureState.Dive))
+		else if(decelerate)
 		{
-			Vector3 runVector = velocity;
-			float yVel = velocity.Y;
-			velocity.Y = 0;
-			velocity -= velocity.Normalized() * deceleration * (float)delta;
-			velocity.Y = yVel;
-			
-			if(!((runVector.X * velocity.X) > 0))
-			{
-				velocity.X = 0;
-			}
+			Decelerate(delta);
+		}
+	}
 
-			if(!((runVector.Z * velocity.Z) > 0))
-			{
-				velocity.Z = 0;
-			}
+	public void Accelerate(float XInput, float ZInput, Vector3 xDir, Vector3 zDir, double delta)
+	{
+		velocity += XInput * xDir * acceleration * (float)delta;
+		velocity += ZInput * zDir * acceleration * (float)delta;
+
+		float runningSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
+
+		//this will need to be changed later, it caps speed to the "speed" variable
+		//if we want momentum and shit, fix it
+		if (runningSpeed > speed)
+		{
+			Vector3 runVector = new Vector3(velocity.X, 0, velocity.Z).Normalized() * speed;
+			velocity = new Vector3(runVector.X, velocity.Y, runVector.Z);
+		}
+	}
+
+	public void Decelerate(double delta)
+	{
+		Vector3 runVector = velocity;
+		float yVel = velocity.Y;
+		velocity.Y = 0;
+		velocity -= velocity.Normalized() * deceleration * (float)delta;
+		velocity.Y = yVel;
+		
+		if(!((runVector.X * velocity.X) > 0))
+		{
+			velocity.X = 0;
+		}
+
+		if(!((runVector.Z * velocity.Z) > 0))
+		{
+			velocity.Z = 0;
 		}
 	}
 
@@ -238,17 +387,31 @@ public partial class PlayerMovement : Node3D
 		velocity.Y = diveUpdraft;
 	}
 
-	private void SetState(CreatureState newState)
+	private void SetState(CreatureState newState, bool autoActive = true)
 	{
 		creatureState = newState;
+		GD.Print("STATE: " + creatureState.ToString());
 
 		EmitSignal(SignalName.StateChange);
+
+		if(autoActive)
+		{
+			switch(creatureState)
+			{
+				case CreatureState.Dive:
+					Dive();
+					break;
+				case CreatureState.Attack:
+					Attack();
+					break;
+			}
+		}
 	}
 
 	private void Attack() {
-		attackTimer = attackTime;
+		doneAttacking = false;
 
-		LookAtInput();
+		//LookAtInput();
 
 		//emit the attack signal
 		EmitSignal(SignalName.AttackSignal);
@@ -274,5 +437,9 @@ public partial class PlayerMovement : Node3D
 		return creatureState == CreatureState.Attack || creatureState == CreatureState.AttackAir;
 	}
 
-
+	public void Stun(float time)
+	{
+		stunTimer = time;
+		SetState(CreatureState.Stun);
+	}
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 //it tells them all what to do, but each component can work independently, pretty slick huh?
 public partial class Player : CharacterBody3D, Creature
 {
+	private int HP = 100;
 	public PlayerMovement move;
-	public PlayerHealth health;
 	public PlayerCamera cam;
 	public PlayerAnimation anim;
 
@@ -16,7 +16,6 @@ public partial class Player : CharacterBody3D, Creature
 	{
 		//components!
 		move = GetNode<PlayerMovement>("Movement");
-		health = GetNode<PlayerHealth>("Health");
 		cam = GetNode<PlayerCamera>("CamOrigin");
 		anim = GetNode<PlayerAnimation>("AnimationPlayer"); anim.SetMaxSpeed(move.speed);
 
@@ -63,12 +62,30 @@ public partial class Player : CharacterBody3D, Creature
 	//Creature methods
     public int GetHP()
     {
-        return 10;
+        return HP;
     }
 
     public void ChangeHP(int change, DamageSource source)
     {
-        
+        HP += change;
+
+		if(HP <= 0){
+			Death(source);
+			return;
+		}
+
+		switch(source)
+		{
+			case DamageSource.Bonk:
+				Stun(1f);
+				break;
+			case DamageSource.Fall:
+				Stun(0.5f);
+				break;
+			default:
+				Stun(1f);
+				break;
+		}
     }
 
 	public async void Death(DamageSource source)
@@ -82,8 +99,13 @@ public partial class Player : CharacterBody3D, Creature
 
     public void Stun(float time)
     {
-        
+        move.Stun(time);
     }
+
+	public void Push(Vector3 force)
+	{
+		move.velocity += force;
+	}
 
 	public CreatureState GetState()
 	{
