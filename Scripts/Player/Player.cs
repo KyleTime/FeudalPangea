@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 public partial class Player : CharacterBody3D, Creature
 {
 	private int HP = 100;
+	private int MAX_HP = 100;
 	public PlayerMovement move;
 	public PlayerCamera cam;
 	public PlayerAnimation anim;
+	public HUDHandler hud;
+
+	[Signal]
+	public delegate void HealthChangeEventHandler(int HP, int MAX_HP);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -18,6 +23,7 @@ public partial class Player : CharacterBody3D, Creature
 		move = GetNode<PlayerMovement>("Movement");
 		cam = GetNode<PlayerCamera>("CamOrigin");
 		anim = GetNode<PlayerAnimation>("AnimationPlayer"); anim.SetMaxSpeed(move.speed);
+		hud = GetNode<HUDHandler>("HUD");
 
 		move.AttackSignal += Attack;
 		move.StateChange += HandleStateChange;
@@ -27,11 +33,6 @@ public partial class Player : CharacterBody3D, Creature
 	public override void _Process(double delta)
 	{
 		move.ReadInput(delta, cam.GetBasis(), IsOnFloor(), IsOnWall());
-
-		if(move.creatureState == CreatureState.Attack || move.creatureState == CreatureState.AttackAir)
-		{
-
-		}
 
 		if(Input.IsActionJustPressed("QUIT"))
 			GetTree().Quit();
@@ -51,7 +52,7 @@ public partial class Player : CharacterBody3D, Creature
 
 	private void Attack()
 	{
-
+		//TODO: figure out what I needed to put here...
 	}
 
 	private void HandleStateChange()
@@ -67,7 +68,9 @@ public partial class Player : CharacterBody3D, Creature
 
     public void ChangeHP(int change, DamageSource source)
     {
-        HP += change;
+		HP = Mathf.Clamp(HP + change, 0, MAX_HP);
+
+		EmitSignal(SignalName.HealthChange, HP, MAX_HP);
 
 		if(HP <= 0){
 			Death(source);
@@ -88,12 +91,12 @@ public partial class Player : CharacterBody3D, Creature
 		}
     }
 
-	public async void Death(DamageSource source)
+	private async void Death(DamageSource source)
 	{
-		//TODO: Add a funny little death animation
+		move.Die();
 		if(source == DamageSource.Fall)
 			GD.Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		await Task.Delay(3000);
+		await hud.HUD_Death_Animation();
 		GetTree().ReloadCurrentScene();
 	}
 

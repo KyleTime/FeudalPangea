@@ -1,9 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=25 format=3 uid="uid://bosu0j6amay5p"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerAnimation.cs" id="4_cifv2"]
-[ext_resource type="Script" path="res://Scripts/Hitbox.cs" id="4_p5vi2"]
+[ext_resource type="Script" path="res://Scripts/Basics/Hitbox.cs" id="4_p5vi2"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerMovement.cs" id="4_te5vt"]
+[ext_resource type="PackedScene" uid="uid://c4s0jb3rhv7ba" path="res://Scenes/HUD.tscn" id="5_20fgk"]
+[ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.cs" id="6_viir3"]
 
 [sub_resource type="Animation" id="Animation_n7ddw"]
 resource_name = "Air"
@@ -115,10 +117,10 @@ tracks/5/path = NodePath("Movement/Weapon:monitoring")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -127,10 +129,10 @@ tracks/6/path = NodePath("Movement/Weapon:monitorable")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_6kx4h"]
@@ -487,8 +489,8 @@ material = SubResource("StandardMaterial3D_6nguw")
 [sub_resource type="BoxMesh" id="BoxMesh_qps2x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0adcd"]
-radius = 0.25
-height = 1.8
+radius = 1.0
+height = 3.0
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 4
@@ -506,9 +508,13 @@ libraries = {
 autoplay = "Idle"
 script = ExtResource("4_cifv2")
 
+[node name="HUD" parent="." instance=ExtResource("5_20fgk")]
+
 [node name="Movement" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
+deceleration = 20.0
+jumpPower = 7.0
 doneAttacking = true
 
 [node name="Body" type="MeshInstance3D" parent="Movement"]
@@ -548,7 +554,8 @@ target_position = Vector3(0, 0, -1)
 
 [node name="Weapon" type="Area3D" parent="Movement"]
 transform = Transform3D(-3.61999e-06, -0.573576, 0.819152, 0, 0.819152, 0.573576, -1, 2.07634e-06, -2.96532e-06, 1.18303, 0.883869, 0.646046)
-collision_mask = 9
+collision_layer = 0
+collision_mask = 8
 monitoring = false
 monitorable = false
 script = ExtResource("4_p5vi2")
@@ -562,4 +569,22 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -1.4374)
 shape = SubResource("CapsuleShape3D_0adcd")
 
+[node name="CamOrigin" type="Node3D" parent="." node_paths=PackedStringArray("cinematicCamera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("6_viir3")
+cinematicCamera = NodePath("Cinematic Camera")
+
+[node name="CamOriginX" type="Node3D" parent="CamOrigin"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin/CamOriginX"]
+spring_length = 4.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CamOrigin/CamOriginX/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
+
+[connection signal="HealthChange" from="." to="HUD" method="ChangeHPBar"]
+[connection signal="HealthChange" from="." to="CamOrigin" method="DeathCam"]
 [connection signal="body_entered" from="Movement/Weapon" to="Movement/Weapon" method="OnBodyEntered"]

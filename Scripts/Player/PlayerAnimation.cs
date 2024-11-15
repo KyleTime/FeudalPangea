@@ -40,6 +40,13 @@ public partial class PlayerAnimation : AnimationPlayer
             case CreatureState.AttackAir:
                 Play("Attack"); //TODO: Make an aerial attack
                 break;
+            case CreatureState.Dead:
+                Play("Dive"); //TODO: Make a death animation
+                break;
         }
+    }
+
+    public void AnimationOverride(string animName){
+        Play(animName);
     }
 }

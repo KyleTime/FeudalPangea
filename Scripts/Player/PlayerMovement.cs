@@ -26,6 +26,7 @@ public partial class PlayerMovement : Node3D
 	[Export]private float diveUpdraft = 5;
 	[Export]private float diveSpeedMod = 2;
 	[Export]private float wallJumpMod = 1;
+	[Export]private float wallPushMod = 1;
 
 	[Export]private float maxSlideFallingSpeed = -2.5f;
 
@@ -90,6 +91,12 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.AttackAir:
 				State_AttackAir(delta);
 				break;
+			case CreatureState.Dead:
+				State_Dead(delta);
+				break;
+			case CreatureState.DeadAir:
+				State_DeadAir(delta);
+				break;
 			default:
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
 				break;
@@ -129,7 +136,7 @@ public partial class PlayerMovement : Node3D
 
 	private void State_OpenAir(double delta)
 	{
-		Move(delta);
+		Move(delta, airMod);
 		RotateBody();
 
 		TryAttackAir();
@@ -140,7 +147,9 @@ public partial class PlayerMovement : Node3D
 
 	private void State_Dive(double delta)
 	{
-		Move(delta, 0.4f, false);
+		//note, the mod is currently the square of airMod
+		//this sucks, why
+		Move(delta, airMod * airMod, false);
 		RotateBody();
 
 		TryGrounded();
@@ -154,6 +163,7 @@ public partial class PlayerMovement : Node3D
 		if(Input.IsActionJustPressed("JUMP") && wallJumpRay.GetCollider() != null)
 		{
 			WallJump();
+			
 		}
 
 		TryGrounded();
@@ -177,6 +187,7 @@ public partial class PlayerMovement : Node3D
 		else
 		{
 			TryGrounded();
+			TryOpenAir();
 		}
 	}
 
@@ -196,6 +207,7 @@ public partial class PlayerMovement : Node3D
 		else
 		{
 			TryOpenAir();
+			TryGrounded();
 		}
 	}
 
@@ -213,11 +225,30 @@ public partial class PlayerMovement : Node3D
 
 	private void State_AttackAir(double delta)
 	{
+		RotateBody(1);
+
 		if(doneAttacking)
 		{
 			TryOpenAir();
 			TryGrounded();
 		}
+
+		TryDive();
+		Decelerate(delta);
+	}
+
+	private void State_Dead(double delta)
+	{
+		if(!grounded)
+			SetState(CreatureState.DeadAir);
+
+		Decelerate(delta);
+	}
+
+	private void State_DeadAir(double delta)
+	{
+		if(grounded)
+			SetState(CreatureState.Dead);
 
 		Decelerate(delta);
 	}
@@ -255,7 +286,7 @@ public partial class PlayerMovement : Node3D
 		bool valid = !grounded && wall;
 
 		if(valid)
-			SetState(CreatureState.OpenAir);
+			SetState(CreatureState.WallSlide);
 
 		return valid;
 	}
@@ -290,6 +321,8 @@ public partial class PlayerMovement : Node3D
 
 		if(valid)
 		{
+			velocity = basis.Z * -10;
+			velocity.Y = jumpPower/2;
 			SetState(CreatureState.AttackAir);
 		}
 
@@ -371,7 +404,7 @@ public partial class PlayerMovement : Node3D
 		zDir.Y = 0;
 		zDir = zDir.Normalized();
 
-		velocity = zDir * speed;
+		velocity = zDir * speed * wallPushMod;
 		velocity.Y = jumpPower * wallJumpMod;
 	}
 
@@ -411,8 +444,6 @@ public partial class PlayerMovement : Node3D
 	private void Attack() {
 		doneAttacking = false;
 
-		//LookAtInput();
-
 		//emit the attack signal
 		EmitSignal(SignalName.AttackSignal);
 	}
@@ -439,7 +470,15 @@ public partial class PlayerMovement : Node3D
 
 	public void Stun(float time)
 	{
+		if(creatureState == CreatureState.Dead || creatureState == CreatureState.DeadAir)
+			return; //you can't really be stunned if you dead lol
+
 		stunTimer = time;
 		SetState(CreatureState.Stun);
+	}
+
+	public void Die()
+	{
+		SetState(CreatureState.Dead);
 	}
 }

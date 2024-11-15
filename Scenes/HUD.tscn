@@ -1,0 +1,87 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4s0jb3rhv7ba"]
+
+[ext_resource type="Script" path="res://Scripts/HUD/HUDHandler.cs" id="1_smdbh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gwk3h"]
+font_size = 100
+font_color = Color(1, 0, 0, 1)
+
+[node name="HUD" type="Control" node_paths=PackedStringArray("healthBarNode", "diedGraphic", "diedPanel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_smdbh")
+healthBarNode = NodePath("HP BAR BASE/Full Bar")
+diedGraphic = NodePath("Death Panel/YOU DIED")
+diedPanel = NodePath("Death Panel")
+
+[node name="HP BAR BASE" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 26.0
+offset_top = 26.0
+offset_right = 469.0
+offset_bottom = 66.0
+color = Color(0.105882, 0.0392157, 0.0235294, 1)
+
+[node name="Full Bar" type="Node2D" parent="HP BAR BASE"]
+position = Vector2(0, 19)
+
+[node name="ColorRect" type="ColorRect" parent="HP BAR BASE/Full Bar"]
+offset_top = -19.0
+offset_right = 443.0
+offset_bottom = 21.0
+color = Color(0.486275, 0, 0.0470588, 1)
+
+[node name="ColorRect" type="ColorRect" parent="HP BAR BASE"]
+z_index = -1
+layout_mode = 0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 446.0
+offset_bottom = 43.0
+color = Color(0.686275, 0.498039, 0.45098, 1)
+
+[node name="Death Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="YOU DIED" type="ColorRect" parent="Death Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1141.5
+offset_top = -110.0
+offset_right = 1141.5
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.619608)
+
+[node name="Label" type="Label" parent="Death Panel/YOU DIED"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -11.5
+offset_right = 38.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU DIED"
+label_settings = SubResource("LabelSettings_gwk3h")

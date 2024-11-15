@@ -1,21 +1,29 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 //this script is to be placed on the "CamOrigin" node
 public partial class PlayerCamera : Node3D
 {
-	[Export] public float sens = 0.5f;
+	[Export] public float sens = 0.3f;
 
 	private Node3D camOriginX;
 
 	private Camera3D camera;
+	[Export] Camera3D cinematicCamera; //used for things like cutscenes and death
 
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	public async override void _Ready()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		camOriginX = GetNode<Node3D>("CamOriginX");
 		camera = GetNode<Camera3D>("CamOriginX/SpringArm3D/Camera3D");
+
+		await Task.Delay(10);
+
+		RemoveChild(cinematicCamera);
+		GetTree().Root.GetChild(0).AddChild(cinematicCamera);
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,5 +47,19 @@ public partial class PlayerCamera : Node3D
 	public Basis GetBasis()
 	{
 		return camera.GlobalBasis;
+	}
+
+	public void DeathCam(int HP, int MAX_HP)
+	{
+		if(HP <= 0)
+		{
+			camera.Current = false;
+			cinematicCamera.Current = true;
+
+			cinematicCamera.GlobalPosition = camera.GlobalPosition;
+			cinematicCamera.GlobalBasis = camera.GlobalBasis;
+
+			GD.Print("Swous!");
+		}
 	}
 }

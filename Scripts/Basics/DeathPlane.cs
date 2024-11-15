@@ -7,7 +7,7 @@ public partial class DeathPlane : Area3D
         if(body is Creature)
         {
             Creature c = (Creature)body;
-            c.Death(DamageSource.Fall);
+            c.ChangeHP(-99999999, DamageSource.Fall);
         }
     }
 }
