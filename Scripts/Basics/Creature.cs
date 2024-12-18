@@ -15,7 +15,7 @@ public interface Creature
 }
 
 //it's probably weird to shove something like this in the global scope but who care, this is so convenient
-public enum CreatureState {Grounded, OpenAir, WallSlide, Dive, Stun, StunAir, Attack, AttackAir, Dead, DeadAir}
+public enum CreatureState {Grounded, OpenAir, WallSlide, Dive, Bonk, Stun, StunAir, Attack, AttackAir, Dead, DeadAir}
 
 //source of damage, can be different depending on where it's used
 //for example, ChangeHP with a source of "Fall" is landing too hard while Death with a source of "Fall" is falling into the void

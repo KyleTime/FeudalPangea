@@ -25,6 +25,8 @@ public partial class PlayerMovement : Node3D
 	[Export]private float stunTimer = 1;
 	[Export]private float diveUpdraft = 5;
 	[Export]private float diveSpeedMod = 2;
+	[Export]private float diveAirMod = 0.25f;
+	[Export]private float bonkPushMod = 0.25f;
 	[Export]private float wallJumpMod = 1;
 	[Export]private float wallPushMod = 1;
 
@@ -79,6 +81,9 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.Dive:
 				State_Dive(delta);
 				break;
+			case CreatureState.Bonk:
+				State_Bonk(delta);
+				break;
 			case CreatureState.Stun:
 				State_Stun(delta);
 				break;
@@ -119,6 +124,28 @@ public partial class PlayerMovement : Node3D
 	}
 
 #region States
+
+	private void SetState(CreatureState newState, bool autoActive = true)
+	{
+		creatureState = newState;
+		GD.Print("STATE: " + creatureState.ToString());
+
+		EmitSignal(SignalName.StateChange);
+
+		if(autoActive)
+		{
+			switch(creatureState)
+			{
+				case CreatureState.Dive:
+					Dive();
+					break;
+				case CreatureState.Attack:
+					Attack();
+					break;
+			}
+		}
+	}
+
 	private void State_Grounded(double delta)
 	{
 		Move(delta);
@@ -129,8 +156,8 @@ public partial class PlayerMovement : Node3D
 			Jump();
 		}
 
-		TryAttack();
-		TryOpenAir();
+		TryTransition(AttackCond(), CreatureState.Attack);
+		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryDive();
 	}
 
@@ -139,9 +166,9 @@ public partial class PlayerMovement : Node3D
 		Move(delta, airMod);
 		RotateBody();
 
-		TryAttackAir();
-		TryWallSlide();
-		TryGrounded();
+		TryTransition(AttackAirCond(), CreatureState.AttackAir);
+		TryTransition(WallSlideCond(), CreatureState.WallSlide);
+		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryDive();
 	}
 
@@ -149,10 +176,26 @@ public partial class PlayerMovement : Node3D
 	{
 		//note, the mod is currently the square of airMod
 		//this sucks, why
-		Move(delta, airMod * airMod, false);
+		Move(delta, airMod * diveAirMod, false);
 		RotateBody();
 
-		TryGrounded();
+		TryTransition(GroundedCond(), CreatureState.Grounded);
+
+		if(BonkCond())
+		{
+			velocity = -velocity * bonkPushMod;
+			TryTransition(true, CreatureState.Bonk);
+		}
+	}
+
+	private void State_Bonk(double delta){
+		
+		Move(delta, 0, true);
+
+		if(GroundedCond())
+		{
+			Stun(0.25f);
+		}
 	}
 
 	private void State_WallSlide(double delta)
@@ -166,10 +209,10 @@ public partial class PlayerMovement : Node3D
 			
 		}
 
-		TryGrounded();
+		TryTransition(GroundedCond(), CreatureState.Grounded);
 		//we don't want to transition out unless we're definitely not on a wall
 		if(wallJumpRay.GetCollider() == null)
-			TryOpenAir();
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	}
 
 	private void State_Stun(double delta)
@@ -186,8 +229,8 @@ public partial class PlayerMovement : Node3D
 		}
 		else
 		{
-			TryGrounded();
-			TryOpenAir();
+			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		}
 	}
 
@@ -206,8 +249,8 @@ public partial class PlayerMovement : Node3D
 		}
 		else
 		{
-			TryOpenAir();
-			TryGrounded();
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
 	}
 
@@ -216,8 +259,8 @@ public partial class PlayerMovement : Node3D
 	{
 		if(doneAttacking)
 		{
-			TryGrounded();
-			TryOpenAir();
+			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		}
 
 		Decelerate(delta);
@@ -229,8 +272,8 @@ public partial class PlayerMovement : Node3D
 
 		if(doneAttacking)
 		{
-			TryOpenAir();
-			TryGrounded();
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
 
 		TryDive();
@@ -255,45 +298,44 @@ public partial class PlayerMovement : Node3D
 #endregion
 
 #region Transitions
+
+	private void TryTransition(bool condition, CreatureState state)
+	{
+		if(condition)
+		{
+			SetState(state);
+		}
+	}
+
 	/// <summary>
 	/// Checks if we can go back to grounded
 	/// </summary>
-	private bool TryGrounded()
+	private bool GroundedCond()
 	{
-		bool valid = grounded && velocity.Y < 0;
-
-		if(valid)
-			SetState(CreatureState.Grounded);
-
-		return valid;
+		return grounded && velocity.Y < 0;
 	}
 
 	/// <summary>
 	/// Checks if we are in the air
 	/// </summary>
-	private bool TryOpenAir()
+	private bool OpenAirCond()
 	{
-		bool valid = !grounded && !wall;
-
-		if(valid)
-			SetState(CreatureState.OpenAir);
-
-		return valid;
+		return !grounded && !wall;
 	}
 
-	private bool TryWallSlide()
+	private bool WallSlideCond()
 	{
-		bool valid = !grounded && wall;
+		return !grounded && wall;
+	}
 
-		if(valid)
-			SetState(CreatureState.WallSlide);
-
-		return valid;
+	private bool DiveCond()
+	{
+		return Input.IsActionJustPressed("DIVE");
 	}
 
 	private bool TryDive()
 	{
-		bool valid = Input.IsActionJustPressed("DIVE");
+		bool valid = DiveCond();
 
 		if(valid)
 		{
@@ -303,32 +345,24 @@ public partial class PlayerMovement : Node3D
 		return valid;
 	}
 
-	private bool TryAttack()
+	private bool BonkCond()
 	{
-		bool valid = Input.IsActionJustPressed("ATTACK") && grounded;
-
-		if(valid)
-		{
-			SetState(CreatureState.Attack);
-		}
-
-		return valid;
+		return wall;
 	}
 
-	private bool TryAttackAir()
+	private bool AttackCond()
 	{
-		bool valid = Input.IsActionJustPressed("ATTACK") && !grounded;
+		return Input.IsActionJustPressed("ATTACK") && grounded;
+	}
 
-		if(valid)
-		{
-			velocity = basis.Z * -10;
-			velocity.Y = jumpPower/2;
-			SetState(CreatureState.AttackAir);
-		}
-
-		return valid;
+	private bool AttackAirCond()
+	{
+		return Input.IsActionJustPressed("ATTACK") && !grounded;
 	}
 #endregion
+
+
+#region Movement Code
 
 	private void RotateBody(float mod = 1)
 	{
@@ -419,27 +453,8 @@ public partial class PlayerMovement : Node3D
 		velocity = -speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
 	}
+	#endregion
 
-	private void SetState(CreatureState newState, bool autoActive = true)
-	{
-		creatureState = newState;
-		GD.Print("STATE: " + creatureState.ToString());
-
-		EmitSignal(SignalName.StateChange);
-
-		if(autoActive)
-		{
-			switch(creatureState)
-			{
-				case CreatureState.Dive:
-					Dive();
-					break;
-				case CreatureState.Attack:
-					Attack();
-					break;
-			}
-		}
-	}
 
 	private void Attack() {
 		doneAttacking = false;

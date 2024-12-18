@@ -64,7 +64,7 @@ shape = SubResource("SphereShape3D_cwvfi")
 mesh = SubResource("SphereMesh_se4yo")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(37.5918, 0, 0, 0, 6.39345, 0, 0, 0, 12.6037, -0.522073, 1.28252, -16.2768)
+transform = Transform3D(37.5918, 0, 0, 0, 6.39345, 0, 0, 0, 12.6037, 0.292771, 1.28252, -16.2768)
 mesh = SubResource("BoxMesh_1se20")
 skeleton = NodePath("../MeshInstance3D")
 
