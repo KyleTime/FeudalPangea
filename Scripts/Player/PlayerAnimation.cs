@@ -1,10 +1,17 @@
 using Godot;
 using System;
 
-public partial class PlayerAnimation : AnimationPlayer
+public partial class PlayerAnimation : Node
 {
     float speed = 1;
     float maxSpeed = 1;
+
+    public AnimationPlayer anim;
+
+    public override void _Ready()
+	{
+        anim = GetNode<AnimationPlayer>("AnimationPlayer");
+    }
 
     public void SetSpeed(float speed)
     {
@@ -23,30 +30,33 @@ public partial class PlayerAnimation : AnimationPlayer
             case CreatureState.Grounded:
                 if(speed == 0)
                 {
-                    Play("Idle");
+                    anim.Play("Idle");
                 }
                 else
-                    Play("Walk", -1, Mathf.Clamp(speed/maxSpeed, 0, 1));
+                    anim.Play("Run", -1, Mathf.Clamp(speed/maxSpeed, 0, 1));
                 break;
             case CreatureState.Dive:
-                Play("Dive");
+                anim.Play("Dive");
                 break;
             case CreatureState.OpenAir:
-                Play("Air");
+                anim.Play("Air");
                 break;
             case CreatureState.Attack:
-                Play("Attack");
+                anim.Play("AttackGround");
                 break;
             case CreatureState.AttackAir:
-                Play("Attack"); //TODO: Make an aerial attack
+                anim.Play("AttackPoke"); //TODO: Make an aerial attack
+                break;
+            case CreatureState.AttackPoke:
+                anim.Play("AttackPoke");
                 break;
             case CreatureState.Dead:
-                Play("Dive"); //TODO: Make a death animation
+                anim.Play("Dive"); //TODO: Make a death animation
                 break;
         }
     }
 
     public void AnimationOverride(string animName){
-        Play(animName);
+        anim.Play(animName);
     }
 }

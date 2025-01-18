@@ -7,6 +7,7 @@ using System;
 public partial class PlayerMovement : Node3D
 {
 	public CreatureState creatureState = CreatureState.Grounded;
+	public bool changedThisFrame = false; //keep track of whether the state was changed this frame (only one state transition per frame)
 
 	public Vector3 velocity;
 	
@@ -15,6 +16,7 @@ public partial class PlayerMovement : Node3D
 	public bool wall = false;
 	public Basis basis; //way to orient self for velocity calculations
 	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
+	public RayCast3D pokeRay; //ray that determines whether I can p o k e
 
 	//movement attributes
 	[Export]public float speed = 10f;
@@ -32,7 +34,7 @@ public partial class PlayerMovement : Node3D
 
 	[Export]private float maxSlideFallingSpeed = -2.5f;
 
-	[Export]public bool doneAttacking = false;
+	[Export]public bool animationDone = false;
 
 	public PlayerMovement()
 	{	
@@ -43,10 +45,11 @@ public partial class PlayerMovement : Node3D
 	{
 		basis = new Basis();
 		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
+		pokeRay = GetNode<RayCast3D>("PokeRay");
 	}
 
     [Signal]
-	public delegate void AttackSignalEventHandler();
+	public delegate void WaitForAnimationSignalEventHandler();
 
 	[Signal]
 	public delegate void StateChangeEventHandler();
@@ -67,6 +70,9 @@ public partial class PlayerMovement : Node3D
 	}
 
 	private void ReadInput(double delta) {
+
+		changedThisFrame = false; //reset
+
 		switch (creatureState)
 		{
 			case CreatureState.Grounded:
@@ -96,6 +102,12 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.AttackAir:
 				State_AttackAir(delta);
 				break;
+			case CreatureState.AttackPoke:
+				State_AttackPoke(delta);
+				break;
+			case CreatureState.PokeStuck:
+				State_PokeStuck(delta);
+				break;
 			case CreatureState.Dead:
 				State_Dead(delta);
 				break;
@@ -106,9 +118,11 @@ public partial class PlayerMovement : Node3D
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
 				break;
 		}
+	}
 
+	private void Gravity(float delta){
 		//gravity lol
-		velocity.Y -= 9.8f * (float)delta;
+		velocity.Y -= 9.8f * delta;
 		if(grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
 		if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
@@ -127,6 +141,11 @@ public partial class PlayerMovement : Node3D
 
 	private void SetState(CreatureState newState, bool autoActive = true)
 	{
+		if(changedThisFrame)
+			return;
+
+		changedThisFrame = true;
+
 		creatureState = newState;
 		GD.Print("STATE: " + creatureState.ToString());
 
@@ -140,7 +159,13 @@ public partial class PlayerMovement : Node3D
 					Dive();
 					break;
 				case CreatureState.Attack:
-					Attack();
+					WaitForAnimation();
+					break;
+				case CreatureState.AttackAir:
+					WaitForAnimation();
+					break;
+				case CreatureState.AttackPoke:
+					WaitForAnimation();
 					break;
 			}
 		}
@@ -157,8 +182,11 @@ public partial class PlayerMovement : Node3D
 		}
 
 		TryTransition(AttackCond(), CreatureState.Attack);
+		TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
-		TryDive();
+		TryTransition(DiveCond(), CreatureState.Dive);
+		
+		Gravity((float)delta);
 	}
 
 	private void State_OpenAir(double delta)
@@ -167,9 +195,12 @@ public partial class PlayerMovement : Node3D
 		RotateBody();
 
 		TryTransition(AttackAirCond(), CreatureState.AttackAir);
+		TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
-		TryDive();
+		TryTransition(DiveCond(), CreatureState.Dive);
+
+		Gravity((float)delta);
 	}
 
 	private void State_Dive(double delta)
@@ -186,6 +217,8 @@ public partial class PlayerMovement : Node3D
 			velocity = -velocity * bonkPushMod;
 			TryTransition(true, CreatureState.Bonk);
 		}
+
+		Gravity((float)delta);
 	}
 
 	private void State_Bonk(double delta){
@@ -196,6 +229,8 @@ public partial class PlayerMovement : Node3D
 		{
 			Stun(0.25f);
 		}
+
+		Gravity((float)delta);
 	}
 
 	private void State_WallSlide(double delta)
@@ -213,6 +248,8 @@ public partial class PlayerMovement : Node3D
 		//we don't want to transition out unless we're definitely not on a wall
 		if(wallJumpRay.GetCollider() == null)
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+
+		Gravity((float)delta);
 	}
 
 	private void State_Stun(double delta)
@@ -232,6 +269,8 @@ public partial class PlayerMovement : Node3D
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		}
+
+		Gravity((float)delta);
 	}
 
 	//little note: StunAir may look exactly the same as Stun, but that's largely just because the state is mostly for the animator
@@ -252,32 +291,62 @@ public partial class PlayerMovement : Node3D
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
+
+		Gravity((float)delta);
 	}
 
 	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
 	private void State_Attack(double delta)
 	{
-		if(doneAttacking)
+		RotateBody(1);
+
+		if(animationDone)
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		}
 
 		Decelerate(delta);
+		Gravity((float)delta);
 	}
 
 	private void State_AttackAir(double delta)
 	{
 		RotateBody(1);
 
-		if(doneAttacking)
+		if(animationDone)
 		{
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
 
-		TryDive();
+		TryTransition(DiveCond(), CreatureState.Dive);
 		Decelerate(delta);
+		Gravity((float)delta);
+	}
+
+	private void State_AttackPoke(double delta)
+	{
+		RotateBody(1);
+
+		if(animationDone)
+		{
+			bool pokeCond = PokeStuckCond();
+			TryTransition(pokeCond, CreatureState.PokeStuck);
+
+			if(!pokeCond)
+			{
+				TryTransition(GroundedCond(), CreatureState.Grounded);
+				TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			}
+		}
+		
+		Decelerate(delta);
+		Gravity((float)delta);
+	}
+
+	private void State_PokeStuck(double delta){
+		velocity.Y = 0;
 	}
 
 	private void State_Dead(double delta)
@@ -286,6 +355,7 @@ public partial class PlayerMovement : Node3D
 			SetState(CreatureState.DeadAir);
 
 		Decelerate(delta);
+		Gravity((float)delta);
 	}
 
 	private void State_DeadAir(double delta)
@@ -294,17 +364,20 @@ public partial class PlayerMovement : Node3D
 			SetState(CreatureState.Dead);
 
 		Decelerate(delta);
+		Gravity((float)delta);
 	}
 #endregion
 
 #region Transitions
 
-	private void TryTransition(bool condition, CreatureState state)
+	private bool TryTransition(bool condition, CreatureState state)
 	{
 		if(condition)
 		{
 			SetState(state);
 		}
+
+		return condition;
 	}
 
 	/// <summary>
@@ -333,18 +406,6 @@ public partial class PlayerMovement : Node3D
 		return Input.IsActionJustPressed("DIVE");
 	}
 
-	private bool TryDive()
-	{
-		bool valid = DiveCond();
-
-		if(valid)
-		{
-			SetState(CreatureState.Dive);
-		}
-
-		return valid;
-	}
-
 	private bool BonkCond()
 	{
 		return wall;
@@ -359,8 +420,18 @@ public partial class PlayerMovement : Node3D
 	{
 		return Input.IsActionJustPressed("ATTACK") && !grounded;
 	}
-#endregion
 
+	private bool AttackPokeCond()
+	{
+		return Input.IsActionJustPressed("POKE");
+	}
+
+	private bool PokeStuckCond()
+	{
+		return pokeRay.GetCollider() != null;
+	}
+
+#endregion
 
 #region Movement Code
 
@@ -368,7 +439,7 @@ public partial class PlayerMovement : Node3D
 	{
 		Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
 		if(flatVelocity.Length() > 1){
-			LookAt(GlobalPosition + flatVelocity);
+			LookAt(GlobalPosition - flatVelocity);
 
 			Rotation = new Vector3(0, Rotation.Y, 0);
 		}
@@ -438,7 +509,7 @@ public partial class PlayerMovement : Node3D
 		zDir.Y = 0;
 		zDir = zDir.Normalized();
 
-		velocity = zDir * speed * wallPushMod;
+		velocity = -zDir * speed * wallPushMod;
 		velocity.Y = jumpPower * wallJumpMod;
 	}
 
@@ -450,17 +521,15 @@ public partial class PlayerMovement : Node3D
 		zDir.Y = 0;
 		zDir = zDir.Normalized();
 
-		velocity = -speed * diveSpeedMod * zDir;
+		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
 	}
 	#endregion
 
-
-	private void Attack() {
-		doneAttacking = false;
-
-		//emit the attack signal
-		EmitSignal(SignalName.AttackSignal);
+	//starts a whole chain of events that causes "animationDone" to be false until the animation triggered by the current state has completed
+	//see the attack states for an example
+	private void WaitForAnimation() {
+		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 
 	private void LookAtInput()

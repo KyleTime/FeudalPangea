@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 //this class is kinda like an aggregate class of all the different player components
@@ -20,12 +21,12 @@ public partial class Player : CharacterBody3D, Creature
 	public override void _Ready()
 	{
 		//components!
-		move = GetNode<PlayerMovement>("Movement");
+		move = GetNode<PlayerMovement>("Body");
 		cam = GetNode<PlayerCamera>("CamOrigin");
-		anim = GetNode<PlayerAnimation>("AnimationPlayer"); anim.SetMaxSpeed(move.speed);
+		anim = GetNode<PlayerAnimation>("Body/Body_Center/Red_Psycho"); anim.SetMaxSpeed(move.speed);
 		hud = GetNode<HUDHandler>("HUD");
 
-		move.AttackSignal += Attack;
+		move.WaitForAnimationSignal += WaitForAnimation;
 		move.StateChange += HandleStateChange;
 	}
 
@@ -50,9 +51,11 @@ public partial class Player : CharacterBody3D, Creature
 	}
 
 
-	private void Attack()
+	private async void WaitForAnimation()
 	{
-		//TODO: figure out what I needed to put here...
+		move.animationDone = false;
+		while(anim.anim.IsPlaying()) { await Task.Delay(10); }
+		move.animationDone = true;
 	}
 
 	private void HandleStateChange()
