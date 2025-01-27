@@ -1,40 +1,18 @@
-[gd_scene load_steps=19 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=10 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
 [ext_resource type="Script" path="res://Scripts/Levels/Cathedral/CathedralManager.cs" id="1_bt51t"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
-[ext_resource type="PackedScene" uid="uid://djmm85xcjm5nm" path="res://Scenes/breakable.tscn" id="4_iu738"]
 [ext_resource type="Material" uid="uid://doiifi3f1dm74" path="res://mats/GREEN.tres" id="5_4xseq"]
 [ext_resource type="Script" path="res://Scripts/Basics/Hitbox.cs" id="5_b601n"]
 [ext_resource type="Script" path="res://Scripts/Basics/Enemy.cs" id="7_u6xe6"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_cwvfi"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_se4yo"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_1se20"]
 material = ExtResource("5_4xseq")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pmxi1"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_63v4x"]
-albedo_color = Color(0.454902, 0.231373, 0.156863, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_hhykl"]
-material = SubResource("StandardMaterial3D_63v4x")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_tnh02"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_gm3mc"]
-material = ExtResource("5_4xseq")
-
-[sub_resource type="BoxMesh" id="BoxMesh_iifhw"]
-material = ExtResource("5_4xseq")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_bus55"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_w2v8w"]
-size = Vector3(1, 1.88525, 1)
 
 [node name="Cathedral" type="Node3D"]
 script = ExtResource("1_bt51t")
@@ -60,19 +38,6 @@ push_force = 20.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Force Field Ball"]
 shape = SubResource("SphereShape3D_cwvfi")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Force Field Ball"]
-mesh = SubResource("SphereMesh_se4yo")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(37.5918, 0, 0, 0, 6.39345, 0, 0, 0, 12.6037, 0.292771, 1.28252, -16.2768)
-mesh = SubResource("BoxMesh_1se20")
-skeleton = NodePath("../MeshInstance3D")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/MeshInstance3D2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/MeshInstance3D2/StaticBody3D"]
-shape = SubResource("BoxShape3D_pmxi1")
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements"]
 transform = Transform3D(20, 0, 0, 0, 4, 0, 0, 0, 20, 0, 0, 0)
 mesh = SubResource("BoxMesh_1se20")
@@ -83,64 +48,14 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/MeshInstance3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_pmxi1")
 
-[node name="Breakable" parent="Level Elements" instance=ExtResource("4_iu738")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3, 3)
-
 [node name="OmniLight3D" type="OmniLight3D" parent="Level Elements"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.448, 0)
 light_energy = 4.505
 omni_range = 41.5548
 
-[node name="Box!" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.891)
-mesh = SubResource("BoxMesh_hhykl")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Box!"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Box!/StaticBody3D"]
-shape = SubResource("BoxShape3D_tnh02")
-
-[node name="Box!2" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(58.3576, 0, 0, 0, 19.8961, 0, 0, 0, 5.2853, 10.3275, 5.77517, -24.0633)
-mesh = SubResource("BoxMesh_hhykl")
-skeleton = NodePath("../Box!")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Box!2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Box!2/StaticBody3D"]
-shape = SubResource("BoxShape3D_tnh02")
-
-[node name="Box!3" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(59.5655, 0, 0, 0, 2.83858, 0, 0, 0, 6.66312, 10.265, 14.8468, -24.1601)
-mesh = SubResource("BoxMesh_gm3mc")
-skeleton = NodePath("../Box!")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Box!3"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Box!3/StaticBody3D"]
-shape = SubResource("BoxShape3D_tnh02")
-
-[node name="Box!4" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 40.8693, 3.48752, -15.4122)
-mesh = SubResource("BoxMesh_iifhw")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Box!4"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Box!4/StaticBody3D"]
-shape = SubResource("BoxShape3D_tnh02")
-
 [node name="StaticBody3D" type="StaticBody3D" parent="Level Elements"]
 collision_layer = 9
 script = ExtResource("7_u6xe6")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.067, 5, -16.827)
-mesh = SubResource("CapsuleMesh_bus55")
-skeleton = NodePath("")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.067, 5, -16.827)
-shape = SubResource("BoxShape3D_w2v8w")
 
 [node name="Force Field Ball" type="Area3D" parent="Level Elements/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.2722, 5.12538, -16.7604)
@@ -148,12 +63,6 @@ collision_layer = 0
 collision_mask = 4
 script = ExtResource("5_b601n")
 push_force = 20.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/StaticBody3D/Force Field Ball"]
-shape = SubResource("SphereShape3D_cwvfi")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/StaticBody3D/Force Field Ball"]
-mesh = SubResource("SphereMesh_se4yo")
 
 [connection signal="body_entered" from="Level Elements/Force Field Ball" to="Level Elements/Force Field Ball" method="OnBodyEntered"]
 [connection signal="body_entered" from="Level Elements/StaticBody3D/Force Field Ball" to="Level Elements/StaticBody3D/Force Field Ball" method="OnBodyEntered"]
