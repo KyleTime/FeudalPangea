@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 //PlayerMovement is an input/output machine type shit
 //it'll rotate itself when moving, so attach this to a node just above the player model
@@ -347,6 +348,29 @@ public partial class PlayerMovement : Node3D
 
 	private void State_PokeStuck(double delta){
 		velocity.Y = 0;
+
+		if(pokeRay.GetCollider() != null && (pokeRay.GlobalPosition - pokeRay.GetCollisionPoint()).Length() < 2)
+		{
+			velocity = new Vector3(0, 0, -10f) * Basis.Z;
+		}
+		else
+		{
+			velocity = new Vector3(0, 0, 0);
+		}
+
+		if(Input.IsActionJustPressed("JUMP"))
+		{
+			if(WallSlideCond())
+				WallJump();
+			else
+				Jump();
+
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
+			
+
+		}
 	}
 
 	private void State_Dead(double delta)
@@ -447,12 +471,8 @@ public partial class PlayerMovement : Node3D
 
 	private void Run(double delta, float XInput, float ZInput, bool decelerate = true) {
 
-		Vector3 xDir = basis.X;
-		xDir.Y = 0;
-		xDir = xDir.Normalized();
-		Vector3 zDir = basis.Z;
-		zDir.Y = 0;
-		zDir = zDir.Normalized();
+		Vector3 xDir = GetXDirection();
+		Vector3 zDir = GetZDirection();
 
 		if(XInput != 0 || ZInput != 0)
 		{
@@ -526,12 +546,34 @@ public partial class PlayerMovement : Node3D
 	}
 	#endregion
 
+
+#region Forced Transitions
 	//starts a whole chain of events that causes "animationDone" to be false until the animation triggered by the current state has completed
 	//see the attack states for an example
 	private void WaitForAnimation() {
 		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 
+
+	public void Stun(float time)
+	{
+		if(creatureState == CreatureState.Dead || creatureState == CreatureState.DeadAir)
+			return; //you can't really be stunned if you dead lol
+
+		stunTimer = time;
+		SetState(CreatureState.Stun);
+	}
+
+	public void Die()
+	{
+		SetState(CreatureState.Dead);
+	}
+
+	#endregion
+
+	#region Helpers
+
+//pretty sure this doesn't work anymore but anyway
 	private void LookAtInput()
 	{
 		float XInput = Input.GetAxis("LEFT", "RIGHT");
@@ -547,22 +589,21 @@ public partial class PlayerMovement : Node3D
 		Rotation = new Vector3(0, Rotation.Y, 0);
 	}
 
-	private bool Attacking()
-	{
-		return creatureState == CreatureState.Attack || creatureState == CreatureState.AttackAir;
+	private Vector3 GetZDirection(){
+		Vector3 zDir = basis.Z;
+		zDir.Y = 0;
+		zDir = zDir.Normalized();
+
+		return zDir;
 	}
 
-	public void Stun(float time)
-	{
-		if(creatureState == CreatureState.Dead || creatureState == CreatureState.DeadAir)
-			return; //you can't really be stunned if you dead lol
+	private Vector3 GetXDirection(){
+		Vector3 xDir = basis.X;
+		xDir.Y = 0;
+		xDir = xDir.Normalized();
 
-		stunTimer = time;
-		SetState(CreatureState.Stun);
+		return xDir;
 	}
 
-	public void Die()
-	{
-		SetState(CreatureState.Dead);
-	}
+	#endregion
 }
