@@ -13,6 +13,10 @@ public abstract partial class CreatureStateModule
     //runs every frame while CSM creatureState == moduleState
     public abstract void RunState(CreatureStateMachine CSM, double delta, Basis facing, bool grounded, bool wall);
 
+    //runs on the transition frame just before the StartState of the next transition, mainly intended such that the state can clean itself up
+    //might add some functionality for delay in case blending wants to happen, but that's for future Kyle
+    public abstract void EndState(CreatureStateMachine CSM, double delta, Basis facing, bool grounded, bool wall);
+
     //returns true if a Creature with the given conditions could enter this state
     public abstract bool TransitionCondition(CreatureStateMachine CSM, double delta, Basis facing, bool grounded, bool wall);
 
