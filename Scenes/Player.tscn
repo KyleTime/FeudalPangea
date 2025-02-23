@@ -16,7 +16,8 @@ collision_layer = 4
 collision_mask = 11
 axis_lock_angular_x = true
 axis_lock_angular_z = true
-floor_snap_length = 0.01
+floor_stop_on_slope = false
+floor_snap_length = 0.25
 safe_margin = 0.1
 script = ExtResource("1_fmy2y")
 
@@ -41,8 +42,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
 [node name="Body" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
+speed = 15.0
 deceleration = 20.0
-jumpPower = 7.0
+jumpPower = 20.0
+wallPushMod = 0.75
 
 [node name="WallJumpRay" type="RayCast3D" parent="Body"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.50742, 0.806739)

@@ -123,7 +123,7 @@ public partial class PlayerMovement : Node3D
 
 	private void Gravity(float delta){
 		//gravity lol
-		velocity.Y -= 9.8f * delta;
+		velocity.Y -= 9.8f * delta * 2;
 		if(grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
 		if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
@@ -185,6 +185,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(AttackCond(), CreatureState.Attack);
 		TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
 		
 		Gravity((float)delta);

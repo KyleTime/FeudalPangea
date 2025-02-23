@@ -1,18 +1,25 @@
-[gd_scene load_steps=10 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=9 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
 [ext_resource type="Script" path="res://Scripts/Levels/Cathedral/CathedralManager.cs" id="1_bt51t"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
-[ext_resource type="Material" uid="uid://doiifi3f1dm74" path="res://mats/GREEN.tres" id="5_4xseq"]
-[ext_resource type="Script" path="res://Scripts/Basics/Hitbox.cs" id="5_b601n"]
-[ext_resource type="Script" path="res://Scripts/Basics/Enemy.cs" id="7_u6xe6"]
+[ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Models/Level Models/level_v1_scene.tscn" id="4_wgaqy"]
+[ext_resource type="Script" path="res://Scripts/Garbage/test_moving_platform.cs" id="5_ypltf"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_cwvfi"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
+size = Vector3(6, 1, 6)
 
-[sub_resource type="BoxMesh" id="BoxMesh_1se20"]
-material = ExtResource("5_4xseq")
+[sub_resource type="BoxMesh" id="BoxMesh_pvjru"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_pmxi1"]
+[sub_resource type="CSharpScript" id="CSharpScript_nkljx"]
+script/source = "using Godot;
+using System;
+
+public partial class moving_platform_fast : MeshInstance3D
+{
+    
+}
+"
 
 [node name="Cathedral" type="Node3D"]
 script = ExtResource("1_bt51t")
@@ -23,46 +30,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
 [node name="Cinematic Camera" type="Camera3D" parent="."]
 
 [node name="DeathPlane" parent="." instance=ExtResource("3_8wqe5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.3249, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -41.5472, 0)
 collision_mask = 13
 
 [node name="Level Elements" type="Node" parent="."]
 
-[node name="Force Field Ball" type="Area3D" parent="Level Elements"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.96353, 3.43045, 0.138236)
-collision_layer = 0
-collision_mask = 4
-script = ExtResource("5_b601n")
-push_force = 20.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Force Field Ball"]
-shape = SubResource("SphereShape3D_cwvfi")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements"]
-transform = Transform3D(20, 0, 0, 0, 4, 0, 0, 0, 20, 0, 0, 0)
-mesh = SubResource("BoxMesh_1se20")
-skeleton = NodePath("../..")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_pmxi1")
-
 [node name="OmniLight3D" type="OmniLight3D" parent="Level Elements"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.448, 0)
-light_energy = 4.505
-omni_range = 41.5548
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -185, 189.673, -82)
+light_energy = 200.0
+light_indirect_energy = 16.0
+omni_range = 454.0
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements"]
-collision_layer = 9
-script = ExtResource("7_u6xe6")
+[node name="level_v1" parent="." instance=ExtResource("4_wgaqy")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 
-[node name="Force Field Ball" type="Area3D" parent="Level Elements/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.2722, 5.12538, -16.7604)
-collision_layer = 0
-collision_mask = 4
-script = ExtResource("5_b601n")
-push_force = 20.0
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8373, 4.2067, 0)
+gravity_scale = 0.0
+script = ExtResource("5_ypltf")
 
-[connection signal="body_entered" from="Level Elements/Force Field Ball" to="Level Elements/Force Field Ball" method="OnBodyEntered"]
-[connection signal="body_entered" from="Level Elements/StaticBody3D/Force Field Ball" to="Level Elements/StaticBody3D/Force Field Ball" method="OnBodyEntered"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_tify5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
+mesh = SubResource("BoxMesh_pvjru")
+skeleton = NodePath("../..")
+script = SubResource("CSharpScript_nkljx")
