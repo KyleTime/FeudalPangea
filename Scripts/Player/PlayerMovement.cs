@@ -103,12 +103,12 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.AttackAir:
 				State_AttackAir(delta);
 				break;
-			case CreatureState.AttackPoke:
-				State_AttackPoke(delta);
-				break;
-			case CreatureState.PokeStuck:
-				State_PokeStuck(delta);
-				break;
+			// case CreatureState.AttackPoke:
+			// 	State_AttackPoke(delta);
+			// 	break;
+			// case CreatureState.PokeStuck:
+			// 	State_PokeStuck(delta);
+			// 	break;
 			case CreatureState.Dead:
 				State_Dead(delta);
 				break;
@@ -135,7 +135,7 @@ public partial class PlayerMovement : Node3D
 	private void Move(double delta, float mod = 1, bool decelerate = true){
 		float XInput = Input.GetAxis("LEFT", "RIGHT");
 		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");	
-		Run(delta * mod, XInput, ZInput);
+		Run(delta * mod, XInput, ZInput, decelerate);
 	}
 
 #region States
@@ -165,9 +165,9 @@ public partial class PlayerMovement : Node3D
 				case CreatureState.AttackAir:
 					WaitForAnimation();
 					break;
-				case CreatureState.AttackPoke:
-					WaitForAnimation();
-					break;
+				// case CreatureState.AttackPoke:
+				// 	WaitForAnimation();
+				// 	break;
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public partial class PlayerMovement : Node3D
 		}
 
 		TryTransition(AttackCond(), CreatureState.Attack);
-		TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
+		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
@@ -193,11 +193,11 @@ public partial class PlayerMovement : Node3D
 
 	private void State_OpenAir(double delta)
 	{
-		Move(delta, airMod);
+		Move(delta, airMod, false);
 		RotateBody();
 
 		TryTransition(AttackAirCond(), CreatureState.AttackAir);
-		TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
+		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(DiveCond(), CreatureState.Dive);
@@ -327,52 +327,52 @@ public partial class PlayerMovement : Node3D
 		Gravity((float)delta);
 	}
 
-	private void State_AttackPoke(double delta)
-	{
-		RotateBody(1);
+	// private void State_AttackPoke(double delta)
+	// {
+	// 	RotateBody(1);
 
-		if(animationDone)
-		{
-			bool pokeCond = PokeStuckCond();
-			TryTransition(pokeCond, CreatureState.PokeStuck);
+	// 	if(animationDone)
+	// 	{
+	// 		bool pokeCond = PokeStuckCond();
+	// 		TryTransition(pokeCond, CreatureState.PokeStuck);
 
-			if(!pokeCond)
-			{
-				TryTransition(GroundedCond(), CreatureState.Grounded);
-				TryTransition(OpenAirCond(), CreatureState.OpenAir);
-			}
-		}
+	// 		if(!pokeCond)
+	// 		{
+	// 			TryTransition(GroundedCond(), CreatureState.Grounded);
+	// 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+	// 		}
+	// 	}
 		
-		Decelerate(delta);
-		Gravity((float)delta);
-	}
+	// 	Decelerate(delta);
+	// 	Gravity((float)delta);
+	// }
 
-	private void State_PokeStuck(double delta){
-		velocity.Y = 0;
+	// private void State_PokeStuck(double delta){
+	// 	velocity.Y = 0;
 
-		if(pokeRay.GetCollider() != null && (pokeRay.GlobalPosition - pokeRay.GetCollisionPoint()).Length() < 2)
-		{
-			velocity = new Vector3(0, 0, -10f) * Basis.Z;
-		}
-		else
-		{
-			velocity = new Vector3(0, 0, 0);
-		}
+	// 	if(pokeRay.GetCollider() != null && (pokeRay.GlobalPosition - pokeRay.GetCollisionPoint()).Length() < 2)
+	// 	{
+	// 		velocity = new Vector3(0, 0, -10f) * Basis.Z;
+	// 	}
+	// 	else
+	// 	{
+	// 		velocity = new Vector3(0, 0, 0);
+	// 	}
 
-		if(Input.IsActionJustPressed("JUMP"))
-		{
-			if(WallSlideCond())
-				WallJump();
-			else
-				Jump();
+	// 	if(Input.IsActionJustPressed("JUMP"))
+	// 	{
+	// 		if(WallSlideCond())
+	// 			WallJump();
+	// 		else
+	// 			Jump();
 
-			TryTransition(OpenAirCond(), CreatureState.OpenAir);
-			TryTransition(GroundedCond(), CreatureState.Grounded);
-			TryTransition(WallSlideCond(), CreatureState.WallSlide);
+	// 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
+	// 		TryTransition(GroundedCond(), CreatureState.Grounded);
+	// 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 			
 
-		}
-	}
+	// 	}
+	// }
 
 	private void State_Dead(double delta)
 	{
@@ -446,15 +446,15 @@ public partial class PlayerMovement : Node3D
 		return Input.IsActionJustPressed("ATTACK") && !grounded;
 	}
 
-	private bool AttackPokeCond()
-	{
-		return Input.IsActionJustPressed("POKE");
-	}
+	// private bool AttackPokeCond()
+	// {
+	// 	return Input.IsActionJustPressed("POKE");
+	// }
 
-	private bool PokeStuckCond()
-	{
-		return pokeRay.GetCollider() != null;
-	}
+	// private bool PokeStuckCond()
+	// {
+	// 	return pokeRay.GetCollider() != null;
+	// }
 
 #endregion
 
@@ -477,7 +477,7 @@ public partial class PlayerMovement : Node3D
 
 		if(XInput != 0 || ZInput != 0)
 		{
-			Accelerate(XInput, ZInput, xDir, zDir, delta);
+			Accelerate(XInput, ZInput, xDir, zDir, delta, decelerate);
 		}
 		else if(decelerate)
 		{
@@ -485,19 +485,33 @@ public partial class PlayerMovement : Node3D
 		}
 	}
 
-	public void Accelerate(float XInput, float ZInput, Vector3 xDir, Vector3 zDir, double delta)
+	public void Accelerate(float XInput, float ZInput, Vector3 xDir, Vector3 zDir, double delta, bool decelerate = true)
 	{
-		velocity += XInput * xDir * acceleration * (float)delta;
-		velocity += ZInput * zDir * acceleration * (float)delta;
+		Vector3 nextVel = velocity;
+
+		nextVel += XInput * xDir * acceleration * (float)delta;
+		nextVel += ZInput * zDir * acceleration * (float)delta;
 
 		float runningSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
+		float nextRunningSpeed = new Vector3(nextVel.X, 0, nextVel.Z).Length();
 
-		//this will need to be changed later, it caps speed to the "speed" variable
-		//if we want momentum and shit, fix it
-		if (runningSpeed > speed)
+		GD.Print("Running Speed: " + runningSpeed + " Next Speed: " + nextRunningSpeed);
+
+		//if we go over speed cap, cap it
+		if (runningSpeed < speed + 0.1f && nextRunningSpeed > speed)
 		{
-			Vector3 runVector = new Vector3(velocity.X, 0, velocity.Z).Normalized() * speed;
+			Vector3 runVector = new Vector3(nextVel.X, 0, nextVel.Z).Normalized() * speed;
 			velocity = new Vector3(runVector.X, velocity.Y, runVector.Z);
+		}
+		//if we're under the speed cap, or we're slowing down, accelerate as normal
+		else if(nextRunningSpeed < speed || nextRunningSpeed <= runningSpeed)
+		{
+			velocity = nextVel;
+		}
+		//we must be trying to go faster while already going too fast, decelerate instead
+		else if(decelerate)
+		{
+			Decelerate(delta);
 		}
 	}
 
