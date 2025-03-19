@@ -17,7 +17,6 @@ public partial class PlayerMovement : Node3D
 	public bool wall = false;
 	public Basis basis; //way to orient self for velocity calculations
 	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
-	public RayCast3D pokeRay; //ray that determines whether I can p o k e
 
 	//movement attributes
 	[Export]public float speed = 10f;
@@ -46,7 +45,6 @@ public partial class PlayerMovement : Node3D
 	{
 		basis = new Basis();
 		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
-		pokeRay = GetNode<RayCast3D>("PokeRay");
 	}
 
     [Signal]
@@ -97,18 +95,6 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.StunAir:
 				State_StunAir(delta);
 				break;
-			case CreatureState.Attack:
-				State_Attack(delta);
-				break;
-			case CreatureState.AttackAir:
-				State_AttackAir(delta);
-				break;
-			// case CreatureState.AttackPoke:
-			// 	State_AttackPoke(delta);
-			// 	break;
-			// case CreatureState.PokeStuck:
-			// 	State_PokeStuck(delta);
-			// 	break;
 			case CreatureState.Dead:
 				State_Dead(delta);
 				break;
@@ -159,12 +145,12 @@ public partial class PlayerMovement : Node3D
 				case CreatureState.Dive:
 					Dive();
 					break;
-				case CreatureState.Attack:
-					WaitForAnimation();
-					break;
-				case CreatureState.AttackAir:
-					WaitForAnimation();
-					break;
+				// case CreatureState.Attack:
+				// 	WaitForAnimation();
+				// 	break;
+				// case CreatureState.AttackAir:
+				// 	WaitForAnimation();
+				// 	break;
 				// case CreatureState.AttackPoke:
 				// 	WaitForAnimation();
 				// 	break;
@@ -182,7 +168,7 @@ public partial class PlayerMovement : Node3D
 			Jump();
 		}
 
-		TryTransition(AttackCond(), CreatureState.Attack);
+		// TryTransition(AttackCond(), CreatureState.Attack);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
@@ -196,7 +182,7 @@ public partial class PlayerMovement : Node3D
 		Move(delta, airMod, false);
 		RotateBody();
 
-		TryTransition(AttackAirCond(), CreatureState.AttackAir);
+		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
@@ -298,34 +284,34 @@ public partial class PlayerMovement : Node3D
 	}
 
 	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
-	private void State_Attack(double delta)
-	{
-		RotateBody(1);
+	// private void State_Attack(double delta)
+	// {
+	// 	RotateBody(1);
 
-		if(animationDone)
-		{
-			TryTransition(GroundedCond(), CreatureState.Grounded);
-			TryTransition(OpenAirCond(), CreatureState.OpenAir);
-		}
+	// 	if(animationDone)
+	// 	{
+	// 		TryTransition(GroundedCond(), CreatureState.Grounded);
+	// 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
+	// 	}
 
-		Decelerate(delta);
-		Gravity((float)delta);
-	}
+	// 	Decelerate(delta);
+	// 	Gravity((float)delta);
+	// }
 
-	private void State_AttackAir(double delta)
-	{
-		RotateBody(1);
+	// private void State_AttackAir(double delta)
+	// {
+	// 	RotateBody(1);
 
-		if(animationDone)
-		{
-			TryTransition(OpenAirCond(), CreatureState.OpenAir);
-			TryTransition(GroundedCond(), CreatureState.Grounded);
-		}
+	// 	if(animationDone)
+	// 	{
+	// 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
+	// 		TryTransition(GroundedCond(), CreatureState.Grounded);
+	// 	}
 
-		TryTransition(DiveCond(), CreatureState.Dive);
-		Decelerate(delta);
-		Gravity((float)delta);
-	}
+	// 	TryTransition(DiveCond(), CreatureState.Dive);
+	// 	Decelerate(delta);
+	// 	Gravity((float)delta);
+	// }
 
 	// private void State_AttackPoke(double delta)
 	// {
@@ -436,15 +422,15 @@ public partial class PlayerMovement : Node3D
 		return wall;
 	}
 
-	private bool AttackCond()
-	{
-		return Input.IsActionJustPressed("ATTACK") && grounded;
-	}
+	// private bool AttackCond()
+	// {
+	// 	return Input.IsActionJustPressed("ATTACK") && grounded;
+	// }
 
-	private bool AttackAirCond()
-	{
-		return Input.IsActionJustPressed("ATTACK") && !grounded;
-	}
+	// private bool AttackAirCond()
+	// {
+	// 	return Input.IsActionJustPressed("ATTACK") && !grounded;
+	// }
 
 	// private bool AttackPokeCond()
 	// {
