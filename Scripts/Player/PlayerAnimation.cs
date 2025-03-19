@@ -41,15 +41,6 @@ public partial class PlayerAnimation : Node
             case CreatureState.OpenAir:
                 anim.Play("Air");
                 break;
-            case CreatureState.Attack:
-                anim.Play("AttackGround");
-                break;
-            case CreatureState.AttackAir:
-                anim.Play("AttackPoke"); //TODO: Make an aerial attack
-                break;
-            case CreatureState.AttackPoke:
-                anim.Play("AttackPoke");
-                break;
             case CreatureState.Dead:
                 anim.Play("Dive"); //TODO: Make a death animation
                 break;
