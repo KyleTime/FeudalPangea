@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerMovement.cs" id="4_te5vt"]
 [ext_resource type="PackedScene" uid="uid://c4s0jb3rhv7ba" path="res://Scenes/HUD.tscn" id="5_20fgk"]
-[ext_resource type="PackedScene" uid="uid://c4hbfnhj7kr4g" path="res://Models/Red_Psycho_Scene.tscn" id="6_hl2p7"]
+[ext_resource type="PackedScene" uid="uid://c4hbfnhj7kr4g" path="res://Scenes/Red_Psycho_Scene.tscn" id="6_hl2p7"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.cs" id="6_viir3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
@@ -50,9 +50,6 @@ wallPushMod = 0.75
 [node name="WallJumpRay" type="RayCast3D" parent="Body"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.50742, 0.806739)
 target_position = Vector3(0, 0, -1)
-
-[node name="PokeRay" type="RayCast3D" parent="Body"]
-target_position = Vector3(0, 0, 3)
 
 [node name="Body_Center" type="Node3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3725, 0)

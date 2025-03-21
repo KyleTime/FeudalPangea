@@ -36,6 +36,9 @@ public partial class PlayerMovement : Node3D
 
 	[Export]public bool animationDone = false;
 
+	//spells!
+	Spell spell1;
+
 	public PlayerMovement()
 	{	
 	}
@@ -45,6 +48,7 @@ public partial class PlayerMovement : Node3D
 	{
 		basis = new Basis();
 		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
+		spell1 = new DoubleJumpSpell(this);
 	}
 
     [Signal]
@@ -100,6 +104,9 @@ public partial class PlayerMovement : Node3D
 				break;
 			case CreatureState.DeadAir:
 				State_DeadAir(delta);
+				break;
+			case CreatureState.Casting:
+				spell1.CastState(delta);
 				break;
 			default:
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
@@ -173,6 +180,9 @@ public partial class PlayerMovement : Node3D
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
+
+		//cast!
+		TryTransition(Cast1Cond(), CreatureState.Casting);
 		
 		Gravity((float)delta);
 	}
@@ -187,6 +197,9 @@ public partial class PlayerMovement : Node3D
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(DiveCond(), CreatureState.Dive);
+
+		//cast!
+		TryTransition(Cast1Cond(), CreatureState.Casting);
 
 		Gravity((float)delta);
 	}
@@ -381,7 +394,7 @@ public partial class PlayerMovement : Node3D
 
 #region Transitions
 
-	private bool TryTransition(bool condition, CreatureState state)
+	public bool TryTransition(bool condition, CreatureState state)
 	{
 		if(condition)
 		{
@@ -394,7 +407,7 @@ public partial class PlayerMovement : Node3D
 	/// <summary>
 	/// Checks if we can go back to grounded
 	/// </summary>
-	private bool GroundedCond()
+	public bool GroundedCond()
 	{
 		return grounded && velocity.Y < 0;
 	}
@@ -402,24 +415,29 @@ public partial class PlayerMovement : Node3D
 	/// <summary>
 	/// Checks if we are in the air
 	/// </summary>
-	private bool OpenAirCond()
+	public bool OpenAirCond()
 	{
 		return !grounded && !wall;
 	}
 
-	private bool WallSlideCond()
+	public bool WallSlideCond()
 	{
 		return !grounded && wall;
 	}
 
-	private bool DiveCond()
+	public bool DiveCond()
 	{
 		return Input.IsActionJustPressed("DIVE");
 	}
 
-	private bool BonkCond()
+	public bool BonkCond()
 	{
 		return wall;
+	}
+
+	public bool Cast1Cond()
+	{
+		return Input.IsActionJustPressed("CAST1");
 	}
 
 	// private bool AttackCond()
@@ -481,7 +499,7 @@ public partial class PlayerMovement : Node3D
 		float runningSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
 		float nextRunningSpeed = new Vector3(nextVel.X, 0, nextVel.Z).Length();
 
-		GD.Print("Running Speed: " + runningSpeed + " Next Speed: " + nextRunningSpeed);
+		//GD.Print("Running Speed: " + runningSpeed + " Next Speed: " + nextRunningSpeed);
 
 		//if we go over speed cap, cap it
 		if (runningSpeed < speed + 0.1f && nextRunningSpeed > speed)

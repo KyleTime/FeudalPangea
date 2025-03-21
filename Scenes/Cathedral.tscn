@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=8 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
-[ext_resource type="Script" path="res://Scripts/Levels/Cathedral/CathedralManager.cs" id="1_bt51t"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Models/Level Models/level_v1_scene.tscn" id="4_wgaqy"]
 [ext_resource type="Script" path="res://Scripts/Garbage/test_moving_platform.cs" id="5_ypltf"]
@@ -22,7 +21,6 @@ public partial class moving_platform_fast : MeshInstance3D
 "
 
 [node name="Cathedral" type="Node3D"]
-script = ExtResource("1_bt51t")
 
 [node name="Player" parent="." instance=ExtResource("1_3o2o2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
