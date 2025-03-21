@@ -41,12 +41,16 @@ public partial class Player : CharacterBody3D, Creature
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if(IsOnCeiling())
+			move.velocity.Y = 0;
+
 		Velocity = move.velocity;
 		Vector3 flatVel = move.velocity;
 		flatVel.Y = 0;
 		anim.SetSpeed(flatVel.Length()); //inform the animator of what we doing
 		if(move.creatureState == CreatureState.Grounded) //keep informing the animator if we on the ground lol
 			anim.UpdateAnimation(move.creatureState);
+
 		MoveAndSlide();
 	}
 

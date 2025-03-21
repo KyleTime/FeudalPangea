@@ -37,7 +37,9 @@ public partial class PlayerMovement : Node3D
 	[Export]public bool animationDone = false;
 
 	//spells!
-	Spell spell1;
+	int selectedSpell = 0;
+	Spell[] spells = new Spell[3];
+
 
 	public PlayerMovement()
 	{	
@@ -48,7 +50,7 @@ public partial class PlayerMovement : Node3D
 	{
 		basis = new Basis();
 		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
-		spell1 = new DoubleJumpSpell(this);
+		spells[0] = new DoubleJumpSpell(this);
 	}
 
     [Signal]
@@ -106,7 +108,7 @@ public partial class PlayerMovement : Node3D
 				State_DeadAir(delta);
 				break;
 			case CreatureState.Casting:
-				spell1.CastState(delta);
+				spells[selectedSpell].CastState(delta);
 				break;
 			default:
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
@@ -182,7 +184,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(DiveCond(), CreatureState.Dive);
 
 		//cast!
-		TryTransition(Cast1Cond(), CreatureState.Casting);
+		TryTransition(CastCond(), CreatureState.Casting);
 		
 		Gravity((float)delta);
 	}
@@ -199,7 +201,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(DiveCond(), CreatureState.Dive);
 
 		//cast!
-		TryTransition(Cast1Cond(), CreatureState.Casting);
+		TryTransition(CastCond(), CreatureState.Casting);
 
 		Gravity((float)delta);
 	}
@@ -435,9 +437,25 @@ public partial class PlayerMovement : Node3D
 		return wall;
 	}
 
-	public bool Cast1Cond()
+	public bool CastCond()
 	{
-		return Input.IsActionJustPressed("CAST1");
+		if(Input.IsActionJustPressed("CAST1") && spells.Length > 0 && spells[0] != null)
+		{
+			selectedSpell = 0;
+			return true;
+		}
+		if(Input.IsActionJustPressed("CAST2") && spells.Length > 1 && spells[1] != null)
+		{
+			selectedSpell = 1;
+			return true;
+		}
+		if(Input.IsActionJustPressed("CAST3") && spells.Length > 2 && spells[2] != null)
+		{
+			selectedSpell = 2;
+			return true;
+		}
+
+		return false;
 	}
 
 	// private bool AttackCond()
