@@ -1,12 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4s0jb3rhv7ba"]
+[gd_scene load_steps=13 format=3 uid="uid://c4s0jb3rhv7ba"]
 
 [ext_resource type="Script" path="res://Scripts/HUD/HUDHandler.cs" id="1_smdbh"]
+[ext_resource type="Texture2D" uid="uid://dp6j1ja4jrkw0" path="res://Sprites/HP-0.png" id="2_ajo0l"]
+[ext_resource type="Texture2D" uid="uid://cd6qkoeqjmyn3" path="res://Sprites/HP-6.png" id="2_ryunw"]
+[ext_resource type="Texture2D" uid="uid://c04y6r13lhcow" path="res://Sprites/HP-1.png" id="3_6o4el"]
+[ext_resource type="Texture2D" uid="uid://d4k0plad33gx5" path="res://Sprites/spell UI.png" id="3_ksekh"]
+[ext_resource type="Texture2D" uid="uid://vct5jcp3xsek" path="res://Sprites/coin UI.png" id="4_5ihyk"]
+[ext_resource type="Texture2D" uid="uid://cmrld1kwfo801" path="res://Sprites/HP-2.png" id="4_d7q4b"]
+[ext_resource type="Texture2D" uid="uid://bf3icfk016iis" path="res://Sprites/HP-3.png" id="5_7ht03"]
+[ext_resource type="Texture2D" uid="uid://bgdat0aq5xemy" path="res://Sprites/HP-4.png" id="6_wcpbg"]
+[ext_resource type="Texture2D" uid="uid://bil2eau2fadof" path="res://Sprites/HP-5.png" id="7_t8l4t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gwk3h"]
 font_size = 100
 font_color = Color(1, 0, 0, 1)
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("healthBarNode", "diedGraphic", "diedPanel")]
+[sub_resource type="Theme" id="Theme_wfm3a"]
+default_base_scale = 10.0
+default_font_size = 140
+
+[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,35 +27,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_smdbh")
-healthBarNode = NodePath("HP BAR BASE/Full Bar")
+hpFrames = [ExtResource("2_ajo0l"), ExtResource("3_6o4el"), ExtResource("4_d7q4b"), ExtResource("5_7ht03"), ExtResource("6_wcpbg"), ExtResource("7_t8l4t"), ExtResource("2_ryunw")]
+rect = NodePath("HP_RATIO_CONTAINER/HP")
 diedGraphic = NodePath("Death Panel/YOU DIED")
 diedPanel = NodePath("Death Panel")
-
-[node name="HP BAR BASE" type="ColorRect" parent="."]
-layout_mode = 1
-offset_left = 26.0
-offset_top = 26.0
-offset_right = 469.0
-offset_bottom = 66.0
-color = Color(0.105882, 0.0392157, 0.0235294, 1)
-
-[node name="Full Bar" type="Node2D" parent="HP BAR BASE"]
-position = Vector2(0, 19)
-
-[node name="ColorRect" type="ColorRect" parent="HP BAR BASE/Full Bar"]
-offset_top = -19.0
-offset_right = 443.0
-offset_bottom = 21.0
-color = Color(0.486275, 0, 0.0470588, 1)
-
-[node name="ColorRect" type="ColorRect" parent="HP BAR BASE"]
-z_index = -1
-layout_mode = 0
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 446.0
-offset_bottom = 43.0
-color = Color(0.686275, 0.498039, 0.45098, 1)
 
 [node name="Death Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -62,12 +50,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -1141.5
+offset_left = -1142.0
 offset_top = -110.0
-offset_right = 1141.5
+offset_right = 1142.0
 offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(1142, 110)
 color = Color(0, 0, 0, 0.619608)
 
 [node name="Label" type="Label" parent="Death Panel/YOU DIED"]
@@ -85,3 +74,58 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "YOU DIED"
 label_settings = SubResource("LabelSettings_gwk3h")
+
+[node name="HP_RATIO_CONTAINER" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+scale = Vector2(7, 7)
+pivot_offset = Vector2(20, 0)
+stretch_mode = 3
+
+[node name="HP" type="TextureRect" parent="HP_RATIO_CONTAINER"]
+layout_mode = 2
+texture = ExtResource("2_ryunw")
+expand_mode = 1
+
+[node name="SPELL_RATIO_CONTAINER" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -721.0
+offset_top = -513.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(650, 450)
+
+[node name="SpellUI" type="TextureRect" parent="SPELL_RATIO_CONTAINER"]
+layout_mode = 2
+texture = ExtResource("3_ksekh")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+offset_left = 233.0
+offset_top = -10.0
+offset_right = 479.0
+offset_bottom = 214.0
+theme = SubResource("Theme_wfm3a")
+theme_override_colors/default_color = Color(1, 0.831373, 0.403922, 1)
+text = "0"
+
+[node name="COIN_CONTAINER" type="AspectRatioContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="COIN_CONTAINER"]
+layout_mode = 2
+texture = ExtResource("4_5ihyk")

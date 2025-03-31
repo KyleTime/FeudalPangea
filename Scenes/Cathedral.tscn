@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=12 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Models/Level Models/level_v1_scene.tscn" id="4_wgaqy"]
+[ext_resource type="Script" path="res://Scripts/Basics/Hitbox.cs" id="5_m6bbg"]
 [ext_resource type="Script" path="res://Scripts/Garbage/test_moving_platform.cs" id="5_ypltf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
@@ -19,6 +20,13 @@ public partial class moving_platform_fast : MeshInstance3D
     
 }
 "
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xvp6"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k8l05"]
+material = SubResource("StandardMaterial3D_3xvp6")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lvjgk"]
 
 [node name="Cathedral" type="Node3D"]
 
@@ -57,3 +65,19 @@ transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 mesh = SubResource("BoxMesh_pvjru")
 skeleton = NodePath("../..")
 script = SubResource("CSharpScript_nkljx")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09375, -11.7527)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("5_m6bbg")
+dmg = 10
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("BoxMesh_k8l05")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_lvjgk")
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

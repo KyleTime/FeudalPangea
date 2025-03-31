@@ -4,13 +4,22 @@ using System.Threading.Tasks;
 
 public partial class HUDHandler : Node
 {
-    [Export] Node2D healthBarNode;
+    [Export] Texture2D[] hpFrames = new Texture2D[7];
+    [Export] TextureRect rect;
+
     [Export] ColorRect diedGraphic;
     [Export] Panel diedPanel;
 
     public void ChangeHPBar(int HP, int MAX_HP)
     {
-        healthBarNode.Scale = new Vector2((float)HP/MAX_HP, 1); 
+        float percentage = (float)HP / MAX_HP;
+        int hpDisplay = (int)(percentage * 6);
+
+        GD.Print("HP: " + HP + " MAX_HP: " + MAX_HP);
+
+        GD.Print("percentage: " + percentage + " hpDisplay: " + hpDisplay);
+
+        rect.Texture = hpFrames[hpDisplay];
     }
 
     public async Task HUD_Death_Animation(){

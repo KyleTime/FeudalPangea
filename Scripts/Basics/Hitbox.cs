@@ -7,6 +7,10 @@ public partial class Hitbox : Area3D
     [Export]private float push_force = 10;
     [Export]private DamageSource damage_source = DamageSource.Bonk;
 
+    public override void _Ready(){
+        BodyEntered += OnBodyEntered;
+    }
+
     public void OnBodyEntered(Node3D node)
     {
         if(node is Creature)

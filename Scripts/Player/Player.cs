@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 //it tells them all what to do, but each component can work independently, pretty slick huh?
 public partial class Player : CharacterBody3D, Creature
 {
-	private int HP = 100;
-	private int MAX_HP = 100;
+	private int HP = 60;
+	private int MAX_HP = 60;
+
+	private double iFrames = 0;
+
 	public PlayerMovement move;
 	public PlayerCamera cam;
 	public PlayerAnimation anim;
@@ -33,6 +36,8 @@ public partial class Player : CharacterBody3D, Creature
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		iFrames -= delta;
+
 		move.ReadInput(delta, cam.GetBasis(), IsOnFloor(), IsOnWall());
 
 		if(Input.IsActionJustPressed("QUIT"))
@@ -75,6 +80,11 @@ public partial class Player : CharacterBody3D, Creature
 
     public void ChangeHP(int change, DamageSource source)
     {
+		if(iFrames > 0)
+		{
+			return;
+		}
+
 		HP = Mathf.Clamp(HP + change, 0, MAX_HP);
 
 		EmitSignal(SignalName.HealthChange, HP, MAX_HP);
@@ -82,6 +92,9 @@ public partial class Player : CharacterBody3D, Creature
 		if(HP <= 0){
 			Death(source);
 			return;
+		}
+		else{
+			iFrames = 2f;
 		}
 
 		switch(source)
