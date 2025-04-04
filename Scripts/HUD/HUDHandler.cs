@@ -10,6 +10,17 @@ public partial class HUDHandler : Node
     [Export] ColorRect diedGraphic;
     [Export] Panel diedPanel;
 
+    [Export] RichTextLabel coinCounter;
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        //this is terrible, please do an event somehow
+        coinCounter.Text = GlobalData.getCoinCount().ToString();
+    }
+
+
     public void ChangeHPBar(int HP, int MAX_HP)
     {
         float percentage = (float)HP / MAX_HP;

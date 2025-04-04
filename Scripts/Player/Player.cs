@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 //it tells them all what to do, but each component can work independently, pretty slick huh?
 public partial class Player : CharacterBody3D, Creature
 {
+	public static Player player; //this breaks if we have multiple player objects
+
 	private int HP = 60;
 	private int MAX_HP = 60;
 
@@ -23,6 +25,8 @@ public partial class Player : CharacterBody3D, Creature
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		player = this;
+
 		//components!
 		move = GetNode<PlayerMovement>("Body");
 		cam = GetNode<PlayerCamera>("CamOrigin");

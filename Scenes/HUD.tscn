@@ -19,7 +19,7 @@ font_color = Color(1, 0, 0, 1)
 default_base_scale = 10.0
 default_font_size = 140
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel")]
+[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel", "coinCounter")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,6 +31,7 @@ hpFrames = [ExtResource("2_ajo0l"), ExtResource("3_6o4el"), ExtResource("4_d7q4b
 rect = NodePath("HP_RATIO_CONTAINER/HP")
 diedGraphic = NodePath("Death Panel/YOU DIED")
 diedPanel = NodePath("Death Panel")
+coinCounter = NodePath("RichTextLabel")
 
 [node name="Death Panel" type="Panel" parent="."]
 layout_mode = 1
