@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Feudal Pangea"
+config/name="Feudal Pangaea"
 run/main_scene="res://Scenes/Cathedral.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"

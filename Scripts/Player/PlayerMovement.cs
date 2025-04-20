@@ -18,23 +18,57 @@ public partial class PlayerMovement : Node3D
 	public Basis basis; //way to orient self for velocity calculations
 	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
 
-	//movement attributes
+	//How fast, at max, should the player move?
 	[Export]public float speed = 10f;
+
+	//How fast should the player fall? (multiplier)
+	[Export]private float gravityMod = 2;
+
+	//How quickly should the player accelerate? (higher number, higher acceleration)
 	[Export]private float acceleration = 20f;
+
+	//How quickly should the player decelerate? (higher number, higher deceleration)
 	[Export]private float deceleration = 10f;
+
+	//How much air control should the player have? (0 - 1)
 	[Export]private float airMod = 0.5f;
+
+	//How high should a jump send the player? (velocity)
 	[Export]private float jumpPower = 10;
-	[Export]private float stunTimer = 1;
+
+	private float stunTimer = 1;
+
+	//How much should a dive push the player upwards? (velocity)
 	[Export]private float diveUpdraft = 5;
+
+	//How much speed should diving give? (multiplier on speed)
 	[Export]private float diveSpeedMod = 2;
+
+	//How much air control should the player have while diving? (0 - 1)
 	[Export]private float diveAirMod = 0.25f;
+
+	//How much of the player's horizontal momentum should push them back after a bonk. (0 - 1)
 	[Export]private float bonkPushMod = 0.25f;
+
+	//How high a wall jump should send the player (velocity)
 	[Export]private float wallJumpMod = 1;
+
+	//how far a wall should push the player away horizontally. (velocity)
 	[Export]private float wallPushMod = 1;
 
+	//maximum speed a player should move while sliding down a wall. (velocity)
 	[Export]private float maxSlideFallingSpeed = -2.5f;
 
-	[Export]public bool animationDone = false;
+	public bool animationDone = false;
+
+	//determines how quickly vertical velocity decays after letting go of the jump button. (0 - 1)
+	[Export] public float jumpEndDecay;
+
+	//is true if the player just started to jump, used to track when to cut off upward velocity
+	private bool jumping = false;
+
+	//is true if the player wall jumped, used to track when to cut off upward velocity
+	private bool wallJumping = false;
 
 	//spells!
 	int selectedSpell = 0;
@@ -114,11 +148,32 @@ public partial class PlayerMovement : Node3D
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
 				break;
 		}
+
+		HandleHoldJump();
+	}
+
+	//Handles cutting off the player's jump if they release the jump button
+	private void HandleHoldJump(){
+		if(jumping && velocity.Y <= 0 || velocity.Y > jumpPower){
+			jumping = false;
+		}
+		else if(jumping && Input.IsActionJustReleased("JUMP")){
+			jumping = false;
+			velocity.Y *= jumpEndDecay;
+		}
+
+		if(wallJumping && velocity.Y <= 0 || velocity.Y > jumpPower * wallJumpMod){
+			wallJumping = false;
+		}
+		else if(wallJumping && Input.IsActionJustReleased("JUMP")){
+			wallJumping = false;
+			velocity.Y *= jumpEndDecay;
+		}
 	}
 
 	private void Gravity(float delta){
 		//gravity lol
-		velocity.Y -= 9.8f * delta * 2;
+		velocity.Y -= 9.8f * delta * gravityMod;
 		if(grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
 		if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
@@ -191,6 +246,8 @@ public partial class PlayerMovement : Node3D
 
 	private void State_OpenAir(double delta)
 	{
+		
+
 		Move(delta, airMod, false);
 		RotateBody();
 
@@ -558,6 +615,7 @@ public partial class PlayerMovement : Node3D
 
 	private void Jump() {
 		velocity.Y = jumpPower;
+		jumping = true;
 	}
 
 	private void WallJump(){
@@ -568,6 +626,8 @@ public partial class PlayerMovement : Node3D
 
 		velocity = -zDir * speed * wallPushMod;
 		velocity.Y = jumpPower * wallJumpMod;
+
+		wallJumping = true;
 	}
 
 	private void Dive() {

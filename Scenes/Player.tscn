@@ -42,10 +42,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
 [node name="Body" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
-speed = 15.0
-deceleration = 20.0
-jumpPower = 20.0
-wallPushMod = 0.75
+speed = 12.0
+gravityMod = 2.5
+acceleration = 50.0
+deceleration = 50.0
+jumpPower = 15.0
+diveAirMod = 0.5
+bonkPushMod = 0.5
+wallPushMod = 1.5
+jumpEndDecay = 0.5
 
 [node name="WallJumpRay" type="RayCast3D" parent="Body"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.50742, 0.806739)
