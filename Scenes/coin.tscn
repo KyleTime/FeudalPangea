@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8mvhepj4jhg6"]
 
-[ext_resource type="Script" path="res://Scripts/Funny Objects/CollectableCoin.cs" id="1_3pedd"]
+[ext_resource type="Script" path="res://Scripts/Collectables/CollectableCoin.cs" id="1_3pedd"]
 [ext_resource type="PackedScene" uid="uid://dhx565okan6vi" path="res://Models/Coin.glb" id="1_o1012"]
 
 [node name="Coin" type="Node3D"]

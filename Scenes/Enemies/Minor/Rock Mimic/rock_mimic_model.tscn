@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://iu4nbc6w7ufb"]
+
+[ext_resource type="PackedScene" uid="uid://boby18k15plwx" path="res://Models/Enemies/Minor/Rock Mimic/Crab V1.glb" id="1_xylm0"]
+
+[node name="Crab V1" instance=ExtResource("1_xylm0")]
