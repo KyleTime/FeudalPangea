@@ -4,9 +4,9 @@ using System;
 public partial class DeathPlane : Area3D
 {
     public void OnBodyEntered(Node3D body){
-        if(body is Creature)
+        if(body is ICreature)
         {
-            Creature c = (Creature)body;
+            ICreature c = (ICreature)body;
             c.ChangeHP(-99999999, DamageSource.Fall);
         }
     }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Goober : CharacterBody3D, Creature
+public partial class Goober : CharacterBody3D, ICreature
 {
     public void ChangeHP(int change, DamageSource source)
     {

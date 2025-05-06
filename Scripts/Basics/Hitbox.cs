@@ -13,9 +13,9 @@ public partial class Hitbox : Area3D
 
     public void OnBodyEntered(Node3D node)
     {
-        if(node is Creature)
+        if(node is ICreature)
         {
-            Creature c = (Creature)node;
+            ICreature c = (ICreature)node;
             c.ChangeHP(-dmg, damage_source);
 
             switch(damage_source)

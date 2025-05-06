@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 //this class is kinda like an aggregate class of all the different player components
 //it tells them all what to do, but each component can work independently, pretty slick huh?
-public partial class Player : CharacterBody3D, Creature
+public partial class Player : CharacterBody3D, ICreature
 {
 	public static Player player; //this breaks if we have multiple player objects
 
