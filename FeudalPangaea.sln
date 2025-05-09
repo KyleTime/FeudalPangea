@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feudal Pangea", "Feudal Pangea.csproj", "{1070E604-F4C8-43A2-9454-314D0237BFB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeudalPangaea", "FeudalPangaea.csproj", "{1070E604-F4C8-43A2-9454-314D0237BFB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
