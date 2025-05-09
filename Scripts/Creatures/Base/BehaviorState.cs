@@ -7,6 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class BehaviorState {
     
+    public string name = "name";
     protected ICreature target;
     protected readonly CreatureState creatureState;
 
