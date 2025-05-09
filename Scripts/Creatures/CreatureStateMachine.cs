@@ -91,6 +91,10 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
     }
 
+    public static Builder GetNewBuilder(){
+        return new Builder();
+    }
+
     public CreatureStateMachine(BehaviorState initialState, int HP){
         this.state = initialState;
         this.HP = HP;
@@ -141,6 +145,4 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     public Vector3 GetVelocity(){
         return Velocity;
     }
-
-
 }
