@@ -27,6 +27,7 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="FeudalPangaea"
+project/solution_directory="FeudalPangaeaCode"
 
 [filesystem]
 

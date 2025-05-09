@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Models/Level Models/level_v1_scene.tscn" id="4_wgaqy"]
-[ext_resource type="Script" path="res://Scripts/Basics/Hitbox.cs" id="5_m6bbg"]
-[ext_resource type="Script" path="res://Scripts/Garbage/test_moving_platform.cs" id="5_ypltf"]
+[ext_resource type="Script" path="res://FeudalPangaeaCode/Basics/Hitbox.cs" id="5_m6bbg"]
+[ext_resource type="Script" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="5_ypltf"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/coin.tscn" id="6_b0fw4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
