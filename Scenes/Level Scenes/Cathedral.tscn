@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://cr4vr0cr3qss8"]
 
-[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player.tscn" id="1_3o2o2"]
-[ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/death_plane.tscn" id="3_8wqe5"]
-[ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Models/Level Models/Test Level/level_v1_scene.tscn" id="4_wgaqy"]
-[ext_resource type="Script" path="res://FeudalPangaeaCode/Basics/Hitbox.cs" id="5_m6bbg"]
-[ext_resource type="Script" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="5_ypltf"]
-[ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/coin.tscn" id="6_b0fw4"]
+[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="1_a85am"]
+[ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/Hitboxes/death_plane.tscn" id="2_jkbgh"]
+[ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="3_8ptgc"]
+[ext_resource type="Script" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="4_dg8ym"]
+[ext_resource type="Script" path="res://FeudalPangaeaCode/Basics/Hitbox.cs" id="5_pq4ec"]
+[ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_2wye8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
 size = Vector3(6, 1, 6)
@@ -21,14 +21,14 @@ material = SubResource("StandardMaterial3D_3xvp6")
 
 [node name="Cathedral" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("1_3o2o2")]
+[node name="Player" parent="." instance=ExtResource("1_a85am")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
 floor_max_angle = 1.0472
 floor_snap_length = 0.4
 
 [node name="Cinematic Camera" type="Camera3D" parent="."]
 
-[node name="DeathPlane" parent="." instance=ExtResource("3_8wqe5")]
+[node name="DeathPlane" parent="." instance=ExtResource("2_jkbgh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -41.5472, 0)
 collision_mask = 13
 
@@ -40,13 +40,13 @@ light_energy = 200.0
 light_indirect_energy = 16.0
 omni_range = 454.0
 
-[node name="level_v1" parent="." instance=ExtResource("4_wgaqy")]
+[node name="level_v1" parent="." instance=ExtResource("3_8ptgc")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8373, 4.2067, 0)
 gravity_scale = 0.0
-script = ExtResource("5_ypltf")
+script = ExtResource("4_dg8ym")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("BoxShape3D_tify5")
@@ -60,7 +60,7 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09375, -11.7527)
 collision_layer = 8
 collision_mask = 4
-script = ExtResource("5_m6bbg")
+script = ExtResource("5_pq4ec")
 dmg = 10
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
@@ -72,82 +72,82 @@ shape = SubResource("BoxShape3D_lvjgk")
 
 [node name="Coins" type="Node3D" parent="."]
 
-[node name="Coin" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.21743, 3.02573, -16.9151)
 
-[node name="Coin2" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin2" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.21743, 3.02573, -19.6822)
 
-[node name="Coin3" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin3" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.13364, 3.10168, -22.4743)
 
-[node name="Coin4" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin4" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.9396, 3.02573, -67.0641)
 
-[node name="Coin5" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin5" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.2219, 3.02573, -67.5848)
 
-[node name="Coin6" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin6" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.4639, 3.10168, -68.0278)
 
-[node name="Coin7" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin7" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.358, 17.7917, -77.8987)
 
-[node name="Coin8" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin8" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.47, 17.7917, -84.6141)
 
-[node name="Coin9" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin9" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.502, 17.8676, -91.4644)
 
-[node name="Coin10" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin10" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.502, 17.8676, -98.0099)
 
-[node name="Coin11" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin11" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125.463, 17.7917, -77.8987)
 
-[node name="Coin12" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin12" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125.575, 17.7917, -84.6141)
 
-[node name="Coin13" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin13" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125.607, 17.8676, -91.4644)
 
-[node name="Coin14" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin14" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125.607, 17.8676, -98.0099)
 
-[node name="Coin15" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin15" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.869, 17.7917, -77.8987)
 
-[node name="Coin16" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin16" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -132.981, 17.7917, -84.6141)
 
-[node name="Coin17" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin17" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -133.013, 17.8676, -91.4644)
 
-[node name="Coin18" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin18" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -133.013, 17.8676, -98.0099)
 
-[node name="Coin19" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin19" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -263.478, 4.90977, -83.0103)
 
-[node name="Coin20" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin20" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -253.435, 6.30199, -84.6141)
 
-[node name="Coin21" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin21" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -258.873, 4.7379, -91.4644)
 
-[node name="Coin22" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin22" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -253.467, 6.8359, -96.6286)
 
-[node name="Coin23" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin23" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -262.63, 6.8359, -96.6286)
 
-[node name="Coin24" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin24" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -288.889, 47.47, -88.7895)
 
-[node name="Coin25" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin25" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -288.496, 48.3138, -93.6302)
 
-[node name="Coin26" parent="Coins" instance=ExtResource("6_b0fw4")]
+[node name="Coin26" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.458, 47.47, -84.2376)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

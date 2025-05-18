@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://FeudalPangaeaCode/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" path="res://FeudalPangaeaCode/Player/PlayerMovement.cs" id="4_te5vt"]
-[ext_resource type="PackedScene" uid="uid://c4s0jb3rhv7ba" path="res://Scenes/HUD.tscn" id="5_20fgk"]
-[ext_resource type="PackedScene" uid="uid://c4hbfnhj7kr4g" path="res://Scenes/Red_Psycho_Scene.tscn" id="6_hl2p7"]
+[ext_resource type="PackedScene" uid="uid://c4s0jb3rhv7ba" path="res://Scenes/HUD Elements/HUD.tscn" id="5_20fgk"]
+[ext_resource type="PackedScene" uid="uid://c4hbfnhj7kr4g" path="res://Scenes/Player/Model Scene/Red_Psycho_Scene.tscn" id="6_hl2p7"]
 [ext_resource type="Script" path="res://FeudalPangaeaCode/Player/PlayerCamera.cs" id="6_viir3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
