@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4k0plad33gx5"
-path="res://.godot/imported/spell UI.png-1aab5f9a0c5ed1945fa9ce56ac3d6de7.ctex"
+uid="uid://vct5jcp3xsek"
+path="res://.godot/imported/coin UI.png-f1a3ce135d4da3bf78ea47ad324660b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/spell UI.png"
-dest_files=["res://.godot/imported/spell UI.png-1aab5f9a0c5ed1945fa9ce56ac3d6de7.ctex"]
+source_file="res://Sprites/HUD/coin count/coin UI.png"
+dest_files=["res://.godot/imported/coin UI.png-f1a3ce135d4da3bf78ea47ad324660b2.ctex"]
 
 [params]
 

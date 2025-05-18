@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf3icfk016iis"
-path="res://.godot/imported/HP-3.png-5535ee6b01c6eb64a467a73be1be5c29.ctex"
+uid="uid://d4k0plad33gx5"
+path="res://.godot/imported/spell UI.png-2627c50ea0f923f0e161122f1c302250.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HP-3.png"
-dest_files=["res://.godot/imported/HP-3.png-5535ee6b01c6eb64a467a73be1be5c29.ctex"]
+source_file="res://Sprites/HUD/Spell UI/spell UI.png"
+dest_files=["res://.godot/imported/spell UI.png-2627c50ea0f923f0e161122f1c302250.ctex"]
 
 [params]
 
