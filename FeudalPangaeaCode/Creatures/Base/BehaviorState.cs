@@ -8,8 +8,9 @@ using System.Collections.Generic;
 public abstract class BehaviorState {
     
     public string name = "name";
-    protected ICreature target;
-    protected readonly CreatureState creatureState;
+
+    //NOTE: the state here doesn't have any bearing on the state, it exists primarily to classify the state
+    protected readonly CreatureState creatureState; 
 
     protected Dictionary<BehaviorCondition, BehaviorState> transitions = new Dictionary<BehaviorCondition, BehaviorState>();
 
@@ -41,22 +42,20 @@ public abstract class BehaviorState {
     /// <returns>The new velocity.</returns>
     public abstract Vector3 GetStepVelocity(CreatureStateMachine self);
 
-    public void SetTarget(ICreature target){
-        this.target = target;
-    }
-
     /// <summary>
     /// Checks the condition for each state transition until it finds a valid one. Then, it attempts to extract a target and assign it to the new state.
     /// </summary>
     /// <returns>The new state to use</returns>
-    public BehaviorState StateTransition(){
+    public BehaviorState StateTransition(CreatureStateMachine self){
         
         foreach(var pair in transitions){
-            if(pair.Key.Condition()){
+            if(pair.Key.Condition(self)){
 
-                ICreature trgt = pair.Key.GetTarget();
-                if(trgt != null){
-                    pair.Value.SetTarget(trgt);
+                //grab target from conditional
+                //if null, assume no change
+                ICreature target = pair.Key.GetTarget();
+                if(target != null){
+                    self.target = target;
                 }
 
                 return pair.Value;
