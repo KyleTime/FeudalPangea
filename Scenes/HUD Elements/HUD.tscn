@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://c4s0jb3rhv7ba"]
 
-[ext_resource type="Script" path="res://FeudalPangaeaCode/HUD/HUDHandler.cs" id="1_smdbh"]
+[ext_resource type="Script" uid="uid://dm1ayahv0risr" path="res://FeudalPangaeaCode/HUD/HUDHandler.cs" id="1_smdbh"]
 [ext_resource type="Texture2D" uid="uid://dp6j1ja4jrkw0" path="res://Sprites/HUD/HP Counter/HP-0.png" id="2_ajo0l"]
 [ext_resource type="Texture2D" uid="uid://cd6qkoeqjmyn3" path="res://Sprites/HUD/HP Counter/HP-6.png" id="2_ryunw"]
 [ext_resource type="Texture2D" uid="uid://c04y6r13lhcow" path="res://Sprites/HUD/HP Counter/HP-1.png" id="3_6o4el"]
