@@ -44,8 +44,8 @@ public partial class Player : CharacterBody3D, ICreature
 
 		move.ReadInput(delta, cam.GetBasis(), IsOnFloor(), IsOnWall());
 
-		if(Input.IsActionJustPressed("QUIT"))
-			GetTree().Quit();
+		// if(Input.IsActionJustPressed("QUIT"))
+		// 	GetTree().Quit();
 	}
 
 	public override void _PhysicsProcess(double delta)
