@@ -635,14 +635,10 @@ public partial class PlayerMovement : Node3D
 
 		velocity.Y = 0;
 
-		Vector3 zDir = Transform.Basis.Z;
-		zDir.Y = 0;
-		zDir = zDir.Normalized();
-
 		float XInput = Input.GetAxis("LEFT", "RIGHT");
 		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");
 
-		zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
+		Vector3 zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
 		zDir = zDir.Normalized();
 		
 
