@@ -77,6 +77,7 @@ public partial class PlayerMovement : Node3D
 
 	public PlayerMovement()
 	{	
+		
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -637,6 +638,13 @@ public partial class PlayerMovement : Node3D
 		Vector3 zDir = Transform.Basis.Z;
 		zDir.Y = 0;
 		zDir = zDir.Normalized();
+
+		float XInput = Input.GetAxis("LEFT", "RIGHT");
+		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");
+
+		zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
+		zDir = zDir.Normalized();
+		
 
 		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
