@@ -56,6 +56,11 @@ jumpEndDecay = 0.5
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.50742, 0.806739)
 target_position = Vector3(0, 0, -1)
 
+[node name="LedgeHangRay" type="RayCast3D" parent="Body"]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.43075, 0.892637)
+target_position = Vector3(0, -1.1, 0.2)
+hit_back_faces = false
+
 [node name="Body_Center" type="Node3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3725, 0)
 

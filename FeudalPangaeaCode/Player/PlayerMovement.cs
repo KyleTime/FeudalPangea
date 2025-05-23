@@ -18,6 +18,8 @@ public partial class PlayerMovement : Node3D
 	public Basis basis; //way to orient self for velocity calculations
 	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
 
+	public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
+
 	//How fast, at max, should the player move?
 	[Export]public float speed = 10f;
 
@@ -85,6 +87,7 @@ public partial class PlayerMovement : Node3D
 	{
 		basis = new Basis();
 		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
+		ledgeHangRay = GetNode<RayCast3D>("LedgeHangRay");
 		spells[0] = new DoubleJumpSpell(this);
 	}
 
@@ -100,7 +103,7 @@ public partial class PlayerMovement : Node3D
 	/// <param name="delta">deltatime</param>
 	/// <param name="b">the basis of the camera direction</param>
 	/// <param name="grounded">whether we on the ground</param>
-	/// <param name="wall">whether we on the wall</param>
+	/// <param name="wall">whether we on the wall</param> 
 	public void ReadInput(double delta, Basis bas, bool grounded, bool wall)
 	{
 		basis = bas;
@@ -123,6 +126,9 @@ public partial class PlayerMovement : Node3D
 				break;
 			case CreatureState.WallSlide:
 				State_WallSlide(delta);
+				break;
+			case CreatureState.LedgeHang:
+				State_ledgeHang(delta);
 				break;
 			case CreatureState.Dive:
 				State_Dive(delta);
@@ -211,6 +217,16 @@ public partial class PlayerMovement : Node3D
 				case CreatureState.Dive:
 					Dive();
 					break;
+				case CreatureState.LedgeHang:
+					velocity = new Vector3();
+					GD.Print("ledge normal: " + ledgeHangRay.GetCollisionNormal());
+					GD.Print("wall normal: " + wallJumpRay.GetCollisionNormal());
+
+					//probably not the best way to do this
+					Vector3 wallNormal = wallJumpRay.GetCollisionNormal() with { Y = 0 };
+					LookAt(GlobalPosition + wallNormal);
+					Rotation = new Vector3(0, Rotation.Y, 0); //?
+					break;
 				// case CreatureState.Attack:
 				// 	WaitForAnimation();
 				// 	break;
@@ -255,6 +271,7 @@ public partial class PlayerMovement : Node3D
 
 		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
+		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(DiveCond(), CreatureState.Dive);
@@ -307,11 +324,24 @@ public partial class PlayerMovement : Node3D
 		}
 
 		TryTransition(GroundedCond(), CreatureState.Grounded);
+		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		//we don't want to transition out unless we're definitely not on a wall
 		if(wallJumpRay.GetCollider() == null)
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
-
 		Gravity((float)delta);
+	}
+
+	private void State_ledgeHang(double delta)
+	{	
+		//needs more actions
+		if(Input.IsActionJustPressed("JUMP"))
+		{
+			WallJump();
+			SetState(CreatureState.OpenAir);
+		}
+
+		TryTransition(GroundedCond(), CreatureState.Grounded);
+		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	}
 
 	private void State_Stun(double delta)
@@ -484,6 +514,11 @@ public partial class PlayerMovement : Node3D
 	public bool WallSlideCond()
 	{
 		return !grounded && wall;
+	}
+
+	public bool LedgeHangCond()
+	{
+		return !grounded && wall && velocity.Y <= 0 && !wallJumping && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
 	}
 
 	public bool DiveCond()

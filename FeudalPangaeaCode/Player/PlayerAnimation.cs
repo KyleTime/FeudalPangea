@@ -44,6 +44,9 @@ public partial class PlayerAnimation : Node
             case CreatureState.Dead:
                 anim.Play("Dive"); //TODO: Make a death animation
                 break;
+            case CreatureState.LedgeHang:
+                anim.Play("Hang");
+                break;
         }
     }
 
