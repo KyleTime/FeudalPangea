@@ -74,10 +74,18 @@ public partial class PlayerMovement : Node3D
 	int selectedSpell = 0;
 	Spell[] spells = new Spell[3];
 
+	[Signal]
+	public delegate void PositionChangeEventHandler(Vector3 pos);
+
+    [Signal]
+	public delegate void WaitForAnimationSignalEventHandler();
+
+	[Signal]
+	public delegate void StateChangeEventHandler();
 
 	public PlayerMovement()
-	{	
-		
+	{
+
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -88,11 +96,6 @@ public partial class PlayerMovement : Node3D
 		spells[0] = new DoubleJumpSpell(this);
 	}
 
-    [Signal]
-	public delegate void WaitForAnimationSignalEventHandler();
-
-	[Signal]
-	public delegate void StateChangeEventHandler();
 
 	/// <summary>
 	/// Reads the input from the player and changes "velocity" and updates "creatureState"
@@ -153,20 +156,30 @@ public partial class PlayerMovement : Node3D
 		HandleHoldJump();
 	}
 
+	public void ChangePosition(Vector3 newPosition)
+	{
+		EmitSignal(SignalName.PositionChange, newPosition);
+	}
+
 	//Handles cutting off the player's jump if they release the jump button
-	private void HandleHoldJump(){
-		if(jumping && velocity.Y <= 0 || velocity.Y > jumpPower){
+	private void HandleHoldJump()
+	{
+		if (jumping && velocity.Y <= 0 || velocity.Y > jumpPower)
+		{
 			jumping = false;
 		}
-		else if(jumping && Input.IsActionJustReleased("JUMP")){
+		else if (jumping && Input.IsActionJustReleased("JUMP"))
+		{
 			jumping = false;
 			velocity.Y *= jumpEndDecay;
 		}
 
-		if(wallJumping && velocity.Y <= 0 || velocity.Y > jumpPower * wallJumpMod){
+		if (wallJumping && velocity.Y <= 0 || velocity.Y > jumpPower * wallJumpMod)
+		{
 			wallJumping = false;
 		}
-		else if(wallJumping && Input.IsActionJustReleased("JUMP")){
+		else if (wallJumping && Input.IsActionJustReleased("JUMP"))
+		{
 			wallJumping = false;
 			velocity.Y *= jumpEndDecay;
 		}
