@@ -22,7 +22,7 @@ public partial class PlayerMovement : Node3D
 	[Export]public float speed = 10f;
 
 	//How fast should the player fall? (multiplier)
-	[Export]private float gravityMod = 2;
+	[Export]private float gravityMod = 1;
 
 	//How quickly should the player accelerate? (higher number, higher acceleration)
 	[Export]private float acceleration = 20f;
@@ -174,10 +174,11 @@ public partial class PlayerMovement : Node3D
 
 	private void Gravity(float delta){
 		//gravity lol
-		velocity.Y -= 9.8f * delta * gravityMod;
-		if(grounded && velocity.Y < 0)
+		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
+
+		if (grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
-		if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
+		else if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
 		{
 			velocity.Y = maxSlideFallingSpeed;
 		}
@@ -536,18 +537,13 @@ public partial class PlayerMovement : Node3D
 	// 	return pokeRay.GetCollider() != null;
 	// }
 
-#endregion
+	#endregion
 
-#region Movement Code
+	#region Movement Code
 
 	private void RotateBody(float mod = 1)
 	{
-		Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
-		if(flatVelocity.Length() > 1){
-			LookAt(GlobalPosition - flatVelocity);
-
-			Rotation = new Vector3(0, Rotation.Y, 0);
-		}
+		CreatureVelocityCalculations.RotateBody(this, velocity, mod);
 	}
 
 	private void Run(double delta, float XInput, float ZInput, bool decelerate = true) {
@@ -567,51 +563,12 @@ public partial class PlayerMovement : Node3D
 
 	public void Accelerate(float XInput, float ZInput, Vector3 xDir, Vector3 zDir, double delta, bool decelerate = true)
 	{
-		Vector3 nextVel = velocity;
-
-		nextVel += XInput * xDir * acceleration * (float)delta;
-		nextVel += ZInput * zDir * acceleration * (float)delta;
-
-		float runningSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
-		float nextRunningSpeed = new Vector3(nextVel.X, 0, nextVel.Z).Length();
-
-		//GD.Print("Running Speed: " + runningSpeed + " Next Speed: " + nextRunningSpeed);
-
-		//if we go over speed cap, cap it
-		if (runningSpeed < speed + 0.1f && nextRunningSpeed > speed)
-		{
-			Vector3 runVector = new Vector3(nextVel.X, 0, nextVel.Z).Normalized() * speed;
-			velocity = new Vector3(runVector.X, velocity.Y, runVector.Z);
-		}
-		//if we're under the speed cap, or we're slowing down, accelerate as normal
-		else if(nextRunningSpeed < speed || nextRunningSpeed <= runningSpeed)
-		{
-			velocity = nextVel;
-		}
-		//we must be trying to go faster while already going too fast, decelerate instead
-		else if(decelerate)
-		{
-			Decelerate(delta);
-		}
+		velocity = CreatureVelocityCalculations.Accelerate(velocity, acceleration, deceleration, speed, XInput, ZInput, xDir, zDir, delta);
 	}
 
 	public void Decelerate(double delta)
 	{
-		Vector3 runVector = velocity;
-		float yVel = velocity.Y;
-		velocity.Y = 0;
-		velocity -= velocity.Normalized() * deceleration * (float)delta;
-		velocity.Y = yVel;
-		
-		if(!((runVector.X * velocity.X) > 0))
-		{
-			velocity.X = 0;
-		}
-
-		if(!((runVector.Z * velocity.Z) > 0))
-		{
-			velocity.Z = 0;
-		}
+		velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
 	}
 
 	private void Jump() {
@@ -638,10 +595,20 @@ public partial class PlayerMovement : Node3D
 		float XInput = Input.GetAxis("LEFT", "RIGHT");
 		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");
 
-		Vector3 zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
-		zDir = zDir.Normalized();
-		
+		Vector3 zDir;
 
+		if (XInput == 0 && ZInput == 0)
+		{
+			zDir = Transform.Basis.Z;
+			zDir.Y = 0;
+		}
+		else
+		{
+			zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
+		}
+
+		zDir = zDir.Normalized();
+	
 		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
 	}
