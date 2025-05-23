@@ -128,7 +128,7 @@ public partial class PlayerMovement : Node3D
 				State_WallSlide(delta);
 				break;
 			case CreatureState.LedgeHang:
-				State_ledgeHang(delta);
+				State_LedgeHang(delta);
 				break;
 			case CreatureState.Dive:
 				State_Dive(delta);
@@ -218,14 +218,7 @@ public partial class PlayerMovement : Node3D
 					Dive();
 					break;
 				case CreatureState.LedgeHang:
-					velocity = new Vector3();
-					GD.Print("ledge normal: " + ledgeHangRay.GetCollisionNormal());
-					GD.Print("wall normal: " + wallJumpRay.GetCollisionNormal());
-
-					//probably not the best way to do this
-					Vector3 wallNormal = wallJumpRay.GetCollisionNormal() with { Y = 0 };
-					LookAt(GlobalPosition + wallNormal);
-					Rotation = new Vector3(0, Rotation.Y, 0); //?
+					LedgeHang();
 					break;
 				// case CreatureState.Attack:
 				// 	WaitForAnimation();
@@ -264,10 +257,10 @@ public partial class PlayerMovement : Node3D
 
 	private void State_OpenAir(double delta)
 	{
-		
-
 		Move(delta, airMod, false);
 		RotateBody();
+		
+		Gravity((float)delta);
 
 		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
@@ -278,8 +271,6 @@ public partial class PlayerMovement : Node3D
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
-
-		Gravity((float)delta);
 	}
 
 	private void State_Dive(double delta)
@@ -288,6 +279,8 @@ public partial class PlayerMovement : Node3D
 		//this sucks, why
 		Move(delta, airMod * diveAirMod, false);
 		RotateBody();
+		
+		Gravity((float)delta);
 
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 
@@ -296,20 +289,18 @@ public partial class PlayerMovement : Node3D
 			velocity = -velocity * bonkPushMod;
 			TryTransition(true, CreatureState.Bonk);
 		}
-
-		Gravity((float)delta);
 	}
 
 	private void State_Bonk(double delta){
 		
 		Move(delta, 0, true);
 
-		if(GroundedCond())
+		Gravity((float)delta);
+
+		if (GroundedCond())
 		{
 			Stun(0.25f);
 		}
-
-		Gravity((float)delta);
 	}
 
 	private void State_WallSlide(double delta)
@@ -320,24 +311,23 @@ public partial class PlayerMovement : Node3D
 		if(Input.IsActionJustPressed("JUMP") && wallJumpRay.GetCollider() != null)
 		{
 			WallJump();
-			
 		}
+
+		Gravity((float)delta);
 
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		//we don't want to transition out unless we're definitely not on a wall
 		if(wallJumpRay.GetCollider() == null)
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
-		Gravity((float)delta);
 	}
 
-	private void State_ledgeHang(double delta)
-	{	
+	private void State_LedgeHang(double delta)
+	{
 		//needs more actions
-		if(Input.IsActionJustPressed("JUMP"))
+		if (Input.IsActionJustPressed("JUMP"))
 		{
 			WallJump();
-			SetState(CreatureState.OpenAir);
 		}
 
 		TryTransition(GroundedCond(), CreatureState.Grounded);
@@ -348,21 +338,22 @@ public partial class PlayerMovement : Node3D
 	{
 		RotateBody(-1);
 
-		if(stunTimer > 0){
+		if (stunTimer > 0)
+		{
 			stunTimer -= (float)delta;
 
 			Decelerate(delta);
 
-			if(!grounded)
+			if (!grounded)
 				SetState(CreatureState.StunAir);
+			
+			Gravity((float)delta);
 		}
 		else
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		}
-
-		Gravity((float)delta);
 	}
 
 	//little note: StunAir may look exactly the same as Stun, but that's largely just because the state is mostly for the animator
@@ -370,13 +361,16 @@ public partial class PlayerMovement : Node3D
 	{
 		RotateBody(-1);
 
-		if(stunTimer > 0){
+		if (stunTimer > 0)
+		{
 			stunTimer -= (float)delta;
 
 			Decelerate(delta);
 
-			if(grounded)
+			if (grounded)
 				SetState(CreatureState.Stun);
+			
+			Gravity((float)delta);
 		}
 		else
 		{
@@ -384,7 +378,6 @@ public partial class PlayerMovement : Node3D
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
 
-		Gravity((float)delta);
 	}
 
 	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
@@ -647,13 +640,27 @@ public partial class PlayerMovement : Node3D
 		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
 	}
+
+	public void LedgeHang()
+	{
+		velocity = new Vector3();
+		GD.Print("ledge normal: " + ledgeHangRay.GetCollisionNormal());
+		GD.Print("wall normal: " + wallJumpRay.GetCollisionNormal());
+
+		//probably not the best way to do this
+		Vector3 wallNormal = wallJumpRay.GetCollisionNormal() with { Y = 0 };
+		LookAt(GlobalPosition + wallNormal);
+		Rotation = new Vector3(0, Rotation.Y, 0); //?
+	}
+
 #endregion
 
 
-#region Forced Transitions
+	#region Forced Transitions
 	//starts a whole chain of events that causes "animationDone" to be false until the animation triggered by the current state has completed
 	//see the attack states for an example
-	private void WaitForAnimation() {
+	private void WaitForAnimation()
+	{
 		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 
