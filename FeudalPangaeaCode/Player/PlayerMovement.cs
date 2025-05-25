@@ -63,6 +63,9 @@ public partial class PlayerMovement : Node3D
 
 	public bool animationDone = false;
 
+	//X/Z and Y offset between ledge and player origin
+	[Export]private Vector2 ledgeHangOffset = new Vector2(1.0f, 1.3f); 
+
 	//determines how quickly vertical velocity decays after letting go of the jump button. (0 - 1)
 	[Export] public float jumpEndDecay;
 
@@ -524,7 +527,7 @@ public partial class PlayerMovement : Node3D
 
 	public bool LedgeHangCond()
 	{
-		return !grounded && wall && velocity.Y <= 0 && !wallJumping && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
+		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
 	}
 
 	public bool DiveCond()
@@ -657,13 +660,16 @@ public partial class PlayerMovement : Node3D
 	public void LedgeHang()
 	{
 		velocity = new Vector3();
-		GD.Print("ledge normal: " + ledgeHangRay.GetCollisionNormal());
-		GD.Print("wall normal: " + wallJumpRay.GetCollisionNormal());
-
-		//probably not the best way to do this
 		Vector3 wallNormal = wallJumpRay.GetCollisionNormal() with { Y = 0 };
+		Vector3 grabLocation = wallJumpRay.GetCollisionPoint() with { Y = ledgeHangRay.GetCollisionPoint().Y };
+		grabLocation.X += ledgeHangOffset.X * Mathf.Sin(Mathf.DegToRad(wallNormal.X * 90));
+		grabLocation.Y -= ledgeHangOffset.Y;
+		grabLocation.Z += ledgeHangOffset.X * Mathf.Sin(Mathf.DegToRad(wallNormal.Z * 90));
+		//GD.Print("Snapping to: " + (grabLocation-GlobalPosition));
+		ChangePosition(grabLocation);
+
 		LookAt(GlobalPosition + wallNormal);
-		Rotation = new Vector3(0, Rotation.Y, 0); //?
+		Rotation = new Vector3(0, Rotation.Y, 0); //I don't know what this is doing
 	}
 
 #endregion
