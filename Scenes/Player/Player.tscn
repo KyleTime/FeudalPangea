@@ -11,7 +11,6 @@ radius = 1.0
 height = 2.75
 
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
 collision_layer = 4
 collision_mask = 11
 axis_lock_angular_x = true
@@ -40,6 +39,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
 [node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
 
 [node name="Body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
 speed = 12.0
@@ -57,7 +57,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.5
 target_position = Vector3(0, 0, -1)
 
 [node name="LedgeHangRay" type="RayCast3D" parent="Body"]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.43075, 0.892637)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.43075, 1.30802)
 target_position = Vector3(0, -1.1, 0.2)
 hit_back_faces = false
 
