@@ -34,7 +34,7 @@ namespace CreatureBehaviors.CreatureStates
 
             self.LookAt(Player.player.GlobalPosition);
 
-            velocity = CreatureVelocityCalculations.Accelerate(velocity, acceleration, deceleration, maxSpeed, Player.player.GlobalPosition - self.GlobalPosition, delta);
+            velocity = CreatureVelocityCalculations.Accelerate(velocity, acceleration, deceleration, maxSpeed, self.target.GetCreaturePosition() - self.GlobalPosition, delta);
 
             velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, (float)delta);
 

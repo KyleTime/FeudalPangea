@@ -69,8 +69,7 @@ public static class CreatureVelocityCalculations
     public static Vector3 Accelerate(Vector3 velocity, float acceleration, float deceleration, float maxSpeed, Vector3 direction, double delta, bool decelerate = true)
     {
         direction = direction.Normalized();
-        Vector3 rightDir = new Vector3(direction.Z, 0, direction.X);
-        return Accelerate(velocity, acceleration, deceleration, maxSpeed, direction.X, direction.Z, rightDir, direction, delta, decelerate);
+        return Accelerate(velocity, acceleration, deceleration, maxSpeed, 0, 1, new Vector3(), direction, delta, decelerate);
     }
 
     public static Vector3 Decelerate(Vector3 velocity, float deceleration, double delta)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=15 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="1_a85am"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/Hitboxes/death_plane.tscn" id="2_jkbgh"]
@@ -19,6 +19,10 @@ size = Vector3(6, 1, 6)
 material = SubResource("StandardMaterial3D_3xvp6")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvjgk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nlxxi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yxnnm"]
 
 [node name="Cathedral" type="Node3D"]
 
@@ -153,5 +157,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.458, 47.47, -84.2376)
 
 [node name="Rock Mimic" parent="." instance=ExtResource("7_nlxxi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8391, 3.19481, -18.0301)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(5.67513, 0, 0, 0, 8.9915, 0, 0, 0, 5.03901, -5.15709, 4.04499, -8.90869)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_nlxxi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_yxnnm")
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]
