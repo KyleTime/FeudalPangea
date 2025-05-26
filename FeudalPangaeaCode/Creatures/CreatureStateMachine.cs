@@ -242,6 +242,6 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     public Vector3 GetCreaturePosition()
     {
-        return Position;
+        return GlobalPosition;
     }
 }

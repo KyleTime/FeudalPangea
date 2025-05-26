@@ -1,15 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://clbncd38rxe6g"]
+[gd_scene load_steps=4 format=3 uid="uid://clbncd38rxe6g"]
 
 [ext_resource type="PackedScene" uid="uid://boby18k15plwx" path="res://Models/Enemies/Minor/RockMimic/Crab V1.glb" id="1_i6a4h"]
+[ext_resource type="Script" uid="uid://csuu864enn3w4" path="res://FeudalPangaeaCode/Creatures/Minor/RockMimic/RockMimic.cs" id="1_wosbo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p0c84"]
-size = Vector3(2.5, 2.5, 2.5)
+size = Vector3(3, 2.76953, 3)
 
 [node name="Rock Mimic" type="CharacterBody3D"]
+collision_layer = 8
+collision_mask = 15
+script = ExtResource("1_wosbo")
 
 [node name="Crab V1" parent="." instance=ExtResource("1_i6a4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00139356, 0.0117605, 0.503322)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.00139356, 0.0117605, -0.49071)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2793, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39453, 0)
 shape = SubResource("BoxShape3D_p0c84")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=13 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="1_a85am"]
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/Hitboxes/death_plane.tscn" id="2_jkbgh"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="4_dg8ym"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Basics/Hitbox.cs" id="5_pq4ec"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_2wye8"]
+[ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_nlxxi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
 size = Vector3(6, 1, 6)
@@ -22,7 +23,7 @@ material = SubResource("StandardMaterial3D_3xvp6")
 [node name="Cathedral" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_a85am")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
+transform = Transform3D(-0.999457, 0, -0.0329458, 0, 1, 0, 0.0329458, 0, -0.999457, -0.831316, 4, 0)
 floor_max_angle = 1.0472
 floor_snap_length = 0.4
 
@@ -149,5 +150,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -288.496, 48.3138, -93.6302)
 
 [node name="Coin26" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.458, 47.47, -84.2376)
+
+[node name="Rock Mimic" parent="." instance=ExtResource("7_nlxxi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8391, 3.19481, -18.0301)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

@@ -19,7 +19,14 @@ namespace CreatureBehaviors.CreatureConditions
 
             if (result.Count > 0)
             {
-                GD.Print("Collided RID: " + result["rid"] + " Player RID: " + Player.player.GetRid());
+                if ((Rid)result["rid"] == Player.player.GetRid())
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                GD.Print("Nothing Hit!");
             }
 
             return false;

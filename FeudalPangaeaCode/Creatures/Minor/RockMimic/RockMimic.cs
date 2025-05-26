@@ -9,9 +9,9 @@ public partial class RockMimic : CreatureStateMachine, ICreature
     public RockMimic() : base()
     {
         CreatureStateMachine.GetNewBuilder()
-                        .AddState("Follow", new FollowCreature(10, 20))
+                        .AddState("Follow", new FollowCreature(2, 10, 5))
                         .AddState("Stun", new Idle(true))
-                        .AddState("Idle", new Idle(true))
+                        .AddState("Idle", new Idle(false))
                         .SetInitialState("Idle")
                         .SetStunState("Stun")
                         .AddTransition("Stun", new StunOver(), "Idle")
