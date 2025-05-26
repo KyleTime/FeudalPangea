@@ -647,16 +647,16 @@ public partial class PlayerMovement : Node3D
 		jumping = true;
 	}
 
-	private void WallJump(){
+	private void WallJump()
+	{
+		Vector3 zDir = Basis.Z with { Y = 0 };
 
-		Vector3 zDir = Transform.Basis.Z;
-		zDir.Y = 0;
-		zDir = zDir.Normalized();
-
-		velocity = -zDir * speed * wallPushMod;
+		velocity = zDir * speed * wallPushMod;
 		velocity.Y = jumpPower * wallJumpMod;
 
 		wallJumping = true;
+
+		GD.Print("WALL JUMP!");
 	}
 
 	private void Dive() {
@@ -670,8 +670,7 @@ public partial class PlayerMovement : Node3D
 
 		if (XInput == 0 && ZInput == 0)
 		{
-			zDir = Transform.Basis.Z;
-			zDir.Y = 0;
+			zDir = GetZDirection();
 		}
 		else
 		{
