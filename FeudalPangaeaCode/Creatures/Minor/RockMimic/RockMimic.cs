@@ -3,13 +3,12 @@ using System;
 using CreatureBehaviors.CreatureStates;
 using CreatureBehaviors.CreatureConditions;
 
-public partial class RockMimic
-{
-    CreatureStateMachine stateMachine;
 
-    public RockMimic()
+public partial class RockMimic : CreatureStateMachine, ICreature
+{
+    public RockMimic() : base()
     {
-        stateMachine = CreatureStateMachine.GetNewBuilder()
+        CreatureStateMachine.GetNewBuilder()
                         .AddState("Follow", new FollowCreature(10, 20))
                         .AddState("Stun", new Idle(true))
                         .AddState("Idle", new Idle(true))
@@ -17,6 +16,6 @@ public partial class RockMimic
                         .SetStunState("Stun")
                         .AddTransition("Stun", new StunOver(), "Idle")
                         .AddTransition("Idle", new SeePlayerAtDistance(), "Follow")
-                        .build();
+                        .buildOnExisting(this);
     }
 }

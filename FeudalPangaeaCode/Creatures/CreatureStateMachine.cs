@@ -37,6 +37,14 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             return new CreatureStateMachine(initialState, HP, stunState);
         }
 
+        public void buildOnExisting(CreatureStateMachine machine)
+        {
+            machine.state = initialState;
+            machine.stunState = stunState;
+            machine.HP = HP;
+            machine.target = null;
+        }
+
         /// <summary>
         /// Set the HP of the creature. Pretty self explanatory.
         /// </summary>
@@ -139,6 +147,10 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         this.stunState = stunState;
         this.HP = HP;
         target = null;
+    }
+
+    public CreatureStateMachine()
+    {
     }
 
     public override void _PhysicsProcess(double delta)
