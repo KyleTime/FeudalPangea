@@ -9,8 +9,8 @@ public interface ICreature
 {
 	int GetHP();
 	void ChangeHP(int change, DamageSource source);
-	Vector3 GetPosition();
-	Vector3 GetVelocity();
+	Vector3 GetCreaturePosition();
+	Vector3 GetCreatureVelocity();
 	void Stun(float time);
 	void Push(Vector3 force);
 	CreatureState GetState();

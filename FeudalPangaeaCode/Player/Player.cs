@@ -144,12 +144,12 @@ public partial class Player : CharacterBody3D, ICreature
 		return move.creatureState;
 	}
 
-    public new Vector3 GetPosition()
+    public Vector3 GetCreaturePosition()
     {
 		return Position;
     }
 
-    public new Vector3 GetVelocity()
+    public Vector3 GetCreatureVelocity()
     {
 		return Velocity;
     }

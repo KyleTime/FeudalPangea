@@ -10,8 +10,15 @@ public class Idle : BehaviorState
         this.doGravity = doGravity;
     }
 
-    public override Vector3 GetStepVelocity(CreatureStateMachine self)
+    public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
     {
-        return new Vector3();
+        Vector3 velocity = self.GetCreatureVelocity();
+
+        if (doGravity)
+        {
+            velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
+        }
+
+        return velocity;
     }
 }

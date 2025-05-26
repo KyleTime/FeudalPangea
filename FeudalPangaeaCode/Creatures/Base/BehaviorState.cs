@@ -39,8 +39,9 @@ public abstract class BehaviorState {
     /// Runs the state logic and returns the new velocity after modifications.
     /// </summary>
     /// <param name="self">The CreatureStateMachine this state is acting on</param>
+    /// <param name="delta">Delta Time</param>
     /// <returns>The new velocity.</returns>
-    public abstract Vector3 GetStepVelocity(CreatureStateMachine self);
+    public abstract Vector3 GetStepVelocity(CreatureStateMachine self, double delta);
 
     /// <summary>
     /// Checks the condition for each state transition until it finds a valid one. Then, it attempts to extract a target and assign it to the new state.

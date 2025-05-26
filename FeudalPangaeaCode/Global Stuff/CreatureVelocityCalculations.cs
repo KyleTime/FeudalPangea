@@ -87,10 +87,16 @@ public static class CreatureVelocityCalculations
         return velocity;
     }
     
-    //returns how acceleration due to gravity
-    public static float Gravity(float yVel, float delta, float gravityMod = 1)
+    /// <summary>
+    /// Takes in a Y velocity and deltatime and applies gravity.
+    /// </summary>
+    /// <param name="yVel">Current Y velocity</param>
+    /// <param name="delta">Delta Time</param>
+    /// <param name="gravityMod">Optional Gravity modifier</param>
+    /// <returns>The new Y velocity</returns>
+    public static float Gravity(float yVel, double delta, float gravityMod = 1)
     {
-        yVel -= GlobalData.gravityRate * delta * gravityMod;
+        yVel -= GlobalData.gravityRate * (float)delta * gravityMod;
 
         if (yVel < -GlobalData.maxGravity)
         {

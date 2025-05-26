@@ -7,16 +7,27 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 {
     private BehaviorState state;
 
+    //when the creature needs to reset, which state should it return to?
+    private BehaviorState idleState;
+    //when the creature is stunned, which state should it transition to?
+    private BehaviorState stunState;
+
     //the creature that this creature is targetting (for whatever reason or purpose)
     public ICreature target;
 
     private int HP = 1;
 
+    //This is the builder for the CreatureStateMachine
+    // refer to the following link for a resource on the Builder Pattern: https://www.baeldung.com/java-builder-pattern 
+    // yes, it's in java, but that's how my classes taught me so anyway
     public class Builder
     {
-
         int HP = 1;
         BehaviorState initialState;
+
+        BehaviorState idleState;
+        BehaviorState stunState;
+
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
 
         public CreatureStateMachine build()
@@ -26,7 +37,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP);
+            return new CreatureStateMachine(initialState, HP, idleState, stunState);
         }
 
         /// <summary>
@@ -60,13 +71,39 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
 
         /// <summary>
-        /// Sets the initial state of the CreatureStateMachine.
+        /// Sets the initial state of the CreatureStateMachine. Also sets the state to the default idle state, which can be overridden. 
         /// </summary>
         /// <param name="stateName">Name of the state to reference.</param>
         /// <returns>The Builder (it's just a builder pattern)</returns>
         public Builder SetInitialState(string stateName)
         {
             initialState = states[stateName];
+            idleState = initialState;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the state the creature should reset to after a stun or otherwise.
+        /// This is set to the initial state by default, so only call this when 
+        /// the initial state shouldn't be the idle state.
+        /// </summary>
+        /// <param name="stateName">Name of the state</param>
+        /// <returns>The Builder! Wow!</returns>
+        public Builder SetIdleState(string stateName)
+        {
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the state that the creature should transition to whenever it's stunned.
+        /// Ideally, the state should reference the "stunTimer" in CreatureStateMachine.
+        /// </summary>
+        /// <param name="stateName">Name of the state</param>
+        /// <returns>The Builder!</returns>
+        public Builder SetStunState(string stateName)
+        {
+            stunState = states[stateName];
             return this;
         }
 
@@ -102,14 +139,22 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
     }
 
+    [Signal]
+    public delegate void HPChangeEventHandler(int old, int cur, DamageSource source);
+
+    [Signal]
+    public delegate void StateChangeEventHandler(string prevState, string nextState);
+
     public static Builder GetNewBuilder()
     {
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState idleState, BehaviorState stunState)
     {
         this.state = initialState;
+        this.idleState = idleState;
+        this.stunState = stunState;
         this.HP = HP;
         target = null;
     }
@@ -122,17 +167,21 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         //if we need to listen in on this, put the event stuff here
         if (nextState != null)
         {
+            string stateName = state.name;
             state = nextState;
+            EmitSignal(SignalName.StateChange, stateName, state.name);
         }
 
-        Velocity = state.GetStepVelocity(this);
+        Velocity = state.GetStepVelocity(this, delta);
 
         MoveAndSlide();
     }
 
     public void ChangeHP(int change, DamageSource source)
     {
-        throw new NotImplementedException();
+        int oldHP = HP;
+        HP += change;
+        EmitSignal(SignalName.HPChange, HP - change, HP, (int)source);
     }
 
     public int GetHP()
@@ -155,12 +204,30 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         throw new NotImplementedException();
     }
 
-    public Vector3 GetVelocity()
+    /// <summary>
+    /// Pipe GetVelocity() into GetCreatureVelocity() so that mistakes are caught
+    /// </summary>
+    /// <returns>Creature Velocity</returns>
+    public new Vector3 GetVelocity()
+    {
+        return GetCreatureVelocity();
+    }
+
+    /// <summary>
+    /// Pipe GetPosition() into GetCreaturePosition() so that mistakes are caught
+    /// </summary>
+    /// <returns>Creature Velocity</returns>
+    public new Vector3 GetPosition()
+    {
+        return GetCreaturePosition();
+    }
+
+    public Vector3 GetCreatureVelocity()
     {
         return Velocity;
     }
 
-    public Vector3 GetPosition()
+    public Vector3 GetCreaturePosition()
     {
         return Position;
     }

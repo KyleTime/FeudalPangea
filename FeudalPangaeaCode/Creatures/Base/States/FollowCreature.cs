@@ -23,11 +23,14 @@ public class FollowCreature : BehaviorState
     {
         this.acceleration = acceleration;
         this.maxSpeed = maxSpeed;
+        this.jumpPower = jumpPower;
     }
 
-    public override Vector3 GetStepVelocity(CreatureStateMachine self)
+    public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
     {
-        Vector3 velocity = self.GetVelocity();
+        Vector3 velocity = self.GetCreatureVelocity();
+
+        velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, (float)delta);
 
         return velocity;
     }
