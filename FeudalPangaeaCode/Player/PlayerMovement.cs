@@ -64,7 +64,7 @@ public partial class PlayerMovement : Node3D
 	public bool animationDone = false;
 
 	//X/Z and Y offset between ledge and player origin
-	[Export]private Vector2 ledgeHangOffset = new Vector2(1.0f, 1.3f); 
+	[Export]private Vector2 ledgeHangOffset = new Vector2(0.9f, 1.3f); 
 
 	//determines how quickly vertical velocity decays after letting go of the jump button. (0 - 1)
 	[Export] public float jumpEndDecay;
@@ -84,6 +84,9 @@ public partial class PlayerMovement : Node3D
 
     [Signal]
 	public delegate void WaitForAnimationSignalEventHandler();
+
+	[Signal]
+	public delegate void AnimationOverrideEventHandler(String animName);
 
 	[Signal]
 	public delegate void StateChangeEventHandler();
@@ -681,6 +684,11 @@ public partial class PlayerMovement : Node3D
 	private void WaitForAnimation()
 	{
 		EmitSignal(SignalName.WaitForAnimationSignal);
+	}
+
+	private void PlayAnimation(String animName)
+	{
+		EmitSignal(SignalName.AnimationOverride, animName);
 	}
 
 

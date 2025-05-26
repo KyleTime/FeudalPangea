@@ -34,6 +34,7 @@ public partial class Player : CharacterBody3D, ICreature
 		hud = GetNode<HUDHandler>("HUD");
 
 		move.WaitForAnimationSignal += WaitForAnimation;
+		move.AnimationOverride += AnimationOverride;
 		move.StateChange += HandleStateChange;
 		move.PositionChange += ChangePosition;
 	}
@@ -74,6 +75,10 @@ public partial class Player : CharacterBody3D, ICreature
 		move.animationDone = false;
 		while (anim.anim.IsPlaying()) { await Task.Delay(10); }
 		move.animationDone = true;
+	}
+
+	private void AnimationOverride(String animName){
+		anim.AnimationOverride(animName);
 	}
 
 	private void HandleStateChange()
