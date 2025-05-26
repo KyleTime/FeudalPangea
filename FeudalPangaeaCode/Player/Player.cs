@@ -35,6 +35,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 		move.WaitForAnimationSignal += WaitForAnimation;
 		move.StateChange += HandleStateChange;
+		move.PositionChange += ChangePosition;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,11 +64,15 @@ public partial class Player : CharacterBody3D, ICreature
 		MoveAndSlide();
 	}
 
+	private void ChangePosition(Vector3 pos)
+	{
+		Position = pos;
+	}
 
 	private async void WaitForAnimation()
 	{
 		move.animationDone = false;
-		while(anim.anim.IsPlaying()) { await Task.Delay(10); }
+		while (anim.anim.IsPlaying()) { await Task.Delay(10); }
 		move.animationDone = true;
 	}
 
@@ -139,12 +144,12 @@ public partial class Player : CharacterBody3D, ICreature
 		return move.creatureState;
 	}
 
-    public Vector3 GetPosition()
+    public new Vector3 GetPosition()
     {
 		return Position;
     }
 
-    public Vector3 GetVelocity()
+    public new Vector3 GetVelocity()
     {
 		return Velocity;
     }
