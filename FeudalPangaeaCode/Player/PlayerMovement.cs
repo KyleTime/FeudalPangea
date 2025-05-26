@@ -157,6 +157,9 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.Casting:
 				spells[selectedSpell].CastState(delta);
 				break;
+			case CreatureState.Punch:
+				State_Punch(delta);
+				break;
 			default:
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
 				break;
@@ -194,7 +197,7 @@ public partial class PlayerMovement : Node3D
 		}
 	}
 
-	private void Gravity(float delta){
+	private void Gravity(double delta){
 		//gravity lol
 		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
 
@@ -228,7 +231,7 @@ public partial class PlayerMovement : Node3D
 
 		if(autoActive)
 		{
-			switch(creatureState)
+			switch (creatureState)
 			{
 				case CreatureState.Dive:
 					Dive();
@@ -236,15 +239,18 @@ public partial class PlayerMovement : Node3D
 				case CreatureState.LedgeHang:
 					LedgeHang();
 					break;
+				case CreatureState.Punch:
+					WaitForAnimation();
+					break;
 				// case CreatureState.Attack:
-				// 	WaitForAnimation();
-				// 	break;
-				// case CreatureState.AttackAir:
-				// 	WaitForAnimation();
-				// 	break;
-				// case CreatureState.AttackPoke:
-				// 	WaitForAnimation();
-				// 	break;
+					// 	WaitForAnimation();
+					// 	break;
+					// case CreatureState.AttackAir:
+					// 	WaitForAnimation();
+					// 	break;
+					// case CreatureState.AttackPoke:
+					// 	WaitForAnimation();
+					// 	break;
 			}
 		}
 	}
@@ -264,6 +270,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
+		TryTransition(PunchCond(), CreatureState.Punch);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
@@ -284,6 +291,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(DiveCond(), CreatureState.Dive);
+		TryTransition(PunchCond(), CreatureState.Punch);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
@@ -396,6 +404,20 @@ public partial class PlayerMovement : Node3D
 
 	}
 
+	private void State_Punch(double delta)
+	{
+		RotateBody(1);
+
+		Decelerate(delta);
+		Gravity(delta);
+
+		if (animationDone)
+		{
+			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		}
+	}
+
 	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
 	// private void State_Attack(double delta)
 	// {
@@ -441,7 +463,7 @@ public partial class PlayerMovement : Node3D
 	// 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	// 		}
 	// 	}
-		
+
 	// 	Decelerate(delta);
 	// 	Gravity((float)delta);
 	// }
@@ -468,14 +490,14 @@ public partial class PlayerMovement : Node3D
 	// 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	// 		TryTransition(GroundedCond(), CreatureState.Grounded);
 	// 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
-			
+
 
 	// 	}
 	// }
 
 	private void State_Dead(double delta)
 	{
-		if(!grounded)
+		if (!grounded)
 			SetState(CreatureState.DeadAir);
 
 		Decelerate(delta);
@@ -559,6 +581,11 @@ public partial class PlayerMovement : Node3D
 		}
 
 		return false;
+	}
+
+	private bool PunchCond()
+	{
+		return Input.IsActionJustPressed("ATTACK") && grounded;
 	}
 
 	// private bool AttackCond()
