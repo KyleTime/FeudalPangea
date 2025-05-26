@@ -1,37 +1,39 @@
 using Godot;
 using System;
 
-
-public class FollowCreature : BehaviorState
+namespace CreatureBehaviors.CreatureStates
 {
-    float acceleration;
-    float maxSpeed;
-    float jumpPower;
-
-    //constructor with
-    public FollowCreature(float acceleration, float maxSpeed, float jumpPower) : base(CreatureState.Grounded)
+    public class FollowCreature : BehaviorState
     {
-        SetUp(acceleration, maxSpeed, jumpPower);
-    }
+        float acceleration;
+        float maxSpeed;
+        float jumpPower;
 
-    public FollowCreature(float acceleration, float maxSpeed) : base(CreatureState.Grounded)
-    {
-        SetUp(acceleration, maxSpeed, 0);
-    }
+        //constructor with
+        public FollowCreature(float acceleration, float maxSpeed, float jumpPower) : base(CreatureState.Grounded)
+        {
+            SetUp(acceleration, maxSpeed, jumpPower);
+        }
 
-    private void SetUp(float acceleration, float maxSpeed, float jumpPower)
-    {
-        this.acceleration = acceleration;
-        this.maxSpeed = maxSpeed;
-        this.jumpPower = jumpPower;
-    }
+        public FollowCreature(float acceleration, float maxSpeed) : base(CreatureState.Grounded)
+        {
+            SetUp(acceleration, maxSpeed, 0);
+        }
 
-    public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
-    {
-        Vector3 velocity = self.GetCreatureVelocity();
+        private void SetUp(float acceleration, float maxSpeed, float jumpPower)
+        {
+            this.acceleration = acceleration;
+            this.maxSpeed = maxSpeed;
+            this.jumpPower = jumpPower;
+        }
 
-        velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, (float)delta);
+        public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
+        {
+            Vector3 velocity = self.GetCreatureVelocity();
 
-        return velocity;
+            velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, (float)delta);
+
+            return velocity;
+        }
     }
 }

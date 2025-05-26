@@ -1,24 +1,29 @@
 using Godot;
 
-//state that has the creature waiting for some stimuli
-public class Idle : BehaviorState
+namespace CreatureBehaviors.CreatureStates
 {
-    public bool doGravity;
 
-    public Idle(bool doGravity) : base(CreatureState.Grounded)
+    //state that has the creature waiting for some stimuli
+    //pretty good for a stun state actually
+    public class Idle : BehaviorState
     {
-        this.doGravity = doGravity;
-    }
+        public bool doGravity;
 
-    public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
-    {
-        Vector3 velocity = self.GetCreatureVelocity();
-
-        if (doGravity)
+        public Idle(bool doGravity) : base(CreatureState.Grounded)
         {
-            velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
+            this.doGravity = doGravity;
         }
 
-        return velocity;
+        public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
+        {
+            Vector3 velocity = self.GetCreatureVelocity();
+
+            if (doGravity)
+            {
+                velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
+            }
+
+            return velocity;
+        }
     }
 }

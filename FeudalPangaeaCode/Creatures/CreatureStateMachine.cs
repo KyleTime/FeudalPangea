@@ -7,10 +7,9 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 {
     private BehaviorState state;
 
-    //when the creature needs to reset, which state should it return to?
-    private BehaviorState idleState;
     //when the creature is stunned, which state should it transition to?
     private BehaviorState stunState;
+    public float stunTimer = 0; //how much time is left to be stunned?
 
     //the creature that this creature is targetting (for whatever reason or purpose)
     public ICreature target;
@@ -24,8 +23,6 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     {
         int HP = 1;
         BehaviorState initialState;
-
-        BehaviorState idleState;
         BehaviorState stunState;
 
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
@@ -37,7 +34,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP, idleState, stunState);
+            return new CreatureStateMachine(initialState, HP, stunState);
         }
 
         /// <summary>
@@ -71,27 +68,13 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
 
         /// <summary>
-        /// Sets the initial state of the CreatureStateMachine. Also sets the state to the default idle state, which can be overridden. 
+        /// Sets the initial state of the CreatureStateMachine.
         /// </summary>
         /// <param name="stateName">Name of the state to reference.</param>
         /// <returns>The Builder (it's just a builder pattern)</returns>
         public Builder SetInitialState(string stateName)
         {
             initialState = states[stateName];
-            idleState = initialState;
-            return this;
-        }
-
-        /// <summary>
-        /// Set the state the creature should reset to after a stun or otherwise.
-        /// This is set to the initial state by default, so only call this when 
-        /// the initial state shouldn't be the idle state.
-        /// </summary>
-        /// <param name="stateName">Name of the state</param>
-        /// <returns>The Builder! Wow!</returns>
-        public Builder SetIdleState(string stateName)
-        {
-
             return this;
         }
 
@@ -150,10 +133,9 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState idleState, BehaviorState stunState)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState)
     {
         this.state = initialState;
-        this.idleState = idleState;
         this.stunState = stunState;
         this.HP = HP;
         target = null;
@@ -161,6 +143,8 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     public override void _PhysicsProcess(double delta)
     {
+        stunTimer = Math.Clamp(stunTimer - (float)delta, 0, 9999);
+
         BehaviorState nextState = state.StateTransition(this);
 
         //if not null, we transition!
@@ -201,7 +185,24 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     public void Stun(float time)
     {
-        throw new NotImplementedException();
+        stunTimer = time;
+        ForceState(stunState);
+        target = null; //reset target on stun prolly
+    }
+
+    /// <summary>
+    /// Force a state transition with a given state and target, bypassing the conditional.
+    /// </summary>
+    /// <param name="nextState">State to transition to.</param>
+    /// <param name="target">The creature to target.</param>
+    public void ForceState(BehaviorState nextState, ICreature target = null)
+    {
+        if (target != null)
+        {
+            this.target = target;
+        }
+
+        state = nextState;
     }
 
     /// <summary>
