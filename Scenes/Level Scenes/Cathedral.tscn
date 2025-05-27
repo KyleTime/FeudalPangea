@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/Hitboxes/death_plane.tscn" id="2_jkbgh"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="3_8ptgc"]
 [ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="4_dg8ym"]
-[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Basics/Hitbox.cs" id="5_pq4ec"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_pq4ec"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_2wye8"]
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_nlxxi"]
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=9 format=3 uid="uid://bosu0j6amay5p"]
 
 [ext_resource type="Script" uid="uid://cbkps5rwocubj" path="res://FeudalPangaeaCode/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" uid="uid://ql82ri578m3d" path="res://FeudalPangaeaCode/Player/PlayerMovement.cs" id="4_te5vt"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_4wape"]
 [ext_resource type="PackedScene" uid="uid://c4s0jb3rhv7ba" path="res://Scenes/HUD Elements/HUD.tscn" id="5_20fgk"]
 [ext_resource type="PackedScene" uid="uid://c4hbfnhj7kr4g" path="res://Scenes/Player/Model Scene/Red_Psycho_Scene.tscn" id="6_hl2p7"]
 [ext_resource type="Script" uid="uid://dy7q45v8bjsw0" path="res://FeudalPangaeaCode/Player/PlayerCamera.cs" id="6_viir3"]
@@ -9,6 +10,8 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
 radius = 1.0
 height = 2.75
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t26db"]
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 4
@@ -38,10 +41,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
 
 [node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
 
-[node name="Body" type="CollisionShape3D" parent="."]
+[node name="Body" type="CollisionShape3D" parent="." node_paths=PackedStringArray("wallJumpRay", "ledgeHangRay", "punchHitbox")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.375, 0)
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
+wallJumpRay = NodePath("WallJumpRay")
+ledgeHangRay = NodePath("LedgeHangRay")
+punchHitbox = NodePath("PunchHitbox")
 speed = 12.0
 gravityMod = 2.5
 acceleration = 50.0
@@ -58,8 +64,18 @@ target_position = Vector3(0, 0, -1)
 
 [node name="LedgeHangRay" type="RayCast3D" parent="Body"]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.43075, 1.30802)
-target_position = Vector3(0, -1.1, 0.2)
 hit_back_faces = false
+
+[node name="PunchHitbox" type="Area3D" parent="Body"]
+transform = Transform3D(1.68, 0, 0, 0, 1.68, 0, 0, 0, 1.68, -1.22778e-07, 0, 1.40441)
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("5_4wape")
+pushMod = Vector3(0, 25, -1000)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/PunchHitbox"]
+shape = SubResource("SphereShape3D_t26db")
+debug_color = Color(1, 0.205571, 0.504023, 0.42)
 
 [node name="Body_Center" type="Node3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3725, 0)

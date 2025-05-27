@@ -9,7 +9,7 @@ public partial class RockMimic : CreatureStateMachine, ICreature
     public override void _Ready()
     {
         CreatureStateMachine.GetNewBuilder()
-                        .AddState("Follow", new FollowCreature(100, 10, 5))
+                        .AddState("Follow", new FollowCreature(3, 1, 5))
                         .AddState("Stun", new Idle(true))
                         .AddState("Idle", new Idle(true))
                         .SetInitialState("Idle")

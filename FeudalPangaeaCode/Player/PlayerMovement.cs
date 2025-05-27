@@ -15,13 +15,13 @@ public partial class PlayerMovement : Node3D
 	//variables set by the Player script
 	public bool grounded = false;
 	public bool wall = false;
-	public Basis basis; //way to orient self for velocity calculations
-	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
-
-	public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
+	public Basis basis; //way to orient self for velocity calculations, usually camera
+	[Export] public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
+	[Export] public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
+	[Export] public Hitbox punchHitbox; //hitbox for player punch
 
 	//How fast, at max, should the player move?
-	[Export]public float speed = 10f;
+	[Export] public float speed = 10f;
 
 	//How fast should the player fall? (multiplier)
 	[Export]private float gravityMod = 1;
@@ -100,8 +100,6 @@ public partial class PlayerMovement : Node3D
 	public override void _Ready()
 	{
 		basis = new Basis();
-		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
-		ledgeHangRay = GetNode<RayCast3D>("LedgeHangRay");
 		spells[0] = new DoubleJumpSpell(this);
 	}
 
@@ -225,6 +223,9 @@ public partial class PlayerMovement : Node3D
 		if(changedThisFrame)
 			return;
 
+		//reset punch hitbox every time to avoid nonsense
+		punchHitbox.collider.Disabled = true;
+
 		changedThisFrame = true;
 
 		creatureState = newState;
@@ -243,6 +244,7 @@ public partial class PlayerMovement : Node3D
 					LedgeHang();
 					break;
 				case CreatureState.Punch:
+					punchHitbox.collider.Disabled = false;
 					WaitForAnimation();
 					break;
 				// case CreatureState.Attack:
@@ -418,6 +420,10 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		}
+		else
+		{
+			
 		}
 	}
 
