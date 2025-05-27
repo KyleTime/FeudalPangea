@@ -290,11 +290,11 @@ public partial class PlayerMovement : Node3D
 
 		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
+		TryTransition(PunchCond(), CreatureState.Punch);
 		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(DiveCond(), CreatureState.Dive);
-		TryTransition(PunchCond(), CreatureState.Punch);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
@@ -588,7 +588,7 @@ public partial class PlayerMovement : Node3D
 
 	private bool PunchCond()
 	{
-		return Input.IsActionJustPressed("ATTACK") && grounded;
+		return Input.IsActionJustPressed("ATTACK");
 	}
 
 	// private bool AttackCond()
