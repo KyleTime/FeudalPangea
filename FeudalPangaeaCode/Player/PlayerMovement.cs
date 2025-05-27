@@ -673,7 +673,7 @@ public partial class PlayerMovement : Node3D
 
 		if (XInput == 0 && ZInput == 0)
 		{
-			zDir = GetZDirection();
+			zDir = -GetZDirection();
 		}
 		else
 		{
