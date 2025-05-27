@@ -6,10 +6,11 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_p0c84"]
 size = Vector3(3, 2.76953, 3)
 
-[node name="Rock Mimic" type="CharacterBody3D"]
+[node name="Rock Mimic" type="CharacterBody3D" node_paths=PackedStringArray("debug")]
 collision_layer = 8
 collision_mask = 15
 script = ExtResource("1_wosbo")
+debug = NodePath("")
 
 [node name="Crab V1" parent="." instance=ExtResource("1_i6a4h")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.00139356, 0.0117605, -0.49071)

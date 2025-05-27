@@ -52,6 +52,8 @@ public abstract class BehaviorState {
         foreach(var pair in transitions){
             if(pair.Key.Condition(self)){
 
+                GD.Print("Transition occurred");
+
                 //grab target from conditional
                 //if null, assume no change
                 ICreature target = pair.Key.GetTarget();

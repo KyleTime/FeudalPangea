@@ -6,7 +6,7 @@ using CreatureBehaviors.CreatureConditions;
 
 public partial class RockMimic : CreatureStateMachine, ICreature
 {
-    public RockMimic() : base()
+    public override void _Ready()
     {
         CreatureStateMachine.GetNewBuilder()
                         .AddState("Follow", new FollowCreature(100, 10, 5))
@@ -15,7 +15,8 @@ public partial class RockMimic : CreatureStateMachine, ICreature
                         .SetInitialState("Idle")
                         .SetStunState("Stun")
                         .AddTransition("Stun", new StunOver(), "Idle")
-                        .AddTransition("Idle", new SeePlayerAtDistance(), "Follow")
+                        .AddTransition("Idle", new SeePlayerAtDistance(6, 2), "Follow")
                         .buildOnExisting(this);
     }
+
 }

@@ -151,7 +151,7 @@ public partial class Player : CharacterBody3D, ICreature
 
     public Vector3 GetCreaturePosition()
     {
-		return Position;
+		return GlobalPosition;
     }
 
     public Vector3 GetCreatureVelocity()
