@@ -1,12 +1,13 @@
 [gd_scene load_steps=15 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="1_a85am"]
-[ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/Hitboxes/death_plane.tscn" id="2_jkbgh"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="3_8ptgc"]
 [ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="4_dg8ym"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_pq4ec"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_2wye8"]
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_nlxxi"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
 size = Vector3(6, 1, 6)
@@ -33,9 +34,16 @@ floor_snap_length = 0.4
 
 [node name="Cinematic Camera" type="Camera3D" parent="."]
 
-[node name="DeathPlane" parent="." instance=ExtResource("2_jkbgh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -41.5472, 0)
-collision_mask = 13
+[node name="Death Plane" type="Area3D" parent="."]
+script = ExtResource("5_pq4ec")
+dmg = 9999
+pushMod = Vector3(0, 0, 0)
+damage_source = 0
+stunDuration = 999.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Death Plane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -71.7249, 0)
+shape = SubResource("WorldBoundaryShape3D_nlxxi")
 
 [node name="Level Elements" type="Node" parent="."]
 
@@ -62,11 +70,12 @@ mesh = SubResource("BoxMesh_pvjru")
 skeleton = NodePath("../..")
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09375, -11.7527)
+transform = Transform3D(2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, 0, 2.09375, -11.7527)
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("5_pq4ec")
 dmg = 10
+pushMod = Vector3(0, 5, 50)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
 mesh = SubResource("BoxMesh_k8l05")

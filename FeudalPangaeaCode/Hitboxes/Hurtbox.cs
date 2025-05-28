@@ -23,11 +23,12 @@ public partial class Hurtbox : Area3D
 
     public void OnAreaEntered(Area3D node)
     {
-        GD.Print("Hit Object: " + node.Name);
-
         if (node is Hitbox)
         {
             Hitbox hitbox = (Hitbox)node;
+
+            if (hitbox.Owner == Owner)
+                return;
 
             self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
 
@@ -35,12 +36,10 @@ public partial class Hurtbox : Area3D
             {
                 case DamageSource.Bonk:
 
-                    Vector3 ZPush = (GlobalPosition - node.GlobalPosition).Normalized();
-                    Vector3 XPush = new Vector3(ZPush.Z, ZPush.Y, ZPush.X).Normalized();
-
-                    GD.Print("ZPush: " + ZPush);
+                    Vector3 ZPush = ((GlobalPosition - node.GlobalPosition) with { Y = 0 }).Normalized();
 
                     self.Push(Vector3.Up * hitbox.pushMod.Y + ZPush * hitbox.pushMod.Z);
+                    self.Stun(hitbox.stunDuration);
                     break;
             }
         }

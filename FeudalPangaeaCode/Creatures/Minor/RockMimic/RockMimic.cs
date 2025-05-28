@@ -15,7 +15,7 @@ public partial class RockMimic : CreatureStateMachine, ICreature
                         .SetInitialState("Idle")
                         .SetStunState("Stun")
                         .AddTransition("Stun", new StunOver(), "Idle")
-                        .AddTransition("Idle", new SeePlayerAtDistance(0, 2), "Follow")
+                        .AddTransition("Idle", new SeePlayerAtDistance(10, 2), "Follow")
                         .buildOnExisting(this);
     }
 

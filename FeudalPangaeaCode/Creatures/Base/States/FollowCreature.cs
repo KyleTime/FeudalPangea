@@ -32,7 +32,8 @@ namespace CreatureBehaviors.CreatureStates
         {
             Vector3 velocity = self.GetCreatureVelocity();
 
-            // self.LookAt(Player.player.GlobalPosition);
+            self.LookAt(Player.player.GlobalPosition);
+            self.Rotation = new Vector3(0,self.Rotation.Y, 0);
 
             velocity = CreatureVelocityCalculations.Accelerate(velocity, acceleration, deceleration, maxSpeed, self.target.GetCreaturePosition() - self.GlobalPosition, delta);
 
