@@ -23,6 +23,8 @@ namespace CreatureBehaviors.CreatureStates
                 velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
             }
 
+            velocity = CreatureVelocityCalculations.Decelerate(velocity, 3, delta);
+
             return velocity;
         }
     }

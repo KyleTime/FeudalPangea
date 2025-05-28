@@ -34,7 +34,13 @@ public partial class Hurtbox : Area3D
             switch (hitbox.damage_source)
             {
                 case DamageSource.Bonk:
-                    self.Push((GlobalPosition - self.GetCreaturePosition()).Normalized() * hitbox.pushMod);
+
+                    Vector3 ZPush = (GlobalPosition - node.GlobalPosition).Normalized();
+                    Vector3 XPush = new Vector3(ZPush.Z, ZPush.Y, ZPush.X).Normalized();
+
+                    GD.Print("ZPush: " + ZPush);
+
+                    self.Push(Vector3.Up * hitbox.pushMod.Y + ZPush * hitbox.pushMod.Z);
                     break;
             }
         }

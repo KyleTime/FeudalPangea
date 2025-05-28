@@ -169,13 +169,13 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
 
         Velocity = state.GetStepVelocity(this, delta);
+        GD.Print("Velocity: " + Velocity);
 
         MoveAndSlide();
     }
 
     public void ChangeHP(int change, DamageSource source)
     {
-        int oldHP = HP;
         HP += change;
         EmitSignal(SignalName.HPChange, HP - change, HP, (int)source);
     }
@@ -193,6 +193,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     public void Push(Vector3 force)
     {
         Velocity += force;
+        GD.Print("Velocity after Push: " + Velocity);
     }
 
     public void Stun(float time)

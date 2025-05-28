@@ -4,8 +4,7 @@
 [ext_resource type="Script" uid="uid://csuu864enn3w4" path="res://FeudalPangaeaCode/Creatures/Minor/RockMimic/RockMimic.cs" id="1_wosbo"]
 [ext_resource type="Script" uid="uid://rpki271kjeu2" path="res://FeudalPangaeaCode/Hitboxes/Hurtbox.cs" id="3_3vb1o"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wosbo"]
-size = Vector3(1.365, 1.28931, 1.43869)
+[sub_resource type="SphereShape3D" id="SphereShape3D_3vb1o"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3vb1o"]
 height = 0.675385
@@ -20,8 +19,8 @@ script = ExtResource("1_wosbo")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.135571, 0, -0.490261)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2.18, 0, 0, 0, 2.18, 0, 0, 0, 2.18, -0.147885, 1.41255, 0.0316349)
-shape = SubResource("BoxShape3D_wosbo")
+transform = Transform3D(3.735, 0, 0, 0, 3.735, 0, 0, 0, 3.735, 0, 1.367, 0)
+shape = SubResource("SphereShape3D_3vb1o")
 
 [node name="Hurtbox" type="Area3D" parent="."]
 transform = Transform3D(4.155, 0, 0, 0, 4.155, 0, 0, 0, 4.155, 0, 1.19816, 0)
@@ -31,4 +30,5 @@ script = ExtResource("3_3vb1o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0518647, 0)
+visible = false
 shape = SubResource("CylinderShape3D_3vb1o")
