@@ -30,6 +30,12 @@ namespace CreatureBehaviors.CreatureStates
 
         public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
         {
+            if (self.target == null)
+            {
+                GD.Print("HELPPPPP");
+                return self.GetCreatureVelocity();
+            }
+
             Vector3 velocity = self.GetCreatureVelocity();
 
             self.LookAt(Player.player.GlobalPosition);

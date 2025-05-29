@@ -11,6 +11,9 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     private BehaviorState stunState;
     public float stunTimer = 0; //how much time is left to be stunned?
 
+    //what should happen when the creature dies?
+    private BehaviorState deathState;
+
     //the creature that this creature is targetting (for whatever reason or purpose)
     public ICreature target;
 
@@ -24,6 +27,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         int HP = 1;
         BehaviorState initialState;
         BehaviorState stunState;
+        BehaviorState deathState;
 
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
 
@@ -34,13 +38,14 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP, stunState);
+            return new CreatureStateMachine(initialState, HP, stunState, deathState);
         }
 
         public void buildOnExisting(CreatureStateMachine machine)
         {
             machine.state = initialState;
             machine.stunState = stunState;
+            machine.deathState = deathState;
             machine.HP = HP;
             machine.target = null;
         }
@@ -99,6 +104,17 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
 
         /// <summary>
+        /// Set the state the creature should transition to whenever it dies.
+        /// </summary>
+        /// <param name="stateName">Name of the state to transition to.</param>
+        /// <returns>The Builder!</returns>
+        public Builder SetDeathState(string stateName)
+        {
+            deathState = states[stateName];
+            return this;
+        }
+
+        /// <summary>
         /// Creates a transition between two states based on a BehaviorCondition.
         /// </summary>
         /// <param name="current">The name of the state that the transition will start from.</param>
@@ -141,12 +157,22 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState)
     {
         this.state = initialState;
         this.stunState = stunState;
+        this.deathState = deathState;
         this.HP = HP;
         target = null;
+
+        if (deathState == null)
+        {
+            GD.Print("WHAT!");
+        }
+        else
+        {
+            GD.Print("death assigned properly!");
+        }
     }
 
     public CreatureStateMachine()
@@ -177,6 +203,16 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     {
         HP += change;
         EmitSignal(SignalName.HPChange, HP - change, HP, (int)source);
+
+        if (HP <= 0)
+        {
+            GD.Print("DEAD!");
+
+            if (deathState == null)
+                GD.Print("death is null");
+
+            state = deathState;
+        }
     }
 
     public int GetHP()
@@ -203,11 +239,17 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     /// <summary>
     /// Force a state transition with a given state and target, bypassing the conditional.
+    /// However, this does not bypass death.
     /// </summary>
     /// <param name="nextState">State to transition to.</param>
     /// <param name="target">The creature to target.</param>
     public void ForceState(BehaviorState nextState, ICreature target = null)
     {
+        if (HP <= 0)
+        {
+            return;
+        }
+
         if (target != null)
         {
             this.target = target;

@@ -13,7 +13,7 @@ public partial class Hurtbox : Area3D
         }
         else
         {
-            GD.PrintErr("Hurtbox not attached to valid ICreature!");
+            GD.PrintErr("Hurtbox not attached to valid ICreature! Attached to: " + Owner.Name);
         }
 
         AreaEntered += OnAreaEntered;
@@ -23,6 +23,8 @@ public partial class Hurtbox : Area3D
 
     public void OnAreaEntered(Area3D node)
     {
+        GD.Print("Hit Object: " + Owner.Name);
+
         if (node is Hitbox)
         {
             Hitbox hitbox = (Hitbox)node;
