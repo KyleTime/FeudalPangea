@@ -9,6 +9,9 @@ public partial class Hitbox : Area3D
     [Export] public CollisionShape3D collider;
     [Export] public float stunDuration = 1;
 
+    [Signal]
+    public delegate void HitHurtBoxEventHandler(Hurtbox hurtbox);
+
     public override void _Ready()
     {
         CollisionLayer = 16;
@@ -18,5 +21,10 @@ public partial class Hitbox : Area3D
         {
             collider = GetNode<CollisionShape3D>("CollisionShape3D");
         }
+    }
+
+    public void Hit(Hurtbox hurtbox)
+    {
+        EmitSignal(SignalName.HitHurtBox, hurtbox);
     }
 }

@@ -9,25 +9,24 @@ namespace CreatureBehaviors.CreatureConditions
         private float maxDistance;
         float raiseRay;
 
-        /// <summary>
-        /// Condition to detect whether creature can see the player in particular
-        /// </summary>
-        /// <param name="raiseRay">[Optional] How much to raise or lower the ray by on the y axis</param>
-        public SeePlayerAtDistance(float raiseRay = 1)
-        {
-            limitedDistance = false;
-            this.raiseRay = raiseRay;
-        }
 
         /// <summary>
         /// Condition to detect whether creature can see the player in particular
         /// </summary>
-        /// <param name="maxDistance">Maximum distance the creature can see</param>
+        /// <param name="maxDistance">Maximum distance the creature can see, -1 causes infinite range</param>
         /// <param name="raiseRay">[Optional] How much to raise or lower the ray by on the y axis</param>
         public SeePlayerAtDistance(float maxDistance, float raiseRay = 1)
         {
-            limitedDistance = true;
-            this.maxDistance = maxDistance;
+            if (maxDistance == -1)
+            {
+                limitedDistance = false;
+            }
+            else
+            {
+                limitedDistance = true;
+                this.maxDistance = maxDistance;
+            }
+
             this.raiseRay = raiseRay;
         }
 

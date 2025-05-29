@@ -7,6 +7,7 @@ using CreatureBehaviors.CreatureConditions;
 public partial class RockMimic : CreatureStateMachine, ICreature
 {
     [Export] RigidBody3D ragdoll;
+    [Export] Hitbox hitbox;
 
     public override void _Ready()
     {
@@ -15,12 +16,14 @@ public partial class RockMimic : CreatureStateMachine, ICreature
                         .AddState("Stun", new Idle(true))
                         .AddState("Idle", new Idle(true))
                         .AddState("Death", new DeathSpawnRagdoll(ragdoll))
+                        .AddState("Attack", new JumpAtCreature(hitbox))
                         .SetHP(10)
                         .SetDeathState("Death")
                         .SetInitialState("Idle")
                         .SetStunState("Stun")
                         .AddTransition("Stun", new StunOver(), "Idle")
                         .AddTransition("Idle", new SeePlayerAtDistance(10, 2), "Follow")
+                        .AddTransition("Follow", new SeePlayerAtDistance(5), "Attack")
                         .buildOnExisting(this);
     }
 

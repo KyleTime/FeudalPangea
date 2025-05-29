@@ -34,6 +34,8 @@ public partial class Hurtbox : Area3D
 
             self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
 
+            hitbox.Hit(this); //let hitbox know it hit something
+
             switch (hitbox.damage_source)
             {
                 case DamageSource.Bonk:

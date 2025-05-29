@@ -8,10 +8,12 @@ namespace CreatureBehaviors.CreatureStates
     public class Idle : BehaviorState
     {
         public bool doGravity;
+        public float deceleration;
 
-        public Idle(bool doGravity) : base(CreatureState.Grounded)
+        public Idle(bool doGravity, float deceleration = 5) : base(CreatureState.Grounded)
         {
             this.doGravity = doGravity;
+            this.deceleration = deceleration;
         }
 
         public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
@@ -23,7 +25,7 @@ namespace CreatureBehaviors.CreatureStates
                 velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
             }
 
-            velocity = CreatureVelocityCalculations.Decelerate(velocity, 3, delta);
+            velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
 
             return velocity;
         }

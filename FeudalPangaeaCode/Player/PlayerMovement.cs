@@ -158,7 +158,7 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.Casting:
 				spells[selectedSpell].CastState(delta);
 				break;
-			case CreatureState.Punch:
+			case CreatureState.Attack:
 				State_Punch(delta);
 				break;
 			default:
@@ -243,7 +243,7 @@ public partial class PlayerMovement : Node3D
 				case CreatureState.LedgeHang:
 					LedgeHang();
 					break;
-				case CreatureState.Punch:
+				case CreatureState.Attack:
 					punchHitbox.collider.Disabled = false;
 					WaitForAnimation();
 					break;
@@ -275,7 +275,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
-		TryTransition(PunchCond(), CreatureState.Punch);
+		TryTransition(PunchCond(), CreatureState.Attack);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
@@ -290,9 +290,7 @@ public partial class PlayerMovement : Node3D
 		
 		Gravity((float)delta);
 
-		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
-		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
-		TryTransition(PunchCond(), CreatureState.Punch);
+		TryTransition(PunchCond(), CreatureState.Attack);
 		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);

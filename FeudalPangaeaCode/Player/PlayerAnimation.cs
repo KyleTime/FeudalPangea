@@ -47,7 +47,7 @@ public partial class PlayerAnimation : Node
             case CreatureState.LedgeHang:
                 anim.Play("Hang");
                 break;
-            case CreatureState.Punch:
+            case CreatureState.Attack:
                 anim.Play("AttackGround");
                 break;
         }
