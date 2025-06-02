@@ -102,4 +102,5 @@ CAST3={
 3d_physics/layer_2="Death Plane"
 3d_physics/layer_3="Player"
 3d_physics/layer_4="Creature"
-3d_physics/layer_5="Hitbox"
+3d_physics/layer_5="Hurtbox"
+3d_physics/layer_6="Hitbox"

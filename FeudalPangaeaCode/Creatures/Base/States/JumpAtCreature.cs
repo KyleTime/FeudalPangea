@@ -41,6 +41,22 @@ namespace CreatureBehaviors.CreatureStates {
             this.deceleration = deceleration;
         }
 
+        public override Vector3 TransitionOut(CreatureStateMachine self, double delta)
+        {
+            Vector3 vel = self.Velocity;
+
+            vel = CreatureVelocityCalculations.Decelerate(vel, deceleration * 2, delta);
+            vel *= new Vector3(-1, 0, -1);
+            waiting = true;
+
+            foreach (Hitbox h in hitboxes)
+            {
+                h.collider.Disabled = true;
+            }
+
+            return vel;
+        }
+
         public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
         {
             Vector3 vel = self.GetCreatureVelocity();
@@ -66,7 +82,8 @@ namespace CreatureBehaviors.CreatureStates {
                 Vector3 jumpVel = ((self.target.GetCreaturePosition() - self.GetCreaturePosition()).Normalized() with { Y = 0 } * forwardVelocity) + Vector3.Up * upwardVelocity;
                 jump = true;
 
-                foreach(Hitbox h in hitboxes) {
+                foreach (Hitbox h in hitboxes)
+                {
                     h.collider.Disabled = false;
                 }
 
@@ -79,7 +96,8 @@ namespace CreatureBehaviors.CreatureStates {
                 vel *= new Vector3(-1, 0, -1);
                 waiting = true;
 
-                foreach(Hitbox h in hitboxes) {
+                foreach (Hitbox h in hitboxes)
+                {
                     h.collider.Disabled = true;
                 }
             }

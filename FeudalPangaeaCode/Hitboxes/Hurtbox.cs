@@ -4,6 +4,7 @@ using System;
 public partial class Hurtbox : Area3D
 {
     public ICreature self;
+    public bool hit { get; private set; }
 
     public override void _Ready()
     {
@@ -17,9 +18,14 @@ public partial class Hurtbox : Area3D
         }
 
         AreaEntered += OnAreaEntered;
-        CollisionLayer = 0;
-        CollisionMask = 16;
+        CollisionLayer = GlobalData.hitboxLayer;
+        CollisionMask = GlobalData.hurtboxLayer;
     }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        hit = false;
+    }  
 
     public void OnAreaEntered(Area3D node)
     {
@@ -32,20 +38,27 @@ public partial class Hurtbox : Area3D
             if (hitbox.Owner == Owner)
                 return;
 
-            self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
+            HitBy(hitbox);
+        }
+    }
 
-            hitbox.Hit(this); //let hitbox know it hit something
+    public virtual void HitBy(Hitbox hitbox)
+    {
+        hit = true;
 
-            switch (hitbox.damage_source)
-            {
-                case DamageSource.Bonk:
+        self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
 
-                    Vector3 ZPush = ((GlobalPosition - node.GlobalPosition) with { Y = 0 }).Normalized();
+        hitbox.Hit(this); //let hitbox know it hit something
 
-                    self.Push(Vector3.Up * hitbox.pushMod.Y + ZPush * hitbox.pushMod.Z);
-                    self.Stun(hitbox.stunDuration);
-                    break;
-            }
+        switch (hitbox.damage_source)
+        {
+            case DamageSource.Bonk:
+
+                Vector3 ZPush = ((GlobalPosition - hitbox.GlobalPosition) with { Y = 0 }).Normalized();
+
+                self.Push(Vector3.Up * hitbox.pushMod.Y + ZPush * hitbox.pushMod.Z);
+                self.Stun(hitbox.stunDuration);
+                break;
         }
     }
 }

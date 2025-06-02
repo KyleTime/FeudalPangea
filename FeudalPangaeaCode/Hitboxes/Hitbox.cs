@@ -14,8 +14,8 @@ public partial class Hitbox : Area3D
 
     public override void _Ready()
     {
-        CollisionLayer = 16;
-        CollisionMask = 0;
+        CollisionLayer = GlobalData.hurtboxLayer;
+        CollisionMask = GlobalData.hitboxLayer;
 
         if (collider == null)
         {
