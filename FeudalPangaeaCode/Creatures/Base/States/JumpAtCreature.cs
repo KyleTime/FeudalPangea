@@ -41,6 +41,10 @@ namespace CreatureBehaviors.CreatureStates {
             this.deceleration = deceleration;
         }
 
+        public override void HandleAnimation(AnimationPlayer player)
+        {
+        }
+
         public override Vector3 TransitionOut(CreatureStateMachine self, double delta)
         {
             Vector3 vel = self.Velocity;

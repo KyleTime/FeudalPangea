@@ -48,6 +48,12 @@ public abstract class BehaviorState
     public abstract Vector3 GetStepVelocity(CreatureStateMachine self, double delta);
 
     /// <summary>
+    /// Feed the state an animation player to do basically whatever with.
+    /// </summary>
+    /// <param name="player">The animation player in question</param>
+    public abstract void HandleAnimation(AnimationPlayer player);
+
+    /// <summary>
     /// Called on the first frame of the state.
     /// </summary>
     /// <param name="self">The CreatureStateMachine this state is acting on.</param>

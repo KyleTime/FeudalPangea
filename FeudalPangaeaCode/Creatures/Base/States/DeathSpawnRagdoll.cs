@@ -16,6 +16,10 @@ namespace CreatureBehaviors.CreatureStates
             //this.ragdoll.Visible = false;
         }
 
+        public override void HandleAnimation(AnimationPlayer player)
+        {  
+        }
+
         public override Vector3 TransitionIn(CreatureStateMachine self, double delta)
         {
             ragdoll.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);

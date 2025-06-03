@@ -20,6 +20,12 @@ namespace CreatureBehaviors.CreatureStates
             SetUp(acceleration, deceleration, maxSpeed, 0);
         }
 
+        public override void HandleAnimation(AnimationPlayer player)
+        {
+            return;
+        }
+
+
         private void SetUp(float acceleration, float deceleration, float maxSpeed, float jumpPower)
         {
             this.acceleration = acceleration;

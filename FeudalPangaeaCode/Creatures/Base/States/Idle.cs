@@ -16,6 +16,11 @@ namespace CreatureBehaviors.CreatureStates
             this.deceleration = deceleration;
         }
 
+        public override void HandleAnimation(AnimationPlayer player)
+        {
+        }
+
+
         public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
         {
             Vector3 velocity = self.GetCreatureVelocity();
