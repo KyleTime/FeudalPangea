@@ -63,7 +63,10 @@ public partial class Hurtbox : Area3D
             case DamageSource.Bonk:
 
                 self.Push(CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreaturePosition(), hitbox.pushMod.X) + Vector3.Up * hitbox.pushMod.Y);
-                self.Stun(hitbox.stunDuration);
+
+                if(hitbox.stunDuration > 0)
+                    self.Stun(hitbox.stunDuration);
+                    
                 break;
         }
     }

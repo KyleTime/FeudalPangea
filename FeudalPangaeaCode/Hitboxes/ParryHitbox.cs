@@ -7,13 +7,6 @@ public partial class ParryHitbox : Hurtbox
     [Export] public Node3D effect;
     [Export] public float horizontalPush = 1;
     [Export] public float verticalPush = 1;
-    
-    public override void _Ready()
-    {
-        base._Ready();
-
-        collider = base.collider;
-    }
 
     public override void HitBy(Hitbox hitbox)
     {
