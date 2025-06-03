@@ -183,7 +183,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     {
         stunTimer = Math.Clamp(stunTimer - (float)delta, 0, 9999);
 
-        BehaviorState nextState = state.StateTransition(this);
+        BehaviorState nextState = state.StateTransition(this, delta);
 
         //if not null, we transition!
         //if we need to listen in on this, put the event stuff here

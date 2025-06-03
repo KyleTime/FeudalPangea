@@ -4,7 +4,7 @@ using System;
 public partial class Hitbox : Area3D
 {
     [Export] public int dmg = 1;
-    [Export] public Vector3 pushMod = new Vector3(0, 5, 10);
+    [Export] public Vector2 pushMod = new Vector2(10, 5);
     [Export] public DamageSource damage_source = DamageSource.Bonk;
     [Export] public CollisionShape3D collider;
     [Export] public float stunDuration = 1;
@@ -14,8 +14,8 @@ public partial class Hitbox : Area3D
 
     public override void _Ready()
     {
-        CollisionLayer = GlobalData.hurtboxLayer;
-        CollisionMask = GlobalData.hitboxLayer;
+        CollisionLayer = GlobalData.hitboxLayer;
+        CollisionMask = GlobalData.hurtboxLayer;
 
         if (collider == null)
         {

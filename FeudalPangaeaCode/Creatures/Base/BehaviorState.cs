@@ -51,15 +51,14 @@ public abstract class BehaviorState
     /// Checks the condition for each state transition until it finds a valid one. Then, it attempts to extract a target and assign it to the new state.
     /// </summary>
     /// <returns>The new state to use</returns>
-    public BehaviorState StateTransition(CreatureStateMachine self)
+    public BehaviorState StateTransition(CreatureStateMachine self, double delta)
     {
 
         foreach (var pair in transitions)
         {
             if (pair.Key.Condition(self))
             {
-
-                GD.Print("Transition occurred");
+                TransitionOut(self, delta);
 
                 //grab target from conditional
                 //if null, assume no change

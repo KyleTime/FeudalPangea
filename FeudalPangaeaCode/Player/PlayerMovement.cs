@@ -19,6 +19,8 @@ public partial class PlayerMovement : Node3D
 	[Export] public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
 	[Export] public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
 	[Export] public Hitbox punchHitbox; //hitbox for player punch
+	[Export] public ParryHitbox parryHitbox; //hitbox for parries
+	private float animationTimer = 0; //keep track of how long the animation has been going for
 
 	//How fast, at max, should the player move?
 	[Export] public float speed = 10f;
@@ -223,8 +225,9 @@ public partial class PlayerMovement : Node3D
 		if(changedThisFrame)
 			return;
 
-		//reset punch hitbox every time to avoid nonsense
+		//reset hitboxes every time to avoid nonsense
 		punchHitbox.collider.Disabled = true;
+		parryHitbox.collider.Disabled = true;
 
 		changedThisFrame = true;
 
@@ -244,7 +247,6 @@ public partial class PlayerMovement : Node3D
 					LedgeHang();
 					break;
 				case CreatureState.Attack:
-					punchHitbox.collider.Disabled = false;
 					WaitForAnimation();
 					break;
 				// case CreatureState.Attack:
@@ -421,7 +423,33 @@ public partial class PlayerMovement : Node3D
 		}
 		else
 		{
-			
+			animationTimer += (float)delta;
+
+			//some hard-coded nonsense for now, I'll deal with it later
+
+			float startPunchActive = 0.19f;
+			float endPunchActive = 0.3f;
+
+			float startParryActive = 0.21f;
+			float endParryActive = 0.28f;
+
+			if (animationTimer > startPunchActive && animationTimer < endPunchActive)
+			{
+				punchHitbox.collider.Disabled = false;
+			}
+			else
+			{
+				punchHitbox.collider.Disabled = true;
+			}
+
+			if (animationTimer > startParryActive && animationTimer < endParryActive)
+			{
+				parryHitbox.collider.Disabled = false;
+			}
+			else
+			{
+				parryHitbox.collider.Disabled = true;
+			}
 		}
 	}
 
@@ -713,6 +741,7 @@ public partial class PlayerMovement : Node3D
 	//see the attack states for an example
 	private void WaitForAnimation()
 	{
+		animationTimer = 0;
 		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 

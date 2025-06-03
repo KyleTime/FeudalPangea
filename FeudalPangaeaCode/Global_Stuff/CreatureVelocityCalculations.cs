@@ -92,7 +92,7 @@ public static class CreatureVelocityCalculations
 
         return velocity;
     }
-    
+
     /// <summary>
     /// Takes in a Y velocity and deltatime and applies gravity.
     /// </summary>
@@ -110,5 +110,35 @@ public static class CreatureVelocityCalculations
         }
 
         return yVel;
+    }
+
+    /// <summary>
+    /// A function to easily calculate pushing something away.
+    /// I am so tired of doing this manually.
+    /// </summary>
+    /// <param name="pusherPos">The position of the thing doing the pushing</param>
+    /// <param name="pushedPos">The position of the thing being pushed</param>
+    /// <param name="magnitude">Magnitude of the push</param>
+    /// <returns>The calculated push vector</returns>
+    public static Vector3 PushVector(Vector3 pusherPos, Vector3 pushedPos, float magnitude)
+    {
+        Vector3 direction = (pushedPos - pusherPos).Normalized();
+
+
+        return direction * magnitude;
+    }
+
+        /// <summary>
+    /// A function to push a creature away from another.
+    /// Calculates the push vector and then applies it to the 'pushed'.
+    /// </summary>
+    /// <param name="pusher">The creature doing the pushing</param>
+    /// <param name="pushed">The creature being pushed</param>
+    /// <param name="magnitude">Magnitude of the push</param>
+    public static void PushCreature(ICreature pusher, ICreature pushed, float magnitude)
+    {
+        Vector3 pushVector = PushVector(pusher.GetCreaturePosition(), pushed.GetCreaturePosition(), magnitude);
+
+        pushed.Push(pushVector);
     }
 }

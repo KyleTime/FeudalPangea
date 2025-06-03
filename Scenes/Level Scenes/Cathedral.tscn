@@ -40,7 +40,6 @@ floor_snap_length = 0.4
 [node name="Death Plane" type="Area3D" parent="."]
 script = ExtResource("5_pq4ec")
 dmg = 9999
-pushMod = Vector3(0, 0, 0)
 damage_source = 0
 stunDuration = 999.0
 
@@ -72,13 +71,11 @@ transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 mesh = SubResource("BoxMesh_pvjru")
 skeleton = NodePath("../..")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
 transform = Transform3D(2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, 0, 2.09375, -11.7527)
-collision_layer = 8
-collision_mask = 4
 script = ExtResource("5_pq4ec")
 dmg = 10
-pushMod = Vector3(0, 5, 50)
+collider = NodePath("CollisionShape3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
 mesh = SubResource("BoxMesh_k8l05")

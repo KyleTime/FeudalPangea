@@ -17,7 +17,7 @@ public partial class RockMimic : CreatureStateMachine, ICreature
                         .AddState("Idle", new Idle(true))
                         .AddState("Death", new DeathSpawnRagdoll(ragdoll))
                         .AddState("Attack", new JumpAtCreature(hitbox))
-                        .SetHP(10)
+                        .SetHP(20)
                         .SetDeathState("Death")
                         .SetInitialState("Idle")
                         .SetStunState("Stun")

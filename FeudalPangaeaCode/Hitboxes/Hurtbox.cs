@@ -6,6 +6,9 @@ public partial class Hurtbox : Area3D
     public ICreature self;
     public bool hit { get; private set; }
 
+    [Export] public CollisionShape3D collider;
+
+
     public override void _Ready()
     {
         if (Owner is ICreature)
@@ -18,8 +21,13 @@ public partial class Hurtbox : Area3D
         }
 
         AreaEntered += OnAreaEntered;
-        CollisionLayer = GlobalData.hitboxLayer;
-        CollisionMask = GlobalData.hurtboxLayer;
+        CollisionLayer = GlobalData.hurtboxLayer;
+        CollisionMask = GlobalData.hitboxLayer;
+
+        if (collider == null)
+        {
+            collider = GetNode<CollisionShape3D>("CollisionShape3D");
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -54,9 +62,7 @@ public partial class Hurtbox : Area3D
         {
             case DamageSource.Bonk:
 
-                Vector3 ZPush = ((GlobalPosition - hitbox.GlobalPosition) with { Y = 0 }).Normalized();
-
-                self.Push(Vector3.Up * hitbox.pushMod.Y + ZPush * hitbox.pushMod.Z);
+                self.Push(CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreaturePosition(), hitbox.pushMod.X) + Vector3.Up * hitbox.pushMod.Y);
                 self.Stun(hitbox.stunDuration);
                 break;
         }

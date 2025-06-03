@@ -1,9 +1,19 @@
+using System.Diagnostics;
 using Godot;
 using Godot.Collections;
 
 public partial class ParryHitbox : Hurtbox
 {
     [Export] public Node3D effect;
+    [Export] public float horizontalPush = 1;
+    [Export] public float verticalPush = 1;
+    
+    public override void _Ready()
+    {
+        base._Ready();
+
+        collider = base.collider;
+    }
 
     public override void HitBy(Hitbox hitbox)
     {
@@ -13,6 +23,11 @@ public partial class ParryHitbox : Hurtbox
         ICreature creature = (ICreature)hitbox.Owner;
 
         creature.Stun(GlobalData.parryStunTime);
+
+        CreatureVelocityCalculations.PushCreature(self, creature, horizontalPush);
+        creature.Push(Vector3.Up * verticalPush);
+
+        GD.Print("PARRY!");
 
         if (effect != null)
         {
@@ -27,7 +42,7 @@ public partial class ParryHitbox : Hurtbox
 
         foreach (Area3D area in array)
         {
-            if (area.Owner != Owner && area is Hitbox)
+            if (area.Owner != Owner && area is Hitbox && area.Owner is ICreature)
             {
                 return true;
             }

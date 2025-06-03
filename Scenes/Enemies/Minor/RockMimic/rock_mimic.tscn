@@ -41,6 +41,7 @@ shape = SubResource("CylinderShape3D_3vb1o")
 
 [node name="rock_mimic_ragdoll" parent="." instance=ExtResource("4_gm74l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.0126, 0)
+visible = false
 
 [node name="Hitbox" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -2)
@@ -51,4 +52,5 @@ stunDuration = 2.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0401611, 0, -0.423948)
 shape = SubResource("BoxShape3D_ryq36")
+disabled = true
 debug_color = Color(0.960784, 0, 0, 0.419608)
