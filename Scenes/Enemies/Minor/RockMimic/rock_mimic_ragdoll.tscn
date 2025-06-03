@@ -12,8 +12,10 @@ radius = 0.42627
 height = 0.675385
 radius = 0.558594
 
-[node name="rock_mimic_ragdoll" type="RigidBody3D"]
+[node name="rock_mimic_ragdoll" type="RigidBody3D" node_paths=PackedStringArray("collider", "hurtbox")]
 script = ExtResource("1_3xcff")
+collider = NodePath("CollisionShape3D")
+hurtbox = NodePath("Hurtbox")
 
 [node name="Crab V1" parent="." instance=ExtResource("1_jp7us")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.135571, 0, -0.490261)
@@ -21,11 +23,14 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.1355
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(3.735, 0, 0, 0, 3.735, 0, 0, 0, 3.735, 0, 1.40929, 0)
 shape = SubResource("CylinderShape3D_3xcff")
+disabled = true
 
 [node name="Hurtbox" type="Area3D" parent="."]
 transform = Transform3D(4.155, 0, 0, 0, 4.155, 0, 0, 0, 4.155, 0, 1.19816, 0)
 collision_layer = 0
 collision_mask = 16
+monitoring = false
+monitorable = false
 script = ExtResource("2_3xcff")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]

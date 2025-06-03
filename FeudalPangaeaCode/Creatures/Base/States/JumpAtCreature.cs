@@ -51,7 +51,7 @@ namespace CreatureBehaviors.CreatureStates {
 
             foreach (Hitbox h in hitboxes)
             {
-                h.collider.Disabled = true;
+                h.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
             }
 
             return vel;
@@ -84,7 +84,7 @@ namespace CreatureBehaviors.CreatureStates {
 
                 foreach (Hitbox h in hitboxes)
                 {
-                    h.collider.Disabled = false;
+                    h.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
                 }
 
                 return vel + jumpVel;
@@ -98,7 +98,7 @@ namespace CreatureBehaviors.CreatureStates {
 
                 foreach (Hitbox h in hitboxes)
                 {
-                    h.collider.Disabled = true;
+                    h.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
                 }
             }
 

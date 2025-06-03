@@ -7,13 +7,22 @@ namespace CreatureBehaviors.CreatureStates
     //pretty good for a stun state actually
     public class DeathSpawnRagdoll : BehaviorState
     {
-        RigidBody3D ragdoll;
+        RagdollCreature ragdoll;
 
-        public DeathSpawnRagdoll(RigidBody3D ragdoll) : base(CreatureState.Dead)
+        public DeathSpawnRagdoll(RagdollCreature ragdoll) : base(CreatureState.Dead)
         {
             this.ragdoll = ragdoll;
             this.ragdoll.Freeze = true;
             //this.ragdoll.Visible = false;
+        }
+
+        public override Vector3 TransitionIn(CreatureStateMachine self, double delta)
+        {
+            ragdoll.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+            ragdoll.hurtbox.SetDeferred(Area3D.PropertyName.Monitoring, false);
+            ragdoll.hurtbox.SetDeferred(Area3D.PropertyName.Monitorable, false);
+
+            return base.TransitionIn(self, delta);
         }
 
         public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
@@ -23,6 +32,11 @@ namespace CreatureBehaviors.CreatureStates
             ragdoll.GlobalPosition = self.GetCreaturePosition();
             ragdoll.Freeze = false;
             ragdoll.Visible = true;
+
+            ragdoll.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
+            ragdoll.hurtbox.SetDeferred(Area3D.PropertyName.Monitoring, true);
+            ragdoll.hurtbox.SetDeferred(Area3D.PropertyName.Monitorable, true);
+
 
             self.QueueFree();
 

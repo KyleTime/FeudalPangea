@@ -4,6 +4,9 @@ using CreatureBehaviors.CreatureStates;
 
 public partial class RagdollCreature : RigidBody3D, ICreature
 {
+    [Export] public CollisionShape3D collider;
+    [Export] public Area3D hurtbox;
+
     public int GetHP()
     {
         return 0;
@@ -17,6 +20,11 @@ public partial class RagdollCreature : RigidBody3D, ICreature
     public Vector3 GetCreaturePosition()
     {
         return GlobalPosition;
+    }
+
+    public Vector3 GetCreatureCenter()
+    {
+        return GlobalPosition + new Vector3(0, 1, 0);
     }
 
     public Vector3 GetCreatureVelocity()

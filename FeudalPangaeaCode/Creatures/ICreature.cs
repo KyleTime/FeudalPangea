@@ -9,7 +9,17 @@ public interface ICreature
 {
 	int GetHP();
 	void ChangeHP(int change, DamageSource source);
+
+	/// <summary>
+	/// Returns the position at the feet of the creature.
+	/// </summary>
 	Vector3 GetCreaturePosition();
+
+	/// <summary>
+	/// Returns the position at the center of the creature.
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetCreatureCenter();
 	Vector3 GetCreatureVelocity();
 	void Stun(float time);
 	void Push(Vector3 force);

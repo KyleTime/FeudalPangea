@@ -34,8 +34,11 @@ public partial class PlayerMovement : Node3D
 	//How quickly should the player decelerate? (higher number, higher deceleration)
 	[Export]private float deceleration = 10f;
 
+	//what modifier should be put on deceleration when the creature is stunned? (0 - 1)
+	[Export] private float stunDecelerationMod = 0.2f;
+
 	//How much air control should the player have? (0 - 1)
-	[Export]private float airMod = 0.5f;
+	[Export] private float airMod = 0.5f;
 
 	//How high should a jump send the player? (velocity)
 	[Export]private float jumpPower = 10;
@@ -76,6 +79,11 @@ public partial class PlayerMovement : Node3D
 
 	//is true if the player wall jumped, used to track when to cut off upward velocity
 	private bool wallJumping = false;
+
+	//used to store the current push vector from outside sources
+	//applied at the end of the frame to avoid weird side effects
+	//like how bonking sometimes reverses the velocity of a push
+	private Vector3 pushVector;
 
 	//spells!
 	int selectedSpell = 0;
@@ -121,8 +129,8 @@ public partial class PlayerMovement : Node3D
 		ReadInput(delta);
 	}
 
-	private void ReadInput(double delta) {
-
+	private void ReadInput(double delta)
+	{
 		changedThisFrame = false; //reset
 
 		switch (creatureState)
@@ -200,16 +208,17 @@ public partial class PlayerMovement : Node3D
 		}
 	}
 
-	private void Gravity(double delta){
-		//gravity lol
-		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
-
+	private void Gravity(double delta)
+	{
 		if (grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
-		else if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
+		else if (creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
 		{
 			velocity.Y = maxSlideFallingSpeed;
 		}
+		
+		//gravity lol
+		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
 	}
 
 	private void Move(double delta, float mod = 1, bool decelerate = true){
@@ -226,8 +235,8 @@ public partial class PlayerMovement : Node3D
 			return;
 
 		//reset hitboxes every time to avoid nonsense
-		punchHitbox.collider.Disabled = true;
-		parryHitbox.collider.Disabled = true;
+		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 
 		changedThisFrame = true;
 
@@ -272,6 +281,8 @@ public partial class PlayerMovement : Node3D
 			Jump();
 		}
 
+		Gravity((float)delta);
+
 		// TryTransition(AttackCond(), CreatureState.Attack);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
@@ -281,8 +292,7 @@ public partial class PlayerMovement : Node3D
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
-		
-		Gravity((float)delta);
+
 	}
 
 	private void State_OpenAir(double delta)
@@ -371,7 +381,7 @@ public partial class PlayerMovement : Node3D
 		{
 			stunTimer -= (float)delta;
 
-			Decelerate(delta);
+			Decelerate(delta * stunDecelerationMod);
 
 			if (!grounded)
 				SetState(CreatureState.StunAir);
@@ -394,7 +404,7 @@ public partial class PlayerMovement : Node3D
 		{
 			stunTimer -= (float)delta;
 
-			Decelerate(delta);
+			Decelerate(delta * stunDecelerationMod);
 
 			if (grounded)
 				SetState(CreatureState.Stun);
@@ -435,20 +445,20 @@ public partial class PlayerMovement : Node3D
 
 			if (animationTimer > startPunchActive && animationTimer < endPunchActive)
 			{
-				punchHitbox.collider.Disabled = false;
+				punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
 			}
 			else
 			{
-				punchHitbox.collider.Disabled = true;
+				punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 			}
 
 			if (animationTimer > startParryActive && animationTimer < endParryActive)
 			{
-				parryHitbox.collider.Disabled = false;
+				parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
 			}
 			else
 			{
-				parryHitbox.collider.Disabled = true;
+				parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 			}
 		}
 	}
@@ -731,6 +741,11 @@ public partial class PlayerMovement : Node3D
 
 		LookAt(GlobalPosition + wallNormal);
 		Rotation = new Vector3(0, Rotation.Y, 0); //I don't know what this is doing
+	}
+
+	public void Push(Vector3 push)
+	{
+		velocity += push;
 	}
 
 #endregion

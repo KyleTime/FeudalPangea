@@ -32,7 +32,7 @@ public partial class Hurtbox : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        hit = false;
+        SetDeferred("hit", false);
     }  
 
     public void OnAreaEntered(Area3D node)
@@ -62,9 +62,13 @@ public partial class Hurtbox : Area3D
         {
             case DamageSource.Bonk:
 
-                self.Push(CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreaturePosition(), hitbox.pushMod.X) + Vector3.Up * hitbox.pushMod.Y);
+                Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with {Y = 0};
 
-                if(hitbox.stunDuration > 0)
+                self.Push(pushVector + Vector3.Up * hitbox.pushMod.Y);
+
+                GD.Print("pushVector: " + pushVector + " VS velocity: " + self.GetCreatureVelocity());
+
+                if (hitbox.stunDuration > 0)
                     self.Stun(hitbox.stunDuration);
                     
                 break;

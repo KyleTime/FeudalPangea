@@ -75,6 +75,7 @@ skeleton = NodePath("../..")
 transform = Transform3D(2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, 0, 2.09375, -11.7527)
 script = ExtResource("5_pq4ec")
 dmg = 10
+pushMod = Vector2(30, 5)
 collider = NodePath("CollisionShape3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]

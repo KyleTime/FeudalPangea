@@ -48,6 +48,17 @@ public abstract class BehaviorState
     public abstract Vector3 GetStepVelocity(CreatureStateMachine self, double delta);
 
     /// <summary>
+    /// Called on the first frame of the state.
+    /// </summary>
+    /// <param name="self">The CreatureStateMachine this state is acting on.</param>
+    /// <param name="delta">Delta Time</param>
+    /// <returns></returns>
+    public virtual Vector3 TransitionIn(CreatureStateMachine self, double delta)
+    {
+        return self.Velocity;
+    }
+
+    /// <summary>
     /// Checks the condition for each state transition until it finds a valid one. Then, it attempts to extract a target and assign it to the new state.
     /// </summary>
     /// <returns>The new state to use</returns>
@@ -58,6 +69,7 @@ public abstract class BehaviorState
         {
             if (pair.Key.Condition(self))
             {
+                //transition out of this state
                 TransitionOut(self, delta);
 
                 //grab target from conditional
@@ -67,6 +79,9 @@ public abstract class BehaviorState
                 {
                     self.target = target;
                 }
+                
+                //transition into new state
+                self.Velocity = pair.Value.TransitionIn(self, delta);
 
                 return pair.Value;
             }

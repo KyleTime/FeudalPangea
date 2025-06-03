@@ -6,7 +6,7 @@ using CreatureBehaviors.CreatureConditions;
 
 public partial class RockMimic : CreatureStateMachine, ICreature
 {
-    [Export] RigidBody3D ragdoll;
+    [Export] RagdollCreature ragdoll;
     [Export] Hitbox hitbox;
 
     public override void _Ready()

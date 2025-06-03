@@ -141,7 +141,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public void Push(Vector3 force)
 	{
-		move.velocity += force;
+		move.Push(force);
 	}
 
 	public CreatureState GetState()
@@ -153,10 +153,15 @@ public partial class Player : CharacterBody3D, ICreature
     {
 		return GlobalPosition;
     }
+	
+	public Vector3 GetCreatureCenter()
+    {
+		return GlobalPosition + new Vector3(0, 1.375f, 0);
+    }
 
     public Vector3 GetCreatureVelocity()
-    {
-		return Velocity;
-    }
+	{
+		return move.velocity;
+	}
 
 }

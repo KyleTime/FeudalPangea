@@ -19,6 +19,11 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     private int HP = 1;
 
+    private double deltaTime;
+
+    //offset from feet to the center of the creature
+    [Export] public Vector3 creatureCenterOffset = new Vector3(0, 1, 0);
+
     //This is the builder for the CreatureStateMachine
     // refer to the following link for a resource on the Builder Pattern: https://www.baeldung.com/java-builder-pattern 
     // yes, it's in java, but that's how my classes taught me so anyway
@@ -181,6 +186,8 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     public override void _PhysicsProcess(double delta)
     {
+        deltaTime = delta;
+
         stunTimer = Math.Clamp(stunTimer - (float)delta, 0, 9999);
 
         BehaviorState nextState = state.StateTransition(this, delta);
@@ -211,7 +218,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             if (deathState == null)
                 GD.Print("death is null");
 
-            state = deathState;
+            ForceState(deathState, deltaTime, null, true);
         }
     }
 
@@ -233,19 +240,19 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     public void Stun(float time)
     {
         stunTimer = time;
-        ForceState(stunState);
+        ForceState(stunState, deltaTime);
         target = null; //reset target on stun prolly
     }
 
     /// <summary>
     /// Force a state transition with a given state and target, bypassing the conditional.
-    /// However, this does not bypass death.
+    /// However, this does not bypass death unless otherwise specified.
     /// </summary>
     /// <param name="nextState">State to transition to.</param>
     /// <param name="target">The creature to target.</param>
-    public void ForceState(BehaviorState nextState, ICreature target = null)
+    public void ForceState(BehaviorState nextState, double delta, ICreature target = null, bool bypassDeath = false)
     {
-        if (HP <= 0)
+        if (!bypassDeath && HP <= 0)
         {
             return;
         }
@@ -255,7 +262,11 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             this.target = target;
         }
 
+        state.TransitionOut(this, delta);
+
         state = nextState;
+
+        state.TransitionIn(this, delta);
     }
 
     /// <summary>
@@ -284,5 +295,10 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     public Vector3 GetCreaturePosition()
     {
         return GlobalPosition;
+    }
+
+    public Vector3 GetCreatureCenter()
+    {
+        return GlobalPosition + creatureCenterOffset;
     }
 }
