@@ -116,12 +116,12 @@ shape = SubResource("CapsuleShape3D_fk5o5")
 debug_color = Color(0.758146, 0.184312, 1, 0.42)
 
 [node name="BonkEffect" type="Node3D" parent="Body/Hurtbox" node_paths=PackedStringArray("effect")]
+transform = Transform3D(1.01546, 0, 0, 0, 1.01546, 0, 0, 0, 1.01546, 0, 0, 0)
 script = ExtResource("8_825xp")
 effect = NodePath("MeshInstance3D")
 pauseTime = 0.1
 step = 0.01
 scaleMod = 3.0
-freezeTime = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Hurtbox/BonkEffect"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.4, 0, 0, 0)
@@ -142,6 +142,9 @@ debug_color = Color(0.853501, 0.395447, 0.170389, 0.42)
 [node name="HitFx" type="Node3D" parent="Body/ParryHitbox" node_paths=PackedStringArray("effect")]
 script = ExtResource("8_825xp")
 effect = NodePath("Effect")
+pauseTime = 0.4
+step = 0.01
+scaleMod = 5.0
 
 [node name="Effect" type="Node3D" parent="Body/ParryHitbox/HitFx"]
 visible = false

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 public partial class HitFx : Node3D
@@ -24,7 +25,7 @@ public partial class HitFx : Node3D
         return -1 * (float)Math.Pow((x - w) * (1 / w), 2) + 1;
     }
 
-    public virtual async void Effect(Vector3 effectPos)
+    public virtual async void Effect(Vector3 effectPos, Vector3 rotation)
     {
         if (effect == null)
         {
@@ -36,6 +37,7 @@ public partial class HitFx : Node3D
             GetTree().Paused = true;
 
         effect.GlobalPosition = effectPos;
+        effect.Rotation = rotation with { X = 0, Z = 0 };
         effect.Visible = true;
 
         while (time < pauseTime)

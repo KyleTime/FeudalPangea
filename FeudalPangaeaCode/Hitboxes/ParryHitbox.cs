@@ -26,7 +26,7 @@ public partial class ParryHitbox : Hurtbox
 
         if (parryEffect != null)
         {
-            parryEffect.Effect(hitbox.GlobalPosition);
+            parryEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
         }
     }
 

@@ -74,7 +74,7 @@ public partial class Hurtbox : Area3D
 
                 if (bonkEffect != null)
                 {
-                    bonkEffect.Effect(hitbox.GlobalPosition);
+                    bonkEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
                 }
                     
                 break;
