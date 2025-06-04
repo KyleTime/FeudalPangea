@@ -437,11 +437,11 @@ public partial class PlayerMovement : Node3D
 
 			//some hard-coded nonsense for now, I'll deal with it later
 
-			float startPunchActive = 0.19f;
-			float endPunchActive = 0.3f;
+			float startPunchActive = 0.16f;
+			float endPunchActive = 0.35f;
 
-			float startParryActive = 0.21f;
-			float endParryActive = 0.28f;
+			float startParryActive = 0.2f;
+			float endParryActive = 0.3f;
 
 			if (animationTimer > startPunchActive && animationTimer < endPunchActive)
 			{

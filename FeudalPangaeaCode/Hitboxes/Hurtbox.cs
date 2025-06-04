@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Hurtbox : Area3D
 {
@@ -7,7 +8,7 @@ public partial class Hurtbox : Area3D
     public bool hit { get; private set; }
 
     [Export] public CollisionShape3D collider;
-
+    [Export] public HitFx bonkEffect;
 
     public override void _Ready()
     {
@@ -70,6 +71,11 @@ public partial class Hurtbox : Area3D
 
                 if (hitbox.stunDuration > 0)
                     self.Stun(hitbox.stunDuration);
+
+                if (bonkEffect != null)
+                {
+                    bonkEffect.Effect(hitbox.GlobalPosition);
+                }
                     
                 break;
         }
