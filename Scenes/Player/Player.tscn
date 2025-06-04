@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=15 format=3 uid="uid://bosu0j6amay5p"]
 
 [ext_resource type="Script" uid="uid://cbkps5rwocubj" path="res://FeudalPangaeaCode/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" uid="uid://ql82ri578m3d" path="res://FeudalPangaeaCode/Player/PlayerMovement.cs" id="4_te5vt"]
@@ -21,6 +21,13 @@ height = 2.40051
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_fk5o5"]
 radius = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fk5o5"]
+emission_enabled = true
+emission = Color(0.96419, 0.782718, 0.474704, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_825xp"]
+material = SubResource("StandardMaterial3D_fk5o5")
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 4
@@ -97,8 +104,9 @@ parryHitbox = NodePath("../ParryHitbox")
 shape = SubResource("CapsuleShape3D_fk5o5")
 debug_color = Color(0.758146, 0.184312, 1, 0.42)
 
-[node name="ParryHitbox" type="Area3D" parent="Body"]
+[node name="ParryHitbox" type="Area3D" parent="Body" node_paths=PackedStringArray("effect")]
 script = ExtResource("7_fk5o5")
+effect = NodePath("MeshInstance3D")
 horizontalPush = 20.0
 verticalPush = 10.0
 
@@ -106,6 +114,10 @@ verticalPush = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.24101e-07, 0, 1.41955)
 shape = SubResource("SphereShape3D_fk5o5")
 debug_color = Color(0.853501, 0.395447, 0.170389, 0.42)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/ParryHitbox"]
+visible = false
+mesh = SubResource("SphereMesh_825xp")
 
 [node name="Body_Center" type="Node3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3725, 0)

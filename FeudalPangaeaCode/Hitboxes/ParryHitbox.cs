@@ -1,4 +1,6 @@
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 
@@ -24,9 +26,35 @@ public partial class ParryHitbox : Hurtbox
 
         if (effect != null)
         {
-            effect.GlobalPosition = hitbox.GlobalPosition;
-            effect.Visible = true;
+            ParryPause(1, hitbox.GlobalPosition);
         }
+    }
+
+    private float InvertedParabolaScale(float x, float totalTime) {
+        float w = totalTime / 2;
+        return -1 * (float)Math.Pow((x - w) * (1 / w), 2) + 1;
+    }
+
+    private async void ParryPause(float pauseTime, Vector3 effectPos)
+    {
+        GetTree().Paused = true;
+
+        effect.GlobalPosition = effectPos;
+        effect.Visible = true;
+
+        float time = 0;
+        float step = 0.1f;
+        while (time < pauseTime)
+        {
+            effect.Scale = new Vector3(1, 1, 1) * InvertedParabolaScale(time, pauseTime);
+
+            time += step;
+            await Task.Delay((int)(step * 1000));
+        }
+
+        GetTree().Paused = false;
+
+        effect.Visible = false;
     }
 
     public bool OverlapsHitbox()
