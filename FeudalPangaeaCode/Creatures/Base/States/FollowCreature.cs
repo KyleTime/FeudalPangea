@@ -38,7 +38,6 @@ namespace CreatureBehaviors.CreatureStates
         {
             if (self.target == null)
             {
-                GD.Print("HELPPPPP");
                 return self.GetCreatureVelocity();
             }
 

@@ -38,8 +38,6 @@ public partial class Hurtbox : Area3D
 
     public void OnAreaEntered(Area3D node)
     {
-        GD.Print("Hit Object: " + Owner.Name);
-
         if (node is Hitbox)
         {
             Hitbox hitbox = (Hitbox)node;
@@ -66,8 +64,6 @@ public partial class Hurtbox : Area3D
                 Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with {Y = 0};
 
                 self.Push(pushVector + Vector3.Up * hitbox.pushMod.Y);
-
-                GD.Print("pushVector: " + pushVector + " VS velocity: " + self.GetCreatureVelocity());
 
                 if (hitbox.stunDuration > 0)
                     self.Stun(hitbox.stunDuration);

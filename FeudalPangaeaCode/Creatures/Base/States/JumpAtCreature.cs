@@ -13,11 +13,14 @@ namespace CreatureBehaviors.CreatureStates {
 
         public float deceleration;
 
+        public float delayBeforeJump;
+        public float endLag;
+
         bool jump = false;
         bool stop = false; //when the hitboxes hit something, this should be true and GetStepVelocity should deal with it
         bool waiting = false; //when this is true, behavior becomes essentially the same as idle
 
-        public JumpAtCreature(Hitbox[] hitboxes, float delay = 1, float forwardVelocity = 10, float upwardVelocity = 5, float deceleration = 10) : base(CreatureState.Attack)
+        public JumpAtCreature(Hitbox[] hitboxes, float forwardVelocity = 10, float upwardVelocity = 5, float deceleration = 10, float delayBeforeJump = 1.5f, float endLag = 2f) : base(CreatureState.Attack)
         {
             this.hitboxes = hitboxes;
 
@@ -29,16 +32,8 @@ namespace CreatureBehaviors.CreatureStates {
             this.forwardVelocity = forwardVelocity;
             this.upwardVelocity = upwardVelocity;
             this.deceleration = deceleration;
-        }
-
-        public JumpAtCreature(Hitbox hitbox, float delay = 1, float forwardVelocity = 10, float upwardVelocity = 5, float deceleration = 10) : base(CreatureState.Attack)
-        {
-            this.hitboxes = [hitbox];
-            hitbox.HitHurtBox += StopSelf;
-
-            this.forwardVelocity = forwardVelocity;
-            this.upwardVelocity = upwardVelocity;
-            this.deceleration = deceleration;
+            this.delayBeforeJump = delayBeforeJump;
+            this.endLag = endLag;
         }
 
         public override void HandleAnimation(AnimationPlayer player)
@@ -51,6 +46,7 @@ namespace CreatureBehaviors.CreatureStates {
             timer = 0;
             waiting = false;
             jump = false;
+            holdTransitions = true;
 
             return self.Velocity;
         }
@@ -82,19 +78,17 @@ namespace CreatureBehaviors.CreatureStates {
 
             if (waiting)
             {
+                holdTransitions = false;
                 return vel;
             }
+            
+            timer += (float)delta;
 
-            if (timer <= delay)
+            if (!jump && timer > delayBeforeJump)
             {
-                timer += (float)delta;
-                return self.GetCreatureVelocity();
-            }
-
-            if (!jump)
-            {
-                Vector3 jumpVel = ((self.target.GetCreaturePosition() - self.GetCreaturePosition()).Normalized() with { Y = 0 } * forwardVelocity) + Vector3.Up * upwardVelocity;
+                Vector3 jumpVel = ((-self.Basis.Z with {Y = 0}).Normalized() with { Y = 0 } * forwardVelocity) + Vector3.Up * upwardVelocity;
                 jump = true;
+                timer = 0;
 
                 foreach (Hitbox h in hitboxes)
                 {
@@ -103,8 +97,8 @@ namespace CreatureBehaviors.CreatureStates {
 
                 return vel + jumpVel;
             }
-
-            if (stop)
+            
+            if(stop || jump && timer > endLag)
             {
                 vel = CreatureVelocityCalculations.Decelerate(vel, deceleration * 2, delta);
                 vel *= new Vector3(-1, 0, -1);
@@ -122,8 +116,6 @@ namespace CreatureBehaviors.CreatureStates {
         //called whenever any of the hitboxes collide with something
         public void StopSelf(Hurtbox hurtbox)
         {
-            GD.Print("HIT!");
-
             stop = true;
         }
     }

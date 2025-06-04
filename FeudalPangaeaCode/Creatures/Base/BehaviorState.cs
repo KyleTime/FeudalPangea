@@ -15,6 +15,8 @@ public abstract class BehaviorState
 
     protected Dictionary<BehaviorCondition, BehaviorState> transitions = new Dictionary<BehaviorCondition, BehaviorState>();
 
+    protected bool holdTransitions = false;
+
     public BehaviorState(CreatureState creatureState)
     {
         this.creatureState = creatureState;
@@ -70,28 +72,32 @@ public abstract class BehaviorState
     /// <returns>The new state to use</returns>
     public virtual BehaviorState StateTransition(CreatureStateMachine self, double delta)
     {
+        if (holdTransitions)
+            return null;
 
         foreach (var pair in transitions)
-        {
-            if (pair.Key.Condition(self))
             {
-                //transition out of this state
-                TransitionOut(self, delta);
-
-                //grab target from conditional
-                //if null, assume no change
-                ICreature target = pair.Key.GetTarget();
-                if (target != null)
+                if (pair.Key.Condition(self))
                 {
-                    self.target = target;
-                }
-                
-                //transition into new state
-                self.Velocity = pair.Value.TransitionIn(self, delta);
+                    GD.Print("State: " + pair.Value.GetType().Name);
 
-                return pair.Value;
+                    //transition out of this state
+                    TransitionOut(self, delta);
+
+                    //grab target from conditional
+                    //if null, assume no change
+                    ICreature target = pair.Key.GetTarget();
+                    if (target != null)
+                    {
+                        self.target = target;
+                    }
+
+                    //transition into new state
+                    self.Velocity = pair.Value.TransitionIn(self, delta);
+
+                    return pair.Value;
+                }
             }
-        }
 
         return null;
     }

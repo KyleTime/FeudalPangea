@@ -241,7 +241,7 @@ public partial class PlayerMovement : Node3D
 		changedThisFrame = true;
 
 		creatureState = newState;
-		GD.Print("STATE: " + creatureState.ToString());
+		// GD.Print("STATE: " + creatureState.ToString());
 
 		EmitSignal(SignalName.StateChange);
 
@@ -701,7 +701,7 @@ public partial class PlayerMovement : Node3D
 
 		wallJumping = true;
 
-		GD.Print("WALL JUMP!");
+		// GD.Print("WALL JUMP!");
 	}
 
 	private void Dive() {

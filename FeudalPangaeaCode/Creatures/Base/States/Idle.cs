@@ -17,6 +17,7 @@ namespace CreatureBehaviors.CreatureStates
             this.doGravity = doGravity;
             this.deceleration = deceleration;
             this.holdTime = holdTime;
+            holdTransitions = true;
         }
 
         public override void HandleAnimation(AnimationPlayer player)
@@ -26,18 +27,10 @@ namespace CreatureBehaviors.CreatureStates
         public override Vector3 TransitionIn(CreatureStateMachine self, double delta)
         {
             timer = 0;
+            holdTransitions = true;
 
             return base.TransitionIn(self, delta);
         }
-
-        public override BehaviorState StateTransition(CreatureStateMachine self, double delta)
-        {
-            if (timer < holdTime)
-                return null;
-
-            return base.StateTransition(self, delta);
-        }
-
 
         public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
         {
@@ -49,6 +42,11 @@ namespace CreatureBehaviors.CreatureStates
             }
 
             timer += (float)delta; //if no transition happens for like, some absurd length of time, this will overflow, I am not worried
+
+            if (timer > holdTime)
+            {
+                holdTransitions = false;
+            }
 
             velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
 
