@@ -45,6 +45,16 @@ namespace CreatureBehaviors.CreatureStates {
         {
         }
 
+        public override Vector3 TransitionIn(CreatureStateMachine self, double delta)
+        {
+            stop = false;
+            timer = 0;
+            waiting = false;
+            jump = false;
+
+            return self.Velocity;
+        }
+
         public override Vector3 TransitionOut(CreatureStateMachine self, double delta)
         {
             Vector3 vel = self.Velocity;
