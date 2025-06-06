@@ -15,13 +15,15 @@ public partial class PlayerMovement : Node3D
 	//variables set by the Player script
 	public bool grounded = false;
 	public bool wall = false;
-	public Basis basis; //way to orient self for velocity calculations
-	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
-
-	public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
+	public Basis basis; //way to orient self for velocity calculations, usually camera
+	[Export] public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
+	[Export] public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
+	[Export] public Hitbox punchHitbox; //hitbox for player punch
+	[Export] public ParryHitbox parryHitbox; //hitbox for parries
+	private float animationTimer = 0; //keep track of how long the animation has been going for
 
 	//How fast, at max, should the player move?
-	[Export]public float speed = 10f;
+	[Export] public float speed = 10f;
 
 	//How fast should the player fall? (multiplier)
 	[Export]private float gravityMod = 1;
@@ -32,8 +34,11 @@ public partial class PlayerMovement : Node3D
 	//How quickly should the player decelerate? (higher number, higher deceleration)
 	[Export]private float deceleration = 10f;
 
+	//what modifier should be put on deceleration when the creature is stunned? (0 - 1)
+	[Export] private float stunDecelerationMod = 0.2f;
+
 	//How much air control should the player have? (0 - 1)
-	[Export]private float airMod = 0.5f;
+	[Export] private float airMod = 0.5f;
 
 	//How high should a jump send the player? (velocity)
 	[Export]private float jumpPower = 10;
@@ -75,6 +80,11 @@ public partial class PlayerMovement : Node3D
 	//is true if the player wall jumped, used to track when to cut off upward velocity
 	private bool wallJumping = false;
 
+	//used to store the current push vector from outside sources
+	//applied at the end of the frame to avoid weird side effects
+	//like how bonking sometimes reverses the velocity of a push
+	private Vector3 pushVector;
+
 	//spells!
 	int selectedSpell = 0;
 	Spell[] spells = new Spell[3];
@@ -100,8 +110,6 @@ public partial class PlayerMovement : Node3D
 	public override void _Ready()
 	{
 		basis = new Basis();
-		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
-		ledgeHangRay = GetNode<RayCast3D>("LedgeHangRay");
 		spells[0] = new DoubleJumpSpell(this);
 	}
 
@@ -121,8 +129,8 @@ public partial class PlayerMovement : Node3D
 		ReadInput(delta);
 	}
 
-	private void ReadInput(double delta) {
-
+	private void ReadInput(double delta)
+	{
 		changedThisFrame = false; //reset
 
 		switch (creatureState)
@@ -159,6 +167,9 @@ public partial class PlayerMovement : Node3D
 				break;
 			case CreatureState.Casting:
 				spells[selectedSpell].CastState(delta);
+				break;
+			case CreatureState.Attack:
+				State_Punch(delta);
 				break;
 			default:
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
@@ -197,16 +208,17 @@ public partial class PlayerMovement : Node3D
 		}
 	}
 
-	private void Gravity(float delta){
-		//gravity lol
-		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
-
+	private void Gravity(double delta)
+	{
 		if (grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
-		else if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
+		else if (creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
 		{
 			velocity.Y = maxSlideFallingSpeed;
 		}
+		
+		//gravity lol
+		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
 	}
 
 	private void Move(double delta, float mod = 1, bool decelerate = true){
@@ -222,16 +234,20 @@ public partial class PlayerMovement : Node3D
 		if(changedThisFrame)
 			return;
 
+		//reset hitboxes every time to avoid nonsense
+		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+
 		changedThisFrame = true;
 
 		creatureState = newState;
-		GD.Print("STATE: " + creatureState.ToString());
+		// GD.Print("STATE: " + creatureState.ToString());
 
 		EmitSignal(SignalName.StateChange);
 
 		if(autoActive)
 		{
-			switch(creatureState)
+			switch (creatureState)
 			{
 				case CreatureState.Dive:
 					Dive();
@@ -239,15 +255,18 @@ public partial class PlayerMovement : Node3D
 				case CreatureState.LedgeHang:
 					LedgeHang();
 					break;
+				case CreatureState.Attack:
+					WaitForAnimation();
+					break;
 				// case CreatureState.Attack:
-				// 	WaitForAnimation();
-				// 	break;
-				// case CreatureState.AttackAir:
-				// 	WaitForAnimation();
-				// 	break;
-				// case CreatureState.AttackPoke:
-				// 	WaitForAnimation();
-				// 	break;
+					// 	WaitForAnimation();
+					// 	break;
+					// case CreatureState.AttackAir:
+					// 	WaitForAnimation();
+					// 	break;
+					// case CreatureState.AttackPoke:
+					// 	WaitForAnimation();
+					// 	break;
 			}
 		}
 	}
@@ -262,16 +281,18 @@ public partial class PlayerMovement : Node3D
 			Jump();
 		}
 
+		Gravity((float)delta);
+
 		// TryTransition(AttackCond(), CreatureState.Attack);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
+		TryTransition(PunchCond(), CreatureState.Attack);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
-		
-		Gravity((float)delta);
+
 	}
 
 	private void State_OpenAir(double delta)
@@ -281,8 +302,7 @@ public partial class PlayerMovement : Node3D
 		
 		Gravity((float)delta);
 
-		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
-		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
+		TryTransition(PunchCond(), CreatureState.Attack);
 		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
@@ -361,7 +381,7 @@ public partial class PlayerMovement : Node3D
 		{
 			stunTimer -= (float)delta;
 
-			Decelerate(delta);
+			Decelerate(delta * stunDecelerationMod);
 
 			if (!grounded)
 				SetState(CreatureState.StunAir);
@@ -384,7 +404,7 @@ public partial class PlayerMovement : Node3D
 		{
 			stunTimer -= (float)delta;
 
-			Decelerate(delta);
+			Decelerate(delta * stunDecelerationMod);
 
 			if (grounded)
 				SetState(CreatureState.Stun);
@@ -397,6 +417,50 @@ public partial class PlayerMovement : Node3D
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
 
+	}
+
+	private void State_Punch(double delta)
+	{
+		RotateBody(1);
+
+		Decelerate(delta);
+		Gravity(delta);
+
+		if (animationDone)
+		{
+			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		}
+		else
+		{
+			animationTimer += (float)delta;
+
+			//some hard-coded nonsense for now, I'll deal with it later
+
+			float startPunchActive = 0.16f;
+			float endPunchActive = 0.35f;
+
+			float startParryActive = 0.2f;
+			float endParryActive = 0.3f;
+
+			if (animationTimer > startPunchActive && animationTimer < endPunchActive)
+			{
+				punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
+			}
+			else
+			{
+				punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+			}
+
+			if (animationTimer > startParryActive && animationTimer < endParryActive)
+			{
+				parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
+			}
+			else
+			{
+				parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+			}
+		}
 	}
 
 	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
@@ -444,7 +508,7 @@ public partial class PlayerMovement : Node3D
 	// 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	// 		}
 	// 	}
-		
+
 	// 	Decelerate(delta);
 	// 	Gravity((float)delta);
 	// }
@@ -471,14 +535,14 @@ public partial class PlayerMovement : Node3D
 	// 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	// 		TryTransition(GroundedCond(), CreatureState.Grounded);
 	// 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
-			
+
 
 	// 	}
 	// }
 
 	private void State_Dead(double delta)
 	{
-		if(!grounded)
+		if (!grounded)
 			SetState(CreatureState.DeadAir);
 
 		Decelerate(delta);
@@ -564,6 +628,11 @@ public partial class PlayerMovement : Node3D
 		return false;
 	}
 
+	private bool PunchCond()
+	{
+		return Input.IsActionJustPressed("ATTACK");
+	}
+
 	// private bool AttackCond()
 	// {
 	// 	return Input.IsActionJustPressed("ATTACK") && grounded;
@@ -623,16 +692,16 @@ public partial class PlayerMovement : Node3D
 		jumping = true;
 	}
 
-	private void WallJump(){
+	private void WallJump()
+	{
+		Vector3 zDir = Basis.Z with { Y = 0 };
 
-		Vector3 zDir = Transform.Basis.Z;
-		zDir.Y = 0;
-		zDir = zDir.Normalized();
-
-		velocity = -zDir * speed * wallPushMod;
+		velocity = zDir * speed * wallPushMod;
 		velocity.Y = jumpPower * wallJumpMod;
 
 		wallJumping = true;
+
+		// GD.Print("WALL JUMP!");
 	}
 
 	private void Dive() {
@@ -646,8 +715,7 @@ public partial class PlayerMovement : Node3D
 
 		if (XInput == 0 && ZInput == 0)
 		{
-			zDir = Transform.Basis.Z;
-			zDir.Y = 0;
+			zDir = -GetZDirection();
 		}
 		else
 		{
@@ -675,6 +743,11 @@ public partial class PlayerMovement : Node3D
 		Rotation = new Vector3(0, Rotation.Y, 0); //I don't know what this is doing
 	}
 
+	public void Push(Vector3 push)
+	{
+		velocity += push;
+	}
+
 #endregion
 
 
@@ -683,6 +756,7 @@ public partial class PlayerMovement : Node3D
 	//see the attack states for an example
 	private void WaitForAnimation()
 	{
+		animationTimer = 0;
 		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 
