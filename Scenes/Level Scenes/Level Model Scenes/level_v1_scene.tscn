@@ -75,7 +75,6 @@ shape = SubResource("ConcavePolygonShape3D_32k1y")
 [node name="StaticBody3D" type="StaticBody3D" parent="Plane" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plane/StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_w2f18")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Hill" index="0"]

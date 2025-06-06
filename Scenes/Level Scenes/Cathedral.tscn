@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=16 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="1_a85am"]
-[ext_resource type="PackedScene" uid="uid://0q5r0qwqqkd2" path="res://Scenes/Hitboxes/death_plane.tscn" id="2_jkbgh"]
+[ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_nlxxi"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="3_8ptgc"]
-[ext_resource type="Script" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="4_dg8ym"]
-[ext_resource type="Script" path="res://FeudalPangaeaCode/Basics/Hitbox.cs" id="5_pq4ec"]
+[ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="4_dg8ym"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_pq4ec"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_2wye8"]
+[ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_nlxxi"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
 size = Vector3(6, 1, 6)
@@ -13,24 +16,38 @@ size = Vector3(6, 1, 6)
 [sub_resource type="BoxMesh" id="BoxMesh_pvjru"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xvp6"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.273989, 0.21327, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_k8l05"]
 material = SubResource("StandardMaterial3D_3xvp6")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvjgk"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_nlxxi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yxnnm"]
+
 [node name="Cathedral" type="Node3D"]
+script = ExtResource("1_nlxxi")
 
 [node name="Player" parent="." instance=ExtResource("1_a85am")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
+transform = Transform3D(-0.999457, 0, -0.0329458, 0, 1, 0, 0.0329458, 0, -0.999457, -0.831316, 4, 0)
 floor_max_angle = 1.0472
 floor_snap_length = 0.4
 
 [node name="Cinematic Camera" type="Camera3D" parent="."]
 
-[node name="DeathPlane" parent="." instance=ExtResource("2_jkbgh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -41.5472, 0)
-collision_mask = 13
+[node name="Death Plane" type="Area3D" parent="."]
+script = ExtResource("5_pq4ec")
+dmg = 9999
+damage_source = 0
+stunDuration = 999.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Death Plane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -71.7249, 0)
+shape = SubResource("WorldBoundaryShape3D_nlxxi")
 
 [node name="Level Elements" type="Node" parent="."]
 
@@ -56,12 +73,12 @@ transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 mesh = SubResource("BoxMesh_pvjru")
 skeleton = NodePath("../..")
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.09375, -11.7527)
-collision_layer = 8
-collision_mask = 4
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
+transform = Transform3D(2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, 0, 2.09375, -11.7527)
 script = ExtResource("5_pq4ec")
 dmg = 10
+pushMod = Vector2(30, 5)
+collider = NodePath("CollisionShape3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
 mesh = SubResource("BoxMesh_k8l05")
@@ -91,7 +108,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.2219, 3.02573, -67.5848)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.4639, 3.10168, -68.0278)
 
 [node name="Coin7" parent="Coins" instance=ExtResource("6_2wye8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.358, 17.7917, -77.8987)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.358, 16.3582, -77.8987)
 
 [node name="Coin8" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.47, 17.7917, -84.6141)
@@ -149,5 +166,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -288.496, 48.3138, -93.6302)
 
 [node name="Coin26" parent="Coins" instance=ExtResource("6_2wye8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.458, 47.47, -84.2376)
+
+[node name="Rock Mimic" parent="." instance=ExtResource("7_nlxxi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8391, 3.19481, -18.0301)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(5.67513, 0, 0, 0, 8.9915, 0, 0, 0, 5.03901, -5.15709, 4.04499, -8.90869)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_nlxxi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_yxnnm")
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

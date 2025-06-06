@@ -5,11 +5,20 @@ public static class GlobalData
 {
     private static int coinCount = 0;
 
+    #region Constants
+    public const float gravityRate = 9.8f * 2;
+    public const float maxGravity = 53;
+    public const int hurtboxLayer = 16;
+    public const int hitboxLayer = 32;
+    public const float parryStunTime = 5;
+    #endregion
+
     /// <summary>
     /// Get the current number of coins the player has.
     /// </summary>
     /// <returns>Integer amount of coins</returns>
-    public static int getCoinCount(){
+    public static int getCoinCount()
+    {
         return coinCount;
     }
 

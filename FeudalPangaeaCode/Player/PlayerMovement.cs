@@ -15,14 +15,18 @@ public partial class PlayerMovement : Node3D
 	//variables set by the Player script
 	public bool grounded = false;
 	public bool wall = false;
-	public Basis basis; //way to orient self for velocity calculations
-	public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
+	public Basis basis; //way to orient self for velocity calculations, usually camera
+	[Export] public RayCast3D wallJumpRay; //ray that determines whether I can currently jump off a wall
+	[Export] public RayCast3D ledgeHangRay; //ray to check for a floor in front of player to determine if there's a ledge
+	[Export] public Hitbox punchHitbox; //hitbox for player punch
+	[Export] public ParryHitbox parryHitbox; //hitbox for parries
+	private float animationTimer = 0; //keep track of how long the animation has been going for
 
 	//How fast, at max, should the player move?
-	[Export]public float speed = 10f;
+	[Export] public float speed = 10f;
 
 	//How fast should the player fall? (multiplier)
-	[Export]private float gravityMod = 2;
+	[Export]private float gravityMod = 1;
 
 	//How quickly should the player accelerate? (higher number, higher acceleration)
 	[Export]private float acceleration = 20f;
@@ -30,8 +34,11 @@ public partial class PlayerMovement : Node3D
 	//How quickly should the player decelerate? (higher number, higher deceleration)
 	[Export]private float deceleration = 10f;
 
+	//what modifier should be put on deceleration when the creature is stunned? (0 - 1)
+	[Export] private float stunDecelerationMod = 0.2f;
+
 	//How much air control should the player have? (0 - 1)
-	[Export]private float airMod = 0.5f;
+	[Export] private float airMod = 0.5f;
 
 	//How high should a jump send the player? (velocity)
 	[Export]private float jumpPower = 10;
@@ -61,6 +68,9 @@ public partial class PlayerMovement : Node3D
 
 	public bool animationDone = false;
 
+	//X/Z and Y offset between ledge and player origin
+	[Export]private Vector2 ledgeHangOffset = new Vector2(0.9f, 1.3f); 
+
 	//determines how quickly vertical velocity decays after letting go of the jump button. (0 - 1)
 	[Export] public float jumpEndDecay;
 
@@ -70,29 +80,39 @@ public partial class PlayerMovement : Node3D
 	//is true if the player wall jumped, used to track when to cut off upward velocity
 	private bool wallJumping = false;
 
+	//used to store the current push vector from outside sources
+	//applied at the end of the frame to avoid weird side effects
+	//like how bonking sometimes reverses the velocity of a push
+	private Vector3 pushVector;
+
 	//spells!
 	int selectedSpell = 0;
 	Spell[] spells = new Spell[3];
 
+	[Signal]
+	public delegate void PositionChangeEventHandler(Vector3 pos);
+
+    [Signal]
+	public delegate void WaitForAnimationSignalEventHandler();
+
+	[Signal]
+	public delegate void AnimationOverrideEventHandler(String animName);
+
+	[Signal]
+	public delegate void StateChangeEventHandler();
 
 	public PlayerMovement()
-	{	
-		
+	{
+
 	}
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		basis = new Basis();
-		wallJumpRay = GetNode<RayCast3D>("WallJumpRay");
 		spells[0] = new DoubleJumpSpell(this);
 	}
 
-    [Signal]
-	public delegate void WaitForAnimationSignalEventHandler();
-
-	[Signal]
-	public delegate void StateChangeEventHandler();
 
 	/// <summary>
 	/// Reads the input from the player and changes "velocity" and updates "creatureState"
@@ -100,7 +120,7 @@ public partial class PlayerMovement : Node3D
 	/// <param name="delta">deltatime</param>
 	/// <param name="b">the basis of the camera direction</param>
 	/// <param name="grounded">whether we on the ground</param>
-	/// <param name="wall">whether we on the wall</param>
+	/// <param name="wall">whether we on the wall</param> 
 	public void ReadInput(double delta, Basis bas, bool grounded, bool wall)
 	{
 		basis = bas;
@@ -109,8 +129,8 @@ public partial class PlayerMovement : Node3D
 		ReadInput(delta);
 	}
 
-	private void ReadInput(double delta) {
-
+	private void ReadInput(double delta)
+	{
 		changedThisFrame = false; //reset
 
 		switch (creatureState)
@@ -123,6 +143,9 @@ public partial class PlayerMovement : Node3D
 				break;
 			case CreatureState.WallSlide:
 				State_WallSlide(delta);
+				break;
+			case CreatureState.LedgeHang:
+				State_LedgeHang(delta);
 				break;
 			case CreatureState.Dive:
 				State_Dive(delta);
@@ -145,6 +168,9 @@ public partial class PlayerMovement : Node3D
 			case CreatureState.Casting:
 				spells[selectedSpell].CastState(delta);
 				break;
+			case CreatureState.Attack:
+				State_Punch(delta);
+				break;
 			default:
 				GD.PrintErr("UNIMPLEMENTED PLAYER STATE! KYLE FIX THIS SHIT!");
 				break;
@@ -153,34 +179,46 @@ public partial class PlayerMovement : Node3D
 		HandleHoldJump();
 	}
 
+	public void ChangePosition(Vector3 newPosition)
+	{
+		EmitSignal(SignalName.PositionChange, newPosition);
+	}
+
 	//Handles cutting off the player's jump if they release the jump button
-	private void HandleHoldJump(){
-		if(jumping && velocity.Y <= 0 || velocity.Y > jumpPower){
+	private void HandleHoldJump()
+	{
+		if (jumping && velocity.Y <= 0 || velocity.Y > jumpPower)
+		{
 			jumping = false;
 		}
-		else if(jumping && Input.IsActionJustReleased("JUMP")){
+		else if (jumping && Input.IsActionJustReleased("JUMP"))
+		{
 			jumping = false;
 			velocity.Y *= jumpEndDecay;
 		}
 
-		if(wallJumping && velocity.Y <= 0 || velocity.Y > jumpPower * wallJumpMod){
+		if (wallJumping && velocity.Y <= 0 || velocity.Y > jumpPower * wallJumpMod)
+		{
 			wallJumping = false;
 		}
-		else if(wallJumping && Input.IsActionJustReleased("JUMP")){
+		else if (wallJumping && Input.IsActionJustReleased("JUMP"))
+		{
 			wallJumping = false;
 			velocity.Y *= jumpEndDecay;
 		}
 	}
 
-	private void Gravity(float delta){
-		//gravity lol
-		velocity.Y -= 9.8f * delta * gravityMod;
-		if(grounded && velocity.Y < 0)
+	private void Gravity(double delta)
+	{
+		if (grounded && velocity.Y < 0)
 			velocity.Y = -0.1f;
-		if(creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
+		else if (creatureState == CreatureState.WallSlide && velocity.Y < maxSlideFallingSpeed)
 		{
 			velocity.Y = maxSlideFallingSpeed;
 		}
+		
+		//gravity lol
+		velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, delta);
 	}
 
 	private void Move(double delta, float mod = 1, bool decelerate = true){
@@ -196,29 +234,39 @@ public partial class PlayerMovement : Node3D
 		if(changedThisFrame)
 			return;
 
+		//reset hitboxes every time to avoid nonsense
+		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+
 		changedThisFrame = true;
 
 		creatureState = newState;
-		GD.Print("STATE: " + creatureState.ToString());
+		// GD.Print("STATE: " + creatureState.ToString());
 
 		EmitSignal(SignalName.StateChange);
 
 		if(autoActive)
 		{
-			switch(creatureState)
+			switch (creatureState)
 			{
 				case CreatureState.Dive:
 					Dive();
 					break;
+				case CreatureState.LedgeHang:
+					LedgeHang();
+					break;
+				case CreatureState.Attack:
+					WaitForAnimation();
+					break;
 				// case CreatureState.Attack:
-				// 	WaitForAnimation();
-				// 	break;
-				// case CreatureState.AttackAir:
-				// 	WaitForAnimation();
-				// 	break;
-				// case CreatureState.AttackPoke:
-				// 	WaitForAnimation();
-				// 	break;
+					// 	WaitForAnimation();
+					// 	break;
+					// case CreatureState.AttackAir:
+					// 	WaitForAnimation();
+					// 	break;
+					// case CreatureState.AttackPoke:
+					// 	WaitForAnimation();
+					// 	break;
 			}
 		}
 	}
@@ -233,35 +281,35 @@ public partial class PlayerMovement : Node3D
 			Jump();
 		}
 
+		Gravity((float)delta);
+
 		// TryTransition(AttackCond(), CreatureState.Attack);
 		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(DiveCond(), CreatureState.Dive);
+		TryTransition(PunchCond(), CreatureState.Attack);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
-		
-		Gravity((float)delta);
+
 	}
 
 	private void State_OpenAir(double delta)
 	{
-		
-
 		Move(delta, airMod, false);
 		RotateBody();
+		
+		Gravity((float)delta);
 
-		// TryTransition(AttackAirCond(), CreatureState.AttackAir);
-		// TryTransition(AttackPokeCond(), CreatureState.AttackPoke);
+		TryTransition(PunchCond(), CreatureState.Attack);
+		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(DiveCond(), CreatureState.Dive);
 
 		//cast!
 		TryTransition(CastCond(), CreatureState.Casting);
-
-		Gravity((float)delta);
 	}
 
 	private void State_Dive(double delta)
@@ -270,6 +318,8 @@ public partial class PlayerMovement : Node3D
 		//this sucks, why
 		Move(delta, airMod * diveAirMod, false);
 		RotateBody();
+		
+		Gravity((float)delta);
 
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 
@@ -278,20 +328,18 @@ public partial class PlayerMovement : Node3D
 			velocity = -velocity * bonkPushMod;
 			TryTransition(true, CreatureState.Bonk);
 		}
-
-		Gravity((float)delta);
 	}
 
 	private void State_Bonk(double delta){
 		
 		Move(delta, 0, true);
 
-		if(GroundedCond())
+		Gravity((float)delta);
+
+		if (GroundedCond())
 		{
 			Stun(0.25f);
 		}
-
-		Gravity((float)delta);
 	}
 
 	private void State_WallSlide(double delta)
@@ -302,36 +350,49 @@ public partial class PlayerMovement : Node3D
 		if(Input.IsActionJustPressed("JUMP") && wallJumpRay.GetCollider() != null)
 		{
 			WallJump();
-			
 		}
 
+		Gravity((float)delta);
+
 		TryTransition(GroundedCond(), CreatureState.Grounded);
+		TryTransition(LedgeHangCond(), CreatureState.LedgeHang);
 		//we don't want to transition out unless we're definitely not on a wall
 		if(wallJumpRay.GetCollider() == null)
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+	}
 
-		Gravity((float)delta);
+	private void State_LedgeHang(double delta)
+	{
+		//needs more actions
+		if (Input.IsActionJustPressed("JUMP"))
+		{
+			WallJump();
+		}
+
+		TryTransition(GroundedCond(), CreatureState.Grounded);
+		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	}
 
 	private void State_Stun(double delta)
 	{
 		RotateBody(-1);
 
-		if(stunTimer > 0){
+		if (stunTimer > 0)
+		{
 			stunTimer -= (float)delta;
 
-			Decelerate(delta);
+			Decelerate(delta * stunDecelerationMod);
 
-			if(!grounded)
+			if (!grounded)
 				SetState(CreatureState.StunAir);
+			
+			Gravity((float)delta);
 		}
 		else
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		}
-
-		Gravity((float)delta);
 	}
 
 	//little note: StunAir may look exactly the same as Stun, but that's largely just because the state is mostly for the animator
@@ -339,13 +400,16 @@ public partial class PlayerMovement : Node3D
 	{
 		RotateBody(-1);
 
-		if(stunTimer > 0){
+		if (stunTimer > 0)
+		{
 			stunTimer -= (float)delta;
 
-			Decelerate(delta);
+			Decelerate(delta * stunDecelerationMod);
 
-			if(grounded)
+			if (grounded)
 				SetState(CreatureState.Stun);
+			
+			Gravity((float)delta);
 		}
 		else
 		{
@@ -353,7 +417,50 @@ public partial class PlayerMovement : Node3D
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 		}
 
-		Gravity((float)delta);
+	}
+
+	private void State_Punch(double delta)
+	{
+		RotateBody(1);
+
+		Decelerate(delta);
+		Gravity(delta);
+
+		if (animationDone)
+		{
+			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		}
+		else
+		{
+			animationTimer += (float)delta;
+
+			//some hard-coded nonsense for now, I'll deal with it later
+
+			float startPunchActive = 0.16f;
+			float endPunchActive = 0.35f;
+
+			float startParryActive = 0.2f;
+			float endParryActive = 0.3f;
+
+			if (animationTimer > startPunchActive && animationTimer < endPunchActive)
+			{
+				punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
+			}
+			else
+			{
+				punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+			}
+
+			if (animationTimer > startParryActive && animationTimer < endParryActive)
+			{
+				parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
+			}
+			else
+			{
+				parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+			}
+		}
 	}
 
 	//attack is unique because most of the magic (for now) acts through the animator, so the state here just kinda chills out
@@ -401,7 +508,7 @@ public partial class PlayerMovement : Node3D
 	// 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	// 		}
 	// 	}
-		
+
 	// 	Decelerate(delta);
 	// 	Gravity((float)delta);
 	// }
@@ -428,14 +535,14 @@ public partial class PlayerMovement : Node3D
 	// 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	// 		TryTransition(GroundedCond(), CreatureState.Grounded);
 	// 		TryTransition(WallSlideCond(), CreatureState.WallSlide);
-			
+
 
 	// 	}
 	// }
 
 	private void State_Dead(double delta)
 	{
-		if(!grounded)
+		if (!grounded)
 			SetState(CreatureState.DeadAir);
 
 		Decelerate(delta);
@@ -485,6 +592,11 @@ public partial class PlayerMovement : Node3D
 		return !grounded && wall;
 	}
 
+	public bool LedgeHangCond()
+	{
+		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
+	}
+
 	public bool DiveCond()
 	{
 		return Input.IsActionJustPressed("DIVE");
@@ -516,6 +628,11 @@ public partial class PlayerMovement : Node3D
 		return false;
 	}
 
+	private bool PunchCond()
+	{
+		return Input.IsActionJustPressed("ATTACK");
+	}
+
 	// private bool AttackCond()
 	// {
 	// 	return Input.IsActionJustPressed("ATTACK") && grounded;
@@ -536,18 +653,13 @@ public partial class PlayerMovement : Node3D
 	// 	return pokeRay.GetCollider() != null;
 	// }
 
-#endregion
+	#endregion
 
-#region Movement Code
+	#region Movement Code
 
 	private void RotateBody(float mod = 1)
 	{
-		Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
-		if(flatVelocity.Length() > 1){
-			LookAt(GlobalPosition - flatVelocity);
-
-			Rotation = new Vector3(0, Rotation.Y, 0);
-		}
+		CreatureVelocityCalculations.RotateBody(this, velocity, mod);
 	}
 
 	private void Run(double delta, float XInput, float ZInput, bool decelerate = true) {
@@ -567,51 +679,12 @@ public partial class PlayerMovement : Node3D
 
 	public void Accelerate(float XInput, float ZInput, Vector3 xDir, Vector3 zDir, double delta, bool decelerate = true)
 	{
-		Vector3 nextVel = velocity;
-
-		nextVel += XInput * xDir * acceleration * (float)delta;
-		nextVel += ZInput * zDir * acceleration * (float)delta;
-
-		float runningSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
-		float nextRunningSpeed = new Vector3(nextVel.X, 0, nextVel.Z).Length();
-
-		//GD.Print("Running Speed: " + runningSpeed + " Next Speed: " + nextRunningSpeed);
-
-		//if we go over speed cap, cap it
-		if (runningSpeed < speed + 0.1f && nextRunningSpeed > speed)
-		{
-			Vector3 runVector = new Vector3(nextVel.X, 0, nextVel.Z).Normalized() * speed;
-			velocity = new Vector3(runVector.X, velocity.Y, runVector.Z);
-		}
-		//if we're under the speed cap, or we're slowing down, accelerate as normal
-		else if(nextRunningSpeed < speed || nextRunningSpeed <= runningSpeed)
-		{
-			velocity = nextVel;
-		}
-		//we must be trying to go faster while already going too fast, decelerate instead
-		else if(decelerate)
-		{
-			Decelerate(delta);
-		}
+		velocity = CreatureVelocityCalculations.Accelerate(velocity, acceleration, deceleration, speed, XInput, ZInput, xDir, zDir, delta);
 	}
 
 	public void Decelerate(double delta)
 	{
-		Vector3 runVector = velocity;
-		float yVel = velocity.Y;
-		velocity.Y = 0;
-		velocity -= velocity.Normalized() * deceleration * (float)delta;
-		velocity.Y = yVel;
-		
-		if(!((runVector.X * velocity.X) > 0))
-		{
-			velocity.X = 0;
-		}
-
-		if(!((runVector.Z * velocity.Z) > 0))
-		{
-			velocity.Z = 0;
-		}
+		velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
 	}
 
 	private void Jump() {
@@ -619,44 +692,77 @@ public partial class PlayerMovement : Node3D
 		jumping = true;
 	}
 
-	private void WallJump(){
+	private void WallJump()
+	{
+		Vector3 zDir = Basis.Z with { Y = 0 };
 
-		Vector3 zDir = Transform.Basis.Z;
-		zDir.Y = 0;
-		zDir = zDir.Normalized();
-
-		velocity = -zDir * speed * wallPushMod;
+		velocity = zDir * speed * wallPushMod;
 		velocity.Y = jumpPower * wallJumpMod;
 
 		wallJumping = true;
+
+		// GD.Print("WALL JUMP!");
 	}
 
 	private void Dive() {
 
 		velocity.Y = 0;
 
-		Vector3 zDir = Transform.Basis.Z;
-		zDir.Y = 0;
-		zDir = zDir.Normalized();
-
 		float XInput = Input.GetAxis("LEFT", "RIGHT");
 		float ZInput = Input.GetAxis("FORWARD", "BACKWARD");
 
-		zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
-		zDir = zDir.Normalized();
-		
+		Vector3 zDir;
 
+		if (XInput == 0 && ZInput == 0)
+		{
+			zDir = -GetZDirection();
+		}
+		else
+		{
+			zDir = GetXDirection() * XInput + GetZDirection() * ZInput;
+		}
+
+		zDir = zDir.Normalized();
+	
 		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
 	}
+
+	public void LedgeHang()
+	{
+		velocity = new Vector3();
+		Vector3 wallNormal = wallJumpRay.GetCollisionNormal() with { Y = 0 };
+		Vector3 grabLocation = wallJumpRay.GetCollisionPoint() with { Y = ledgeHangRay.GetCollisionPoint().Y };
+		grabLocation.X += ledgeHangOffset.X * Mathf.Sin(Mathf.DegToRad(wallNormal.X * 90));
+		grabLocation.Y -= ledgeHangOffset.Y;
+		grabLocation.Z += ledgeHangOffset.X * Mathf.Sin(Mathf.DegToRad(wallNormal.Z * 90));
+		//GD.Print("Snapping to: " + (grabLocation-GlobalPosition));
+		ChangePosition(grabLocation);
+
+		LookAt(GlobalPosition + wallNormal);
+		Rotation = new Vector3(0, Rotation.Y, 0); //I don't know what this is doing
+	}
+
+	public void Push(Vector3 push)
+	{
+		velocity += push;
+	}
+
 #endregion
 
 
-#region Forced Transitions
+	#region Forced Transitions
 	//starts a whole chain of events that causes "animationDone" to be false until the animation triggered by the current state has completed
 	//see the attack states for an example
-	private void WaitForAnimation() {
+	private void WaitForAnimation()
+	{
+		animationTimer = 0;
 		EmitSignal(SignalName.WaitForAnimationSignal);
+	}
+
+	private void PlayAnimation(String animName)
+	{
+		EmitSignal(SignalName.AnimationOverride, animName);
 	}
 
 

@@ -34,7 +34,9 @@ public partial class Player : CharacterBody3D, ICreature
 		hud = GetNode<HUDHandler>("HUD");
 
 		move.WaitForAnimationSignal += WaitForAnimation;
+		move.AnimationOverride += AnimationOverride;
 		move.StateChange += HandleStateChange;
+		move.PositionChange += ChangePosition;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -44,8 +46,8 @@ public partial class Player : CharacterBody3D, ICreature
 
 		move.ReadInput(delta, cam.GetBasis(), IsOnFloor(), IsOnWall());
 
-		if(Input.IsActionJustPressed("QUIT"))
-			GetTree().Quit();
+		// if(Input.IsActionJustPressed("QUIT"))
+		// 	GetTree().Quit();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -63,12 +65,20 @@ public partial class Player : CharacterBody3D, ICreature
 		MoveAndSlide();
 	}
 
+	private void ChangePosition(Vector3 pos)
+	{
+		Position = pos;
+	}
 
 	private async void WaitForAnimation()
 	{
 		move.animationDone = false;
-		while(anim.anim.IsPlaying()) { await Task.Delay(10); }
+		while (anim.anim.IsPlaying()) { await Task.Delay(10); }
 		move.animationDone = true;
+	}
+
+	private void AnimationOverride(String animName){
+		anim.AnimationOverride(animName);
 	}
 
 	private void HandleStateChange()
@@ -131,11 +141,27 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public void Push(Vector3 force)
 	{
-		move.velocity += force;
+		move.Push(force);
 	}
 
 	public CreatureState GetState()
 	{
 		return move.creatureState;
 	}
+
+    public Vector3 GetCreaturePosition()
+    {
+		return GlobalPosition;
+    }
+	
+	public Vector3 GetCreatureCenter()
+    {
+		return GlobalPosition + new Vector3(0, 1.375f, 0);
+    }
+
+    public Vector3 GetCreatureVelocity()
+	{
+		return move.velocity;
+	}
+
 }

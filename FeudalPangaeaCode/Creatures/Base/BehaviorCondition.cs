@@ -16,5 +16,5 @@ public interface BehaviorCondition {
     /// Whether the condition has been met, typically will be referenced in regards to state transitions.
     /// </summary>
     /// <returns>The result of the conditional</returns>
-    public bool Condition();
+    public bool Condition(CreatureStateMachine self);
 }
