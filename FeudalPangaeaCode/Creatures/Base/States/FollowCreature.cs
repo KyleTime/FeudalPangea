@@ -1,34 +1,56 @@
 using Godot;
 using System;
 
-
-public class FollowCreature : BehaviorState
+namespace CreatureBehaviors.CreatureStates
 {
-    float acceleration;
-    float maxSpeed;
-    float jumpPower;
-
-    //constructor with
-    public FollowCreature(float acceleration, float maxSpeed, float jumpPower) : base(CreatureState.Grounded)
+    public class FollowCreature : BehaviorState
     {
-        SetUp(acceleration, maxSpeed, jumpPower);
-    }
+        float acceleration;
+        float deceleration;
+        float maxSpeed;
+        float jumpPower;
 
-    public FollowCreature(float acceleration, float maxSpeed) : base(CreatureState.Grounded)
-    {
-        SetUp(acceleration, maxSpeed, 0);
-    }
+        public FollowCreature(float acceleration, float deceleration, float maxSpeed, float jumpPower) : base(CreatureState.Grounded)
+        {
+            SetUp(acceleration, deceleration, maxSpeed, jumpPower);
+        }
 
-    private void SetUp(float acceleration, float maxSpeed, float jumpPower)
-    {
-        this.acceleration = acceleration;
-        this.maxSpeed = maxSpeed;
-    }
+        public FollowCreature(float acceleration, float deceleration, float maxSpeed) : base(CreatureState.Grounded)
+        {
+            SetUp(acceleration, deceleration, maxSpeed, 0);
+        }
 
-    public override Vector3 GetStepVelocity(CreatureStateMachine self)
-    {
-        Vector3 velocity = self.GetVelocity();
+        public override void HandleAnimation(AnimationPlayer player)
+        {
+            return;
+        }
 
-        return velocity;
+
+        private void SetUp(float acceleration, float deceleration, float maxSpeed, float jumpPower)
+        {
+            this.acceleration = acceleration;
+            this.deceleration = deceleration;
+            this.maxSpeed = maxSpeed;
+            this.jumpPower = jumpPower;
+        }
+
+        public override Vector3 GetStepVelocity(CreatureStateMachine self, double delta)
+        {
+            if (self.target == null)
+            {
+                return self.GetCreatureVelocity();
+            }
+
+            Vector3 velocity = self.GetCreatureVelocity();
+
+            self.LookAt(Player.player.GlobalPosition);
+            self.Rotation = new Vector3(0,self.Rotation.Y, 0);
+
+            velocity = CreatureVelocityCalculations.Accelerate(velocity, acceleration, deceleration, maxSpeed, self.target.GetCreaturePosition() - self.GlobalPosition, delta);
+
+            velocity.Y = CreatureVelocityCalculations.Gravity(velocity.Y, (float)delta);
+
+            return velocity;
+        }
     }
 }

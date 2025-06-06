@@ -34,6 +34,7 @@ public partial class Player : CharacterBody3D, ICreature
 		hud = GetNode<HUDHandler>("HUD");
 
 		move.WaitForAnimationSignal += WaitForAnimation;
+		move.AnimationOverride += AnimationOverride;
 		move.StateChange += HandleStateChange;
 		move.PositionChange += ChangePosition;
 	}
@@ -74,6 +75,10 @@ public partial class Player : CharacterBody3D, ICreature
 		move.animationDone = false;
 		while (anim.anim.IsPlaying()) { await Task.Delay(10); }
 		move.animationDone = true;
+	}
+
+	private void AnimationOverride(String animName){
+		anim.AnimationOverride(animName);
 	}
 
 	private void HandleStateChange()
@@ -136,7 +141,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public void Push(Vector3 force)
 	{
-		move.velocity += force;
+		move.Push(force);
 	}
 
 	public CreatureState GetState()
@@ -144,14 +149,19 @@ public partial class Player : CharacterBody3D, ICreature
 		return move.creatureState;
 	}
 
-    public Vector3 GetPosition()
+    public Vector3 GetCreaturePosition()
     {
-		return Position;
+		return GlobalPosition;
+    }
+	
+	public Vector3 GetCreatureCenter()
+    {
+		return GlobalPosition + new Vector3(0, 1.375f, 0);
     }
 
-    public Vector3 GetVelocity()
-    {
-		return Velocity;
-    }
+    public Vector3 GetCreatureVelocity()
+	{
+		return move.velocity;
+	}
 
 }

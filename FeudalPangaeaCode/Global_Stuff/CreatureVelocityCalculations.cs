@@ -66,6 +66,12 @@ public static class CreatureVelocityCalculations
         return velocity;
     }
 
+    public static Vector3 Accelerate(Vector3 velocity, float acceleration, float deceleration, float maxSpeed, Vector3 direction, double delta, bool decelerate = true)
+    {
+        direction = direction.Normalized();
+        return Accelerate(velocity, acceleration, deceleration, maxSpeed, 0, 1, new Vector3(), direction, delta, decelerate);
+    }
+
     public static Vector3 Decelerate(Vector3 velocity, float deceleration, double delta)
     {
         Vector3 runVector = velocity;
@@ -86,11 +92,17 @@ public static class CreatureVelocityCalculations
 
         return velocity;
     }
-    
-    //returns how acceleration due to gravity
-    public static float Gravity(float yVel, float delta, float gravityMod = 1)
+
+    /// <summary>
+    /// Takes in a Y velocity and deltatime and applies gravity.
+    /// </summary>
+    /// <param name="yVel">Current Y velocity</param>
+    /// <param name="delta">Delta Time</param>
+    /// <param name="gravityMod">Optional Gravity modifier</param>
+    /// <returns>The new Y velocity</returns>
+    public static float Gravity(float yVel, double delta, float gravityMod = 1)
     {
-        yVel -= GlobalData.gravityRate * delta * gravityMod;
+        yVel -= GlobalData.gravityRate * (float)delta * gravityMod;
 
         if (yVel < -GlobalData.maxGravity)
         {
@@ -98,5 +110,35 @@ public static class CreatureVelocityCalculations
         }
 
         return yVel;
+    }
+
+    /// <summary>
+    /// A function to easily calculate pushing something away.
+    /// I am so tired of doing this manually.
+    /// </summary>
+    /// <param name="pusherPos">The position of the thing doing the pushing</param>
+    /// <param name="pushedPos">The position of the thing being pushed</param>
+    /// <param name="magnitude">Magnitude of the push</param>
+    /// <returns>The calculated push vector</returns>
+    public static Vector3 PushVector(Vector3 pusherPos, Vector3 pushedPos, float magnitude)
+    {
+        Vector3 direction = (pushedPos - pusherPos).Normalized();
+
+
+        return direction * magnitude;
+    }
+
+        /// <summary>
+    /// A function to push a creature away from another.
+    /// Calculates the push vector and then applies it to the 'pushed'.
+    /// </summary>
+    /// <param name="pusher">The creature doing the pushing</param>
+    /// <param name="pushed">The creature being pushed</param>
+    /// <param name="magnitude">Magnitude of the push</param>
+    public static void PushCreature(ICreature pusher, ICreature pushed, float magnitude)
+    {
+        Vector3 pushVector = PushVector(pusher.GetCreaturePosition(), pushed.GetCreaturePosition(), magnitude);
+
+        pushed.Push(pushVector);
     }
 }
