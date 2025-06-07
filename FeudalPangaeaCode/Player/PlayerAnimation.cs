@@ -25,15 +25,15 @@ public partial class PlayerAnimation : Node
 
     public void UpdateAnimation(CreatureState state)
     {
-        switch(state)
+        switch (state)
         {
             case CreatureState.Grounded:
-                if(speed == 0)
+                if (speed == 0)
                 {
                     anim.Play("Idle");
                 }
                 else
-                    anim.Play("Run", -1, Mathf.Clamp(speed/maxSpeed, 0, 1));
+                    anim.Play("Run", -1, Mathf.Clamp(speed / maxSpeed, 0, 1));
                 break;
             case CreatureState.Dive:
                 anim.Play("Dive");
@@ -46,6 +46,9 @@ public partial class PlayerAnimation : Node
                 break;
             case CreatureState.LedgeHang:
                 anim.Play("Hang");
+                break;
+            case CreatureState.Attack:
+                anim.Play("AttackGround");
                 break;
         }
     }
@@ -66,6 +69,6 @@ public partial class PlayerAnimation : Node
 
     public Vector3 GetRootMotionPosition()
     {
-        return anim.GetRootMotionPosition();
+        return anim.GetRootMotionPosition() * new Vector3(1, 1, -1); //body is rotated 180 within the player scene
     }
 }

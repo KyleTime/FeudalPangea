@@ -1,14 +1,43 @@
-[gd_scene load_steps=7 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=19 format=3 uid="uid://bosu0j6amay5p"]
 
 [ext_resource type="Script" uid="uid://cbkps5rwocubj" path="res://FeudalPangaeaCode/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" uid="uid://ql82ri578m3d" path="res://FeudalPangaeaCode/Player/PlayerMovement.cs" id="4_te5vt"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_4wape"]
 [ext_resource type="PackedScene" uid="uid://c4s0jb3rhv7ba" path="res://Scenes/HUD Elements/HUD.tscn" id="5_20fgk"]
-[ext_resource type="PackedScene" uid="uid://c4hbfnhj7kr4g" path="res://Scenes/Player/Model Scene/Red_Psycho_Scene.tscn" id="6_hl2p7"]
+[ext_resource type="Script" uid="uid://dh7nox0u1j7bj" path="res://FeudalPangaeaCode/Hitboxes/ExclusionHurtbox.cs" id="6_fk5o5"]
 [ext_resource type="Script" uid="uid://dy7q45v8bjsw0" path="res://FeudalPangaeaCode/Player/PlayerCamera.cs" id="6_viir3"]
+[ext_resource type="Script" uid="uid://bj7xbodi3wwyu" path="res://FeudalPangaeaCode/Hitboxes/ParryHitbox.cs" id="7_fk5o5"]
+[ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="8_825xp"]
+[ext_resource type="PackedScene" uid="uid://d23iomi7ae1b0" path="res://Scenes/Player/Model Scene/red_psycho_scene.tscn" id="8_fk5o5"]
+[ext_resource type="Material" path="res://mats/glowy gold.tres" id="9_ji083"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
 radius = 1.0
 height = 2.75
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t26db"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fk5o5"]
+radius = 0.728242
+height = 2.40051
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ji083"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.239216, 0.239216, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_0kmp4"]
+material = SubResource("StandardMaterial3D_ji083")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fk5o5"]
+radius = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_0kmp4"]
+material = ExtResource("9_ji083")
+
+[sub_resource type="BoxMesh" id="BoxMesh_i5acl"]
+material = ExtResource("9_ji083")
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 4
@@ -23,7 +52,7 @@ script = ExtResource("1_fmy2y")
 [node name="HUD" parent="." instance=ExtResource("5_20fgk")]
 
 [node name="CamOrigin" type="Node3D" parent="." node_paths=PackedStringArray("cinematicCamera")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.96029, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.96029, 0)
 script = ExtResource("6_viir3")
 cinematicCamera = NodePath("Cinematic Camera")
 
@@ -38,10 +67,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
 
 [node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
 
-[node name="Body" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
+[node name="Body" type="CollisionShape3D" parent="." node_paths=PackedStringArray("wallJumpRay", "ledgeHangRay", "punchHitbox", "parryHitbox")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.375, 0)
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
+wallJumpRay = NodePath("WallJumpRay")
+ledgeHangRay = NodePath("LedgeHangRay")
+punchHitbox = NodePath("PunchHitbox")
+parryHitbox = NodePath("ParryHitbox")
 speed = 12.0
 gravityMod = 2.5
 acceleration = 50.0
@@ -58,13 +91,76 @@ target_position = Vector3(0, 0, -1)
 
 [node name="LedgeHangRay" type="RayCast3D" parent="Body"]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.43075, 1.30802)
-target_position = Vector3(0, -1.1, 0.2)
 hit_back_faces = false
+
+[node name="PunchHitbox" type="Area3D" parent="Body"]
+transform = Transform3D(1.68, 0, 0, 0, 1.68, 0, 0, 0, 1.68, -1.22778e-07, 0, 1.40441)
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("5_4wape")
+dmg = 10
+stunDuration = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/PunchHitbox"]
+shape = SubResource("SphereShape3D_t26db")
+debug_color = Color(1, 0.120237, 0.637673, 0.42)
+
+[node name="Hurtbox" type="Area3D" parent="Body" node_paths=PackedStringArray("exclusion", "parryHitbox", "bonkEffect")]
+script = ExtResource("6_fk5o5")
+exclusion = []
+parryHitbox = NodePath("../ParryHitbox")
+bonkEffect = NodePath("BonkEffect")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/Hurtbox"]
+shape = SubResource("CapsuleShape3D_fk5o5")
+debug_color = Color(0.758146, 0.184312, 1, 0.42)
+
+[node name="BonkEffect" type="Node3D" parent="Body/Hurtbox" node_paths=PackedStringArray("effect")]
+transform = Transform3D(1.01546, 0, 0, 0, 1.01546, 0, 0, 0, 1.01546, 0, 0, 0)
+script = ExtResource("8_825xp")
+effect = NodePath("MeshInstance3D")
+pauseTime = 0.1
+step = 0.01
+scaleMod = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Hurtbox/BonkEffect"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.4, 0, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_0kmp4")
+
+[node name="ParryHitbox" type="Area3D" parent="Body" node_paths=PackedStringArray("parryEffect")]
+script = ExtResource("7_fk5o5")
+horizontalPush = 20.0
+verticalPush = 10.0
+parryEffect = NodePath("HitFx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/ParryHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.24101e-07, 0, 1.41955)
+shape = SubResource("SphereShape3D_fk5o5")
+debug_color = Color(0.853501, 0.395447, 0.170389, 0.42)
+
+[node name="HitFx" type="Node3D" parent="Body/ParryHitbox" node_paths=PackedStringArray("effect")]
+script = ExtResource("8_825xp")
+effect = NodePath("Effect")
+pauseTime = 0.4
+step = 0.01
+scaleMod = 5.0
+
+[node name="Effect" type="Node3D" parent="Body/ParryHitbox/HitFx"]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/ParryHitbox/HitFx/Effect"]
+transform = Transform3D(0.141421, -0.657609, 0, 0.141421, 0.657609, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("BoxMesh_0kmp4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/ParryHitbox/HitFx/Effect"]
+transform = Transform3D(0.141421, 0.707107, 0, -0.141421, 0.707107, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("BoxMesh_i5acl")
 
 [node name="Body_Center" type="Node3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3725, 0)
 
-[node name="Red_Psycho" parent="Body/Body_Center" instance=ExtResource("6_hl2p7")]
+[node name="Red_Psycho" parent="Body/Body_Center" instance=ExtResource("8_fk5o5")]
 
 [connection signal="HealthChange" from="." to="HUD" method="ChangeHPBar"]
 [connection signal="HealthChange" from="." to="CamOrigin" method="DeathCam"]
