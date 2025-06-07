@@ -373,7 +373,7 @@ public partial class PlayerMovement : Node3D
 			WaitForAnimation();
 		}
 		else if (Input.IsActionJustPressed("BACKWARD")){
-			velocity = Transform.Basis.Z.Normalized() * -5;
+			velocity = Transform.Basis.Z.Normalized() * 5;
 			velocity.Y = -5;
 		}
 		if(!animationDone)
