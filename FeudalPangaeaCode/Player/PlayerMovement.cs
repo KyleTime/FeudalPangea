@@ -61,7 +61,7 @@ public partial class PlayerMovement : Node3D
 	//maximum speed a player should move while sliding down a wall. (velocity)
 	[Export]private float maxSlideFallingSpeed = -2.5f;
 
-	public bool animationDone = false;
+	public bool animationDone = true;
 
 	//X/Z and Y offset between ledge and player origin
 	[Export]private Vector2 ledgeHangOffset = new Vector2(0.9f, 1.3f); 
@@ -343,12 +343,21 @@ public partial class PlayerMovement : Node3D
 
 	private void State_LedgeHang(double delta)
 	{
-		//needs more actions
+		//needs more work on actions & change how inputs function
 		if (Input.IsActionJustPressed("JUMP"))
 		{
 			WallJump();
 		}
-
+		else if (Input.IsActionJustPressed("FORWARD")){
+			PlayAnimation("HangGetUp_rootFollow"); //would be better to force grounded state after animation
+			WaitForAnimation();
+		}
+		else if (Input.IsActionJustPressed("BACKWARD")){
+			velocity = Transform.Basis.Z.Normalized() * -5;
+			velocity.Y = -5;
+		}
+		if(!animationDone)
+			return;
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 	}
@@ -512,7 +521,7 @@ public partial class PlayerMovement : Node3D
 	/// </summary>
 	public bool GroundedCond()
 	{
-		return grounded && velocity.Y < 0;
+		return grounded && velocity.Y <= 0;
 	}
 
 	/// <summary>
@@ -616,6 +625,15 @@ public partial class PlayerMovement : Node3D
 	public void Decelerate(double delta)
 	{
 		velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
+	}
+
+	public void ApplyRootMotion(Vector3 rootTransform, double processDelta)
+	{
+		Basis rotationBasis = Transform.Basis.Orthonormalized();
+		velocity = rootTransform.X * rotationBasis.X;
+		velocity += rootTransform.Y * rotationBasis.Y;
+		velocity += rootTransform.Z * rotationBasis.Z;
+		velocity *= (float) (1/processDelta);
 	}
 
 	private void Jump() {
