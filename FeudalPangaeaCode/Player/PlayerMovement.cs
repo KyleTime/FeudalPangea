@@ -80,6 +80,8 @@ public partial class PlayerMovement : Node3D
 	//is true if the player wall jumped, used to track when to cut off upward velocity
 	private bool wallJumping = false;
 
+	private bool exitState = false; //used within state functions to force transitions after certain conditions. Set to false in SetState()
+
 	//used to store the current push vector from outside sources
 	//applied at the end of the frame to avoid weird side effects
 	//like how bonking sometimes reverses the velocity of a push
@@ -239,6 +241,7 @@ public partial class PlayerMovement : Node3D
 		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 
 		changedThisFrame = true;
+		exitState = false;
 
 		creatureState = newState;
 		// GD.Print("STATE: " + creatureState.ToString());
@@ -254,6 +257,7 @@ public partial class PlayerMovement : Node3D
 					break;
 				case CreatureState.LedgeHang:
 					LedgeHang();
+					WaitForAnimation();
 					break;
 				case CreatureState.Attack:
 					WaitForAnimation();
@@ -363,23 +367,40 @@ public partial class PlayerMovement : Node3D
 
 	private void State_LedgeHang(double delta)
 	{
-		//needs more work on actions & change how inputs function
+		//could use more work on actions
+		Vector3 inputDirection = new Vector3(Input.GetAxis("RIGHT", "LEFT"), 0, Input.GetAxis("FORWARD", "BACKWARD")).Normalized();
+
 		if (Input.IsActionJustPressed("JUMP"))
 		{
 			WallJump();
+			exitState = true;
 		}
-		else if (Input.IsActionJustPressed("FORWARD")){
-			PlayAnimation("HangGetUp_rootFollow"); //would be better to force grounded state after animation
-			WaitForAnimation();
+		
+		else if (inputDirection.X + inputDirection.Z != 0 && !exitState)
+		{
+			inputDirection *= basis with {X = basis.X * -1f};
+			float zComponent = inputDirection.Dot(Transform.Basis.Z.Normalized());
+
+			if (animationDone && zComponent < 0)
+			{
+				PlayAnimation("HangGetUp_rootFollow");
+				WaitForAnimation();
+				exitState = true;
+				//would be better to force grounded state after animation
+			}
+			else if (animationDone && zComponent > 0)
+			{
+				velocity = Transform.Basis.Z.Normalized() * 5;
+				velocity.Y = -5;
+			}
 		}
-		else if (Input.IsActionJustPressed("BACKWARD")){
-			velocity = Transform.Basis.Z.Normalized() * 5;
-			velocity.Y = -5;
-		}
+		
 		if(!animationDone)
 			return;
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		if (exitState)
+			TryTransition(true, CreatureState.OpenAir);
 	}
 
 	private void State_Stun(double delta)
