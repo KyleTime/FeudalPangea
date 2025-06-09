@@ -14,7 +14,7 @@ public static class CreatureVelocityCalculations
         Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
         if (flatVelocity.Length() > 1)
         {
-            node.LookAt(node.GlobalPosition - flatVelocity);
+            node.LookAt(node.GlobalPosition + flatVelocity);
 
             node.Rotation = new Vector3(0, node.Rotation.Y, 0);
         }
