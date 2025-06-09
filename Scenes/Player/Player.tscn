@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dy7q45v8bjsw0" path="res://FeudalPangaeaCode/Player/PlayerCamera.cs" id="6_viir3"]
 [ext_resource type="Script" uid="uid://bj7xbodi3wwyu" path="res://FeudalPangaeaCode/Hitboxes/ParryHitbox.cs" id="7_fk5o5"]
 [ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="8_825xp"]
-[ext_resource type="PackedScene" uid="uid://dekqd7c7er2k5" path="res://Scenes/Player/Model Scene/red_psycho_scene.tscn" id="8_fk5o5"]
+[ext_resource type="PackedScene" uid="uid://dekqd7c7er2k5" path="res://Scenes/Player/Model Scene/Red_Psycho_Scene.tscn" id="8_fk5o5"]
 [ext_resource type="Material" uid="uid://dmo6h5ltljnbb" path="res://mats/glowy gold.tres" id="9_ji083"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
@@ -68,7 +68,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
 [node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
 
 [node name="Body" type="CollisionShape3D" parent="." node_paths=PackedStringArray("wallJumpRay", "ledgeHangRay", "punchHitbox", "parryHitbox")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.375, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
 shape = SubResource("CapsuleShape3D_dnq2i")
 script = ExtResource("4_te5vt")
 wallJumpRay = NodePath("WallJumpRay")
@@ -86,15 +86,15 @@ wallPushMod = 1.5
 jumpEndDecay = 0.5
 
 [node name="WallJumpRay" type="RayCast3D" parent="Body"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.50742, 0.806739)
-target_position = Vector3(0, 0, -1)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.507, -0.807)
+target_position = Vector3(0, 0, 1)
 
 [node name="LedgeHangRay" type="RayCast3D" parent="Body"]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.43075, 1.30802)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 1.431, -1.308)
 hit_back_faces = false
 
 [node name="PunchHitbox" type="Area3D" parent="Body"]
-transform = Transform3D(1.68, 0, 0, 0, 1.68, 0, 0, 0, 1.68, -1.22778e-07, 0, 1.40441)
+transform = Transform3D(1.68, 0, 0, 0, 1.68, 0, 0, 0, 1.68, 0, 0, -1.4)
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("5_4wape")
@@ -129,13 +129,13 @@ visible = false
 mesh = SubResource("SphereMesh_0kmp4")
 
 [node name="ParryHitbox" type="Area3D" parent="Body" node_paths=PackedStringArray("parryEffect")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.4)
 script = ExtResource("7_fk5o5")
 horizontalPush = 20.0
 verticalPush = 10.0
 parryEffect = NodePath("HitFx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body/ParryHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.24101e-07, 0, 1.41955)
 shape = SubResource("SphereShape3D_fk5o5")
 debug_color = Color(0.853501, 0.395447, 0.170389, 0.42)
 
@@ -158,7 +158,7 @@ transform = Transform3D(0.141421, 0.707107, 0, -0.141421, 0.707107, 0, 0, 0, 0.2
 mesh = SubResource("BoxMesh_i5acl")
 
 [node name="Body_Center" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3725, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1.3725, 0)
 
 [node name="Red_Psycho" parent="Body/Body_Center" instance=ExtResource("8_fk5o5")]
 
