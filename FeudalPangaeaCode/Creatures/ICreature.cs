@@ -21,6 +21,7 @@ public interface ICreature
 	/// <returns></returns>
 	Vector3 GetCreatureCenter();
 	Vector3 GetCreatureVelocity();
+	bool IsProtectedUnlessStunned();
 	void Stun(float time);
 	void Push(Vector3 force);
 	CreatureState GetState();
@@ -31,7 +32,10 @@ public interface ICreature
 public enum CreatureState {Grounded, OpenAir, WallSlide, LedgeHang, Dive, Bonk, Stun, 
 StunAir, Dead, DeadAir, Casting, Attack}
 
-//source of damage, can be different depending on where it's used
-//for example, ChangeHP with a source of "Fall" is landing too hard while Death with a source of "Fall" is falling into the void
-//largely the point is so that I can decide additional things that happen to each character
-public enum DamageSource {Fall, Bonk}
+/// <summary>
+/// DAMAGE SOURCES:
+/// [FALL] - Typically damage from falling a long way or into a death plane
+/// [BONK] - Blunt force trauma, typically causes stun
+/// [MAGIC] - Damage from spells, will probably be split into elemental types later. Goes through defense.
+/// </summary>
+public enum DamageSource {Fall, Bonk, Magic}

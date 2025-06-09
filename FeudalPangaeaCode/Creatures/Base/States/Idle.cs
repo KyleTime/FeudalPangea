@@ -12,7 +12,7 @@ namespace CreatureBehaviors.CreatureStates
         public float holdTime; //amount of time this state will wait before attempting to transition
         float timer = 0;
 
-        public Idle(bool doGravity, float deceleration = 5, float holdTime = 0) : base(CreatureState.Grounded)
+        public Idle(bool doGravity, float deceleration = 5, float holdTime = 0, CreatureState stateOverride = CreatureState.Grounded) : base(stateOverride)
         {
             this.doGravity = doGravity;
             this.deceleration = deceleration;
