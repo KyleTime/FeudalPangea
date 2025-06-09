@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=20 format=3 uid="uid://bosu0j6amay5p"]
 
 [ext_resource type="Script" uid="uid://cbkps5rwocubj" path="res://FeudalPangaeaCode/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" uid="uid://ql82ri578m3d" path="res://FeudalPangaeaCode/Player/PlayerMovement.cs" id="4_te5vt"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="8_825xp"]
 [ext_resource type="PackedScene" uid="uid://dekqd7c7er2k5" path="res://Scenes/Player/Model Scene/Red_Psycho_Scene.tscn" id="8_fk5o5"]
 [ext_resource type="Material" uid="uid://dmo6h5ltljnbb" path="res://mats/glowy gold.tres" id="9_ji083"]
+[ext_resource type="PackedScene" uid="uid://dm4v2ukebelgm" path="res://Scenes/Menus/pause_menu.tscn" id="11_0kmp4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
 radius = 1.0
@@ -99,7 +100,6 @@ collision_layer = 16
 collision_mask = 16
 script = ExtResource("5_4wape")
 dmg = 10
-damage_source = 2
 stunDuration = 10.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body/PunchHitbox"]
@@ -162,6 +162,9 @@ mesh = SubResource("BoxMesh_i5acl")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1.3725, 0)
 
 [node name="Red_Psycho" parent="Body/Body_Center" instance=ExtResource("8_fk5o5")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("11_0kmp4")]
+visible = false
 
 [connection signal="HealthChange" from="." to="HUD" method="ChangeHPBar"]
 [connection signal="HealthChange" from="." to="CamOrigin" method="DeathCam"]

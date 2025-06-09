@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=17 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="1_a85am"]
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_nlxxi"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_pq4ec"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_2wye8"]
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_nlxxi"]
+[ext_resource type="Script" uid="uid://b3p3s2pcgnbp7" path="res://FeudalPangaeaCode/Global_Stuff/TimeManager.cs" id="8_yxnnm"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
 
@@ -178,5 +179,8 @@ mesh = SubResource("BoxMesh_nlxxi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_yxnnm")
+
+[node name="Father Time" type="Node" parent="."]
+script = ExtResource("8_yxnnm")
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]
