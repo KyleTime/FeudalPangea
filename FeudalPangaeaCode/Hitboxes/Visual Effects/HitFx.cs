@@ -49,7 +49,10 @@ public partial class HitFx : Node3D
         while (time < pauseTime)
         {
             if (pause)
-                return;
+            {
+                await Task.Delay(100);
+                continue;
+            }
 
             ChangeEffectAtStep();
 
