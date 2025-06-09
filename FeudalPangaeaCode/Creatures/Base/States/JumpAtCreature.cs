@@ -86,7 +86,7 @@ namespace CreatureBehaviors.CreatureStates {
 
             if (!jump && timer > delayBeforeJump)
             {
-                Vector3 jumpVel = ((-self.Basis.Z with {Y = 0}).Normalized() with { Y = 0 } * forwardVelocity) + Vector3.Up * upwardVelocity;
+                Vector3 jumpVel = ((-self.model.Basis.Z with {Y = 0}).Normalized() with { Y = 0 } * forwardVelocity) + Vector3.Up * upwardVelocity;
                 jump = true;
                 timer = 0;
 
@@ -97,13 +97,20 @@ namespace CreatureBehaviors.CreatureStates {
 
                 return vel + jumpVel;
             }
-            
-            if(stop || jump && timer > endLag)
+
+            if (stop || jump && timer > endLag)
             {
                 vel = CreatureVelocityCalculations.Decelerate(vel, deceleration * 2, delta);
                 vel *= new Vector3(-1, 0, -1);
                 waiting = true;
 
+                foreach (Hitbox h in hitboxes)
+                {
+                    h.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+                }
+            }
+            else if (jump && self.IsOnFloor())
+            {
                 foreach (Hitbox h in hitboxes)
                 {
                     h.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);

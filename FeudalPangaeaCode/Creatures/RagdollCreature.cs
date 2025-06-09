@@ -32,6 +32,11 @@ public partial class RagdollCreature : RigidBody3D, ICreature
         return LinearVelocity;
     }
 
+    public bool IsProtectedUnlessStunned()
+    {
+        return false;
+    }
+
     public void Stun(float time)
     {
         return;
