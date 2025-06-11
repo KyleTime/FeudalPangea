@@ -43,7 +43,7 @@ public partial class PauseMenu : Control
     public void Pause()
     {
         Input.MouseMode = Input.MouseModeEnum.Visible;
-        //Visible = true;
+        Visible = true;
         TimeManager.PauseTime(true);
         paused = true;
     }
