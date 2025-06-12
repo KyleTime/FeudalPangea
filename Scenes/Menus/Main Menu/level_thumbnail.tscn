@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://bq3cvifj24b05"]
+
+[ext_resource type="Script" uid="uid://b60cn02784q3h" path="res://FeudalPangaeaCode/Menu/Level Select/Thumbnail.cs" id="1_0eofe"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_23btt"]
+font_size = 32
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Thumbnail" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -175.0
+offset_top = -175.0
+offset_right = 175.0
+offset_bottom = 175.0
+script = ExtResource("1_0eofe")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 50.0
+text = "Level Title"
+label_settings = SubResource("LabelSettings_23btt")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 310.0
+offset_right = 250.0
+offset_bottom = 350.0
+text = "Play Level"
