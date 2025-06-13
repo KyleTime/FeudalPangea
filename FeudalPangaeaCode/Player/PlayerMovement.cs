@@ -233,9 +233,6 @@ public partial class PlayerMovement : Node3D
 
 	private void SetState(CreatureState newState, bool autoActive = true)
 	{
-		if(changedThisFrame)
-			return;
-
 		//reset hitboxes every time to avoid nonsense
 		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
@@ -257,7 +254,6 @@ public partial class PlayerMovement : Node3D
 					break;
 				case CreatureState.LedgeHang:
 					LedgeHang();
-					WaitForAnimation();
 					break;
 				case CreatureState.Attack:
 					WaitForAnimation();
@@ -593,7 +589,7 @@ public partial class PlayerMovement : Node3D
 
 	public bool TryTransition(bool condition, CreatureState state)
 	{
-		if(condition)
+		if(!changedThisFrame && condition)
 		{
 			SetState(state);
 		}
@@ -624,7 +620,7 @@ public partial class PlayerMovement : Node3D
 
 	public bool LedgeHangCond()
 	{
-		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.IsColliding() && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
+		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.IsColliding() && ledgeHangRay.GetCollisionNormal().Y == 1;
 	}
 
 	public bool DiveCond()
