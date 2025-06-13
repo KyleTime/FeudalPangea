@@ -6,24 +6,39 @@
 [ext_resource type="PackedScene" uid="uid://dd2xa5gw75kbi" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic_ragdoll.tscn" id="4_gm74l"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="5_u6e87"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ryq36"]
+size = Vector3(3, 2, 1)
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_3vb1o"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3vb1o"]
 height = 0.675385
 radius = 0.558594
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ryq36"]
-size = Vector3(3, 2, 1)
-
-[node name="Rock Mimic" type="CharacterBody3D" node_paths=PackedStringArray("ragdoll", "hitbox")]
+[node name="Rock Mimic" type="CharacterBody3D" node_paths=PackedStringArray("ragdoll", "hitbox", "model")]
 collision_layer = 8
 collision_mask = 15
 script = ExtResource("1_wosbo")
 ragdoll = NodePath("rock_mimic_ragdoll")
-hitbox = NodePath("Hitbox")
+hitbox = NodePath("Body/Hitbox")
+model = NodePath("Body")
 
-[node name="Crab V1" parent="." instance=ExtResource("1_i6a4h")]
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Crab V1" parent="Body" instance=ExtResource("1_i6a4h")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.135571, 0, -0.490261)
+
+[node name="Hitbox" type="Area3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -2)
+script = ExtResource("5_u6e87")
+dmg = 10
+stunDuration = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0401611, 0, -0.423948)
+shape = SubResource("BoxShape3D_ryq36")
+disabled = true
+debug_color = Color(0.960784, 0, 0, 0.419608)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(3.735, 0, 0, 0, 3.735, 0, 0, 0, 3.735, 0, 1.367, 0)
@@ -40,17 +55,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0518647, 0)
 shape = SubResource("CylinderShape3D_3vb1o")
 
 [node name="rock_mimic_ragdoll" parent="." instance=ExtResource("4_gm74l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.0126, 0)
 visible = false
-
-[node name="Hitbox" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -2)
-script = ExtResource("5_u6e87")
-dmg = 10
-stunDuration = 2.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0401611, 0, -0.423948)
-shape = SubResource("BoxShape3D_ryq36")
-disabled = true
-debug_color = Color(0.960784, 0, 0, 0.419608)

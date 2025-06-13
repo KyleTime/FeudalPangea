@@ -9,6 +9,7 @@ public partial class Hurtbox : Area3D
 
     [Export] public CollisionShape3D collider;
     [Export] public HitFx bonkEffect;
+    [Export] public HitFx dinkEffect;
 
     public override void _Ready()
     {
@@ -53,15 +54,35 @@ public partial class Hurtbox : Area3D
     {
         hit = true;
 
-        self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
-
         hitbox.Hit(this); //let hitbox know it hit something
+
+        //if major and not stunned, resist nonmagical damage
+        if (self.IsProtectedUnlessStunned() && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))
+        {
+            if (hitbox.damage_source != DamageSource.Magic)
+            {
+                GD.Print("DINK!");
+
+                Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
+
+                self.Push(pushVector.Normalized() * 10f);
+
+                if (dinkEffect != null)
+                {
+                    dinkEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
+                }
+                return;
+            }
+        }
+
+        self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
 
         switch (hitbox.damage_source)
         {
             case DamageSource.Bonk:
+            case DamageSource.Magic:
 
-                Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with {Y = 0};
+                Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
 
                 self.Push(pushVector + Vector3.Up * hitbox.pushMod.Y);
 
@@ -72,7 +93,7 @@ public partial class Hurtbox : Area3D
                 {
                     bonkEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
                 }
-                    
+
                 break;
         }
     }
