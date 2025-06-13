@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://dy7q45v8bjsw0" path="res://FeudalPangaeaCode/Player/PlayerCamera.cs" id="6_viir3"]
 [ext_resource type="Script" uid="uid://bj7xbodi3wwyu" path="res://FeudalPangaeaCode/Hitboxes/ParryHitbox.cs" id="7_fk5o5"]
 [ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="8_825xp"]
-[ext_resource type="PackedScene" uid="uid://dekqd7c7er2k5" path="res://Scenes/Player/Model Scene/Red_Psycho_Scene.tscn" id="8_fk5o5"]
-[ext_resource type="Material" uid="uid://dmo6h5ltljnbb" path="res://mats/glowy gold.tres" id="9_ji083"]
+[ext_resource type="PackedScene" uid="uid://d23iomi7ae1b0" path="res://Scenes/Player/Model Scene/red_psycho_scene.tscn" id="8_fk5o5"]
+[ext_resource type="Material" path="res://mats/glowy gold.tres" id="9_ji083"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dnq2i"]
 radius = 1.0

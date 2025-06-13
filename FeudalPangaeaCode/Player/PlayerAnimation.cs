@@ -53,7 +53,22 @@ public partial class PlayerAnimation : Node
         }
     }
 
+    public bool IsRootMotion()
+    {
+        switch(anim.AssignedAnimation)
+        {
+            case "HangGetUp_rootFollow":
+                return true;
+        }
+        return false;
+    }
+
     public void AnimationOverride(string animName){
         anim.Play(animName);
+    }
+
+    public Vector3 GetRootMotionPosition()
+    {
+        return anim.GetRootMotionPosition() * new Vector3(1, 1, -1); //body is rotated 180 within the player scene
     }
 }
