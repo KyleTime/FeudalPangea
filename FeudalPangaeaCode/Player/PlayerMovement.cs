@@ -624,7 +624,7 @@ public partial class PlayerMovement : Node3D
 
 	public bool LedgeHangCond()
 	{
-		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
+		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.IsColliding() && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
 	}
 
 	public bool DiveCond()
