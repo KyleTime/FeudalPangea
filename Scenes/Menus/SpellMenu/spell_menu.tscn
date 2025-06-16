@@ -15,8 +15,7 @@ font_color = Color(0.848902, 0.148579, 0.508085, 1)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8hkvm"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wjjfj"]
-texture = ExtResource("2_fklnm")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fklnm"]
 
 [sub_resource type="Image" id="Image_fklnm"]
 data = {
@@ -101,7 +100,7 @@ offset_top = 593.0
 offset_right = 1661.0
 offset_bottom = 993.0
 scale = Vector2(0.998656, 1)
-theme_override_styles/panel = SubResource("StyleBoxTexture_wjjfj")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fklnm")
 
 [node name="Spell_Containers" type="GridContainer" parent="."]
 layout_direction = 2
@@ -116,9 +115,15 @@ columns = 4
 
 [node name="SpellContainer" parent="Spell_Containers" instance=ExtResource("2_cvw67")]
 layout_mode = 2
+name = "Swous"
+description = "Swous"
+pageImage = ExtResource("2_fklnm")
 
 [node name="SpellContainer2" parent="Spell_Containers" instance=ExtResource("2_cvw67")]
 layout_mode = 2
+name = "HELLLPPPP"
+description = "HELP MEEEEEE"
+pageImage = ExtResource("1_5gmod")
 
 [node name="SpellContainer3" parent="Spell_Containers" instance=ExtResource("2_cvw67")]
 layout_mode = 2

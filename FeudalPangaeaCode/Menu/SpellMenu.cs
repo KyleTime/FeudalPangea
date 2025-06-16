@@ -41,6 +41,8 @@ public partial class SpellMenu : Control
                 index++;
             }
         }
+
+        UpdateSpellUI();
     }
 
     public override void _Input(InputEvent @event)
@@ -67,14 +69,26 @@ public partial class SpellMenu : Control
             leftRight = xAxis > 0 ? 1 : -1;
         }
 
-        selection = Mathf.Clamp(selection + leftRight + upDown * gridXSize, 0, spellContainers.Length - 1);
-        GD.Print("selection: " + selection);
+        if (leftRight != 0 || upDown != 0)
+        {
+            selection = Mathf.Clamp(selection + leftRight + upDown * gridXSize, 0, spellContainers.Length - 1);
+            UpdateSpellUI();
+        }
     }
 
     public override void _Process(double delta)
     {
         nextSelectorPosition = GetSelectorPosition();
         selector.GlobalPosition = MoveToward(selector.GlobalPosition, nextSelectorPosition, 100, delta);
+    }
+
+    private void UpdateSpellUI()
+    {
+        title.Text = spellContainers[selection].name;
+        desc.Text = spellContainers[selection].description;
+        StyleBoxTexture tex = new StyleBoxTexture();
+        tex.Texture = spellContainers[selection].pageImage;
+        image.AddThemeStyleboxOverride("panel", tex);
     }
 
     public Vector2 GetSelectorPosition()
