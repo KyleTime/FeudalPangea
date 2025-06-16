@@ -105,3 +105,8 @@ CAST3={
 3d_physics/layer_4="Creature"
 3d_physics/layer_5="Hurtbox"
 3d_physics/layer_6="Hitbox"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+textures/lossless_compression/force_png=true

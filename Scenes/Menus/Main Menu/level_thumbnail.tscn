@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bq3cvifj24b05"]
 
-[ext_resource type="Script" uid="uid://b60cn02784q3h" path="res://FeudalPangaeaCode/Menu/Level Select/Thumbnail.cs" id="1_0eofe"]
+[ext_resource type="Script" uid="uid://b60cn02784q3h" path="res://FeudalPangaeaCode/Menu/LevelSelect/Thumbnail.cs" id="1_0eofe"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_23btt"]
 font_size = 32
