@@ -18,7 +18,7 @@ public partial class CollectableCoin : Collectable
 
     public override void Collect()
     {
-        GlobalData.modCoinCount(1);
+        GlobalData.ModCoinCount(1);
 
         QueueFree();
     }

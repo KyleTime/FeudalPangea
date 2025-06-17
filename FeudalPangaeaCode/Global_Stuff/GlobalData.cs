@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+
 public static class GlobalData
 {
     private static int coinCount = 0;
@@ -17,7 +18,7 @@ public static class GlobalData
     /// Get the current number of coins the player has.
     /// </summary>
     /// <returns>Integer amount of coins</returns>
-    public static int getCoinCount()
+    public static int GetCoinCount()
     {
         return coinCount;
     }
@@ -26,10 +27,13 @@ public static class GlobalData
     /// Add or subtract some number of coins, but the number can't go below 0.
     /// </summary>
     /// <param name="mod">Amount to add or subtract coins by</param>
-    public static void modCoinCount(int mod){
+    public static void ModCoinCount(int mod)
+    {
         coinCount += mod;
 
-        if(coinCount < 0)
+        if (coinCount < 0)
             coinCount = 0;
     }
+
+    
 }

@@ -1,4 +1,5 @@
 using Godot;
+using MagicSystem;
 using System;
 using System.Diagnostics;
 
@@ -87,7 +88,6 @@ public partial class PlayerMovement : Node3D
 
 	//spells!
 	int selectedSpell = 0;
-	Spell[] spells = new Spell[3];
 
 	[Signal]
 	public delegate void PositionChangeEventHandler(Vector3 pos);
@@ -110,9 +110,8 @@ public partial class PlayerMovement : Node3D
 	public override void _Ready()
 	{
 		basis = new Basis();
-		spells[0] = new DoubleJumpSpell(this);
+		SpellManager.SelectSpell(0, SpellManager.SpellName.Fireball);
 	}
-
 
 	/// <summary>
 	/// Reads the input from the player and changes "velocity" and updates "creatureState"
@@ -166,7 +165,7 @@ public partial class PlayerMovement : Node3D
 				State_DeadAir(delta);
 				break;
 			case CreatureState.Casting:
-				spells[selectedSpell].CastState(delta);
+				MagicSystem.SpellManager.CastState(selectedSpell, delta);
 				break;
 			case CreatureState.Attack:
 				State_Punch(delta);
@@ -258,6 +257,9 @@ public partial class PlayerMovement : Node3D
 					break;
 				case CreatureState.Attack:
 					WaitForAnimation();
+					break;
+				case CreatureState.Casting:
+					SpellManager.CastStart(selectedSpell);
 					break;
 					// case CreatureState.Attack:
 					// 	WaitForAnimation();
@@ -611,20 +613,34 @@ public partial class PlayerMovement : Node3D
 
 	public bool CastCond()
 	{
-		if (Input.IsActionJustPressed("CAST1") && spells.Length > 0 && spells[0] != null)
+		bool buttonPressed = false;
+		if (Input.IsActionJustPressed("CAST1"))
 		{
 			selectedSpell = 0;
-			return true;
+			buttonPressed = true;
 		}
-		if (Input.IsActionJustPressed("CAST2") && spells.Length > 1 && spells[1] != null)
+		if (Input.IsActionJustPressed("CAST2"))
 		{
 			selectedSpell = 1;
-			return true;
+			buttonPressed = true;
 		}
-		if (Input.IsActionJustPressed("CAST3") && spells.Length > 2 && spells[2] != null)
+		if (Input.IsActionJustPressed("CAST3"))
 		{
 			selectedSpell = 2;
-			return true;
+			buttonPressed = true;
+		}
+
+		if (buttonPressed)
+		{
+			if (selectedSpell != -1 && MagicSystem.SpellManager.GetSpellName(selectedSpell) == MagicSystem.SpellManager.SpellName.None)
+			{
+				selectedSpell = -1;
+				return false;
+			}
+			else if (selectedSpell != -1)
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -690,13 +706,13 @@ public partial class PlayerMovement : Node3D
 		velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
 	}
 
-	private void Jump()
+	public void Jump()
 	{
 		velocity.Y = jumpPower;
 		jumping = true;
 	}
 
-	private void WallJump()
+	public void WallJump()
 	{
 		Vector3 zDir = -GetZDirection();
 
@@ -708,7 +724,7 @@ public partial class PlayerMovement : Node3D
 		// GD.Print("WALL JUMP!");
 	}
 
-	private void Dive()
+	public void Dive()
 	{
 
 		velocity.Y = 0;

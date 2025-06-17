@@ -17,7 +17,7 @@ public partial class HUDHandler : Node
         base._Process(delta);
 
         //this is terrible, please do an event somehow
-        coinCounter.Text = GlobalData.getCoinCount().ToString();
+        coinCounter.Text = GlobalData.GetCoinCount().ToString();
     }
 
 
