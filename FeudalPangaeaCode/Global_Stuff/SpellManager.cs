@@ -3,17 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
+using System.Runtime.CompilerServices;
 
 namespace MagicSystem
 {
     public static class SpellManager
     {
+        //names of every spell in the game
         public enum SpellName
         {
             None,
             Fireball
         }
 
+        //all the information needed to instance and display a spell
         public struct SpellData
         {
             public string path;
@@ -26,11 +29,14 @@ namespace MagicSystem
             }
         }
 
+        //dictionary of all spells that exist in the game
         static Dictionary<SpellName, SpellData> SpellDictionary = new Dictionary<SpellName, SpellData>()
         {
             { SpellName.Fireball, new SpellData("res://Sprites/HUD/Spell_UI/thumbnails/fire_thumbnail.png", typeof(FireballSpell)) }
         };
 
+        //used to store information about currently equipped spells
+        //stores the name of the spell (by the enum) and the current instance
         public struct EquippedSpell
         {
             public SpellName name;
@@ -62,6 +68,20 @@ namespace MagicSystem
             new EquippedSpell(SpellName.None)
         };
 
+        public class SpellChangeEventArgs
+        {
+            public int slot { get; }
+            public SpellName name { get; }
+
+            public SpellChangeEventArgs(int slot, SpellName spellName)
+            {
+                this.slot = slot;
+                this.name = spellName;       
+            }
+        }
+
+        public static event EventHandler<SpellChangeEventArgs> SpellChange;
+
         /// <summary>
         /// Given a slot and a spell name, equip a spell in that slot.
         /// </summary>
@@ -70,6 +90,17 @@ namespace MagicSystem
         public static void SelectSpell(int slot, SpellName spellName)
         {
             equippedSpells[slot] = new EquippedSpell(spellName);
+            SpellChange?.Invoke(equippedSpells[slot], new SpellChangeEventArgs(slot, spellName));
+
+            for (int i = 1; i < 3; i++)
+            {
+                int otherSlot = (slot + i) % 3;
+                if (equippedSpells[otherSlot].name == spellName)
+                {
+                    equippedSpells[otherSlot] = new EquippedSpell(SpellName.None);
+                    SpellChange?.Invoke(equippedSpells[otherSlot], new SpellChangeEventArgs(otherSlot, SpellName.None));
+                }
+            }
         }
 
         public static SpellName GetSpellName(int slot)
@@ -120,11 +151,38 @@ namespace MagicSystem
                 return null;
 
             if (SpellDictionary.ContainsKey(spell))
-                {
-                    return (Spell)Activator.CreateInstance(SpellDictionary[spell].spellType);
-                }
+            {
+                return (Spell)Activator.CreateInstance(SpellDictionary[spell].spellType);
+            }
 
             throw new Exception("Spell " + spell.ToString() + " not found!");
+        }
+
+        /// <summary>
+        /// Returns an integer from 0 - 2 depending on which 
+        /// spell button was pressed. Returns -1 if none
+        /// were pressed. Favors smaller slot if multiple were
+        /// presssed.
+        /// </summary>
+        /// <returns>Integer slot 0 - 2</returns>
+        public static int GetSpellButton()
+        {
+            if (Input.IsActionJustPressed("CAST1"))
+            {
+                return 0;
+            }
+
+            if (Input.IsActionJustPressed("CAST2"))
+            {
+                return 1;
+            }
+
+            if (Input.IsActionJustPressed("CAST3"))
+            {
+                return 2;
+            }
+
+            return -1;
         }
     }
 }

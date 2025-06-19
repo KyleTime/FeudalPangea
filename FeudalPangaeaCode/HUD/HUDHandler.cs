@@ -33,7 +33,8 @@ public partial class HUDHandler : Node
         rect.Texture = hpFrames[hpDisplay];
     }
 
-    public async Task HUD_Death_Animation(){
+    public async Task HUD_Death_Animation()
+    {
         await Task.Delay(1000); //time before thing appears
         diedPanel.Scale = new Vector2(1, 1);
         diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, 0);
@@ -45,7 +46,8 @@ public partial class HUDHandler : Node
         float last_time = 1;
 
         float timer = 0;
-        while(timer < first_time){
+        while (timer < first_time)
+        {
             diedPanel.Scale = new Vector2(1 + timer * 0.2f, 1 + timer * 0.2f);
             diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, Math.Clamp(timer, 0, 1));
             label.LabelSettings.FontColor = new Color(label.LabelSettings.FontColor.R, label.LabelSettings.FontColor.B, label.LabelSettings.FontColor.G, Math.Clamp(timer, 0, 1));
@@ -55,7 +57,8 @@ public partial class HUDHandler : Node
 
         timer = 0;
 
-        while(timer < last_time){
+        while (timer < last_time)
+        {
             diedPanel.Scale = new Vector2(1 + (timer + first_time) * 0.2f, 1 + (timer + first_time) * 0.2f);
             diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, Math.Clamp(1 - timer, 0, 1));
             label.LabelSettings.FontColor = new Color(label.LabelSettings.FontColor.R, label.LabelSettings.FontColor.B, label.LabelSettings.FontColor.G, Math.Clamp(1 - timer, 0, 1));

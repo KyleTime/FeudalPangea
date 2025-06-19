@@ -110,7 +110,6 @@ public partial class PlayerMovement : Node3D
 	public override void _Ready()
 	{
 		basis = new Basis();
-		SpellManager.SelectSpell(0, SpellManager.SpellName.Fireball);
 	}
 
 	/// <summary>

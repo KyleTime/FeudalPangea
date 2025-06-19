@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=19 format=3 uid="uid://cr4vr0cr3qss8"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_o8n2q"]
 [ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="2_ca7mo"]
@@ -8,13 +8,17 @@
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_51eun"]
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ewgxt"]
 [ext_resource type="Script" uid="uid://b3p3s2pcgnbp7" path="res://FeudalPangaeaCode/Global_Stuff/TimeManager.cs" id="8_7tfv0"]
+[ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="9_ca7mo"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
 size = Vector3(6, 1, 6)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8n2q"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_pvjru"]
+material = SubResource("StandardMaterial3D_o8n2q")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xvp6"]
 albedo_color = Color(1, 0, 0, 1)
@@ -182,5 +186,8 @@ shape = SubResource("BoxShape3D_yxnnm")
 
 [node name="Father Time" type="Node" parent="."]
 script = ExtResource("8_7tfv0")
+
+[node name="Checkpoint" parent="." instance=ExtResource("9_ca7mo")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -13.827, 1.57567, 10.0516)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

@@ -33,7 +33,7 @@ public partial class PauseMenu : Control
             {
                 UnPause();
             }
-            else
+            else if(!GetTree().Paused)
             {
                 Pause();
             }

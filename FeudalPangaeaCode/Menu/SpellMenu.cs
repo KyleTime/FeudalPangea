@@ -1,9 +1,12 @@
 using Godot;
+using MagicSystem;
 using System;
 using System.Threading.Tasks;
 
 public partial class SpellMenu : Control
 {
+    public static SpellMenu menu;
+
     SpellContainer[] spellContainers;
     int gridXSize;
     int gridYSize;
@@ -15,6 +18,9 @@ public partial class SpellMenu : Control
     private Vector2 nextSelectorPosition;
     Control selector;
     bool selectorMoving = false;
+
+    [Signal]
+    public delegate void SelectSpellEventHandler(int slot, SpellManager.SpellName spell, Vector2 UIPosition);
 
     public override void _Ready()
     {
@@ -43,9 +49,53 @@ public partial class SpellMenu : Control
         }
 
         UpdateSpellUI();
+
+        Visible = false;
+
+        menu = this;
+
+        VisibilityChanged += ResetOnVisibilityChange;
+    }
+
+    public static SpellMenu GetMenu()
+    {
+        if (menu == null)
+        {
+            GD.PrintErr("SPELL MENU DOES NOT EXIST!");
+            return null;
+        }
+
+        return menu;
     }
 
     public override void _Input(InputEvent @event)
+    {
+        if (!Visible)
+        {
+            return;
+        }
+
+        MoveSelectorByInput();
+
+        int spellButton = SpellManager.GetSpellButton();
+
+        if (spellButton != -1)
+            SelectSpellForSlot(spellButton);
+
+        if (Input.IsActionJustPressed("QUIT"))
+        {
+            if (GetTree().Paused)
+                TimeManager.PauseTime(false);
+
+            Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Reads in user input to move the selector cursor around the menu.
+    /// Also updates the Spell UI when the cursor moves.
+    /// </summary>
+    public void MoveSelectorByInput()
     {
         float yAxis = 0;
         float xAxis = 0;
@@ -76,12 +126,27 @@ public partial class SpellMenu : Control
         }
     }
 
-    public override void _Process(double delta)
+    /// <summary>
+    /// Updates the actual equipped spell in SpellManager, then
+    /// emits the SelectSpell signal (which largely just tells the SpellHUD to update)
+    /// </summary>
+    /// <param name="slot"></param>
+    public void SelectSpellForSlot(int slot)
     {
-        nextSelectorPosition = GetSelectorPosition();
-        selector.GlobalPosition = MoveToward(selector.GlobalPosition, nextSelectorPosition, 100, delta);
+        SpellManager.SelectSpell(slot, spellContainers[selection].spellName);
+        EmitSignal(SignalName.SelectSpell, slot, (int)spellContainers[selection].spellName, spellContainers[selection].GlobalPosition);
     }
 
+    public override void _Process(double delta)
+    {
+        //this just updates where the selector cursor thing is going and moves it towards there
+        nextSelectorPosition = GetSelectorPosition();
+        selector.GlobalPosition = KMath.MoveTowardParabolic(selector.GlobalPosition, nextSelectorPosition, 100, delta);
+    }
+
+    /// <summary>
+    /// Reads in all the proper data from the current spell container and updates the UI info.
+    /// </summary>
     private void UpdateSpellUI()
     {
         title.Text = spellContainers[selection].name;
@@ -91,38 +156,24 @@ public partial class SpellMenu : Control
         image.AddThemeStyleboxOverride("panel", tex);
     }
 
+    /// <summary>
+    /// Calculate where the selector cursor should go next.
+    /// It's just the global position of the current spell container
+    /// with a little bit of an offset.
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetSelectorPosition()
     {
         return spellContainers[selection].GlobalPosition - selector.PivotOffset;
     }
 
-    public Vector2 MoveToward(Vector2 current, Vector2 target, float speed, double delta)
+    public void ResetOnVisibilityChange()
     {
-        float distance = KMath.Dist2D(current, target);
-
-        Vector2 direction = (target - current).Normalized() * ParabolicSpeed(distance) * speed * (float)delta;
-
-        Vector2 step = current + direction;
-
-        Vector2 dp1 = target - current;
-        Vector2 dp2 = target - step;
-
-        float dot = dp1.X * dp2.X + dp1.Y * dp2.Y;
-
-        if (dot < 0)
+        if (Visible)
         {
-            return target;
+            selection = 0;
+            selector.GlobalPosition = GetSelectorPosition();
+            UpdateSpellUI();
         }
-
-        return step;
-    }
-
-    public float ParabolicSpeed(float dist)
-    {
-        float dMin = 150;
-
-        float d = Mathf.Max(dMin, dist + 100);
-
-        return ((dist * (-dist + d)) / d) * 0.25f;
     }
 }

@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://xofgq1uo542d"]
+
+[ext_resource type="Script" uid="uid://dar1y66180xnx" path="res://FeudalPangaeaCode/Level_Elements/Checkpoint/Checkpoint.cs" id="1_lkanm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkanm"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_tlnd1"]
+material = SubResource("StandardMaterial3D_lkanm")
+
+[node name="Checkpoint" type="Node3D" node_paths=PackedStringArray("visual")]
+script = ExtResource("1_lkanm")
+visual = NodePath("MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PrismMesh_tlnd1")
