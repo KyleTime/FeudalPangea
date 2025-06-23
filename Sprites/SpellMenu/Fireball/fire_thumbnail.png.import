@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btgp4g33ep1ka"
-path="res://.godot/imported/fire_thumbnail.png-0c0bd47a6a27b37a431fb0eef622ce3f.ctex"
+path="res://.godot/imported/fire_thumbnail.png-5115ef23b68bd3b97cc6c80f4a22c471.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HUD/Spell_UI/thumbnails/fire_thumbnail.png"
-dest_files=["res://.godot/imported/fire_thumbnail.png-0c0bd47a6a27b37a431fb0eef622ce3f.ctex"]
+source_file="res://Sprites/SpellMenu/Fireball/fire_thumbnail.png"
+dest_files=["res://.godot/imported/fire_thumbnail.png-5115ef23b68bd3b97cc6c80f4a22c471.ctex"]
 
 [params]
 

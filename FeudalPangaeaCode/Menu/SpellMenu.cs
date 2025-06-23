@@ -167,12 +167,25 @@ public partial class SpellMenu : Control
         return spellContainers[selection].GlobalPosition - selector.PivotOffset;
     }
 
+    public void UpdateMenuByInventory()
+    {
+        for (int i = 0; i < SpellManager.spellInventory.Count && i < spellContainers.Length; i++)
+        {
+            SpellContainer c = spellContainers[i];
+            SpellManager.SpellName n = SpellManager.spellInventory[i];
+            SpellManager.SpellData data = SpellManager.GetSpellData(n);
+
+            c.ReadInSpellData(n, data);
+        }
+    }
+
     public void ResetOnVisibilityChange()
     {
         if (Visible)
         {
             selection = 0;
             selector.GlobalPosition = GetSelectorPosition();
+            UpdateMenuByInventory();
             UpdateSpellUI();
         }
     }

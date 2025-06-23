@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c3lmttwjqrpsb" path="res://Scenes/Menus/SpellMenu/spell_container.tscn" id="2_cvw67"]
 [ext_resource type="Texture2D" uid="uid://wsr0pr5r6y08" path="res://Sprites/SpellMenu/Fireball/fireball thingy.png" id="2_fklnm"]
 [ext_resource type="Texture2D" uid="uid://bttj0j8oio386" path="res://Sprites/SpellMenu/Shard_Buttons.png" id="5_l86fv"]
-[ext_resource type="Texture2D" uid="uid://btgp4g33ep1ka" path="res://Sprites/HUD/Spell_UI/thumbnails/fire_thumbnail.png" id="5_ud3ci"]
+[ext_resource type="Texture2D" uid="uid://btgp4g33ep1ka" path="res://Sprites/SpellMenu/Fireball/fire_thumbnail.png" id="5_ud3ci"]
 [ext_resource type="Script" uid="uid://s1b6rfyoh83h" path="res://FeudalPangaeaCode/Menu/SpellMenu/SpellHUD.cs" id="6_bhg0b"]
 [ext_resource type="Shader" uid="uid://c1phkn28lmrr6" path="res://Shaders/spell_menu.tres" id="6_wjjfj"]
 [ext_resource type="Texture2D" uid="uid://dcrluf5qhiesf" path="res://Sprites/shader_sprites/alpha_circle.png" id="7_ud3ci"]

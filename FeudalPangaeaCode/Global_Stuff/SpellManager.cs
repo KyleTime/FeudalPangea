@@ -19,21 +19,36 @@ namespace MagicSystem
         //all the information needed to instance and display a spell
         public struct SpellData
         {
-            public string path;
+            public string name;
+            public string description;
             public Type spellType;
+            public Texture2D thumbnail;
+            public Texture2D pageImage;
 
-            public SpellData(string path, Type spellType)
+            public SpellData(Type spellType, string name, string desc, string thumbnailPath, string pageImagePath)
             {
-                this.path = path;
                 this.spellType = spellType;
+                this.name = name;
+                this.description = desc;
+
+                if(thumbnailPath != "")
+                    this.thumbnail = GD.Load<Texture2D>(thumbnailPath);
+                if(pageImagePath != "")
+                    this.pageImage = GD.Load<Texture2D>(pageImagePath);
             }
         }
 
         //dictionary of all spells that exist in the game
-        static Dictionary<SpellName, SpellData> SpellDictionary = new Dictionary<SpellName, SpellData>()
+        static Dictionary<SpellName, SpellData> spellDictionary = new Dictionary<SpellName, SpellData>()
         {
-            { SpellName.Fireball, new SpellData("res://Sprites/HUD/Spell_UI/thumbnails/fire_thumbnail.png", typeof(FireballSpell)) }
+            {SpellName.None, new SpellData(null, "", "", "", "")},
+
+            { SpellName.Fireball, new SpellData(typeof(FireballSpell), "Fireball",
+            "Take aim and fire this spell to destroy your targets!",
+            "res://Sprites/SpellMenu/Fireball/fire_thumbnail.png", "res://Sprites/SpellMenu/Fireball/fireball thingy.png" ) }
         };
+
+        public static List<SpellName> spellInventory = new List<SpellName>() {  };
 
         //used to store information about currently equipped spells
         //stores the name of the spell (by the enum) and the current instance
@@ -118,25 +133,9 @@ namespace MagicSystem
             equippedSpells[slot].spell.Start();
         }
 
-        /// <summary>
-        /// Load a spell thumbnail image from disk. This is wildly
-        /// inefficient, but it should be fine as long as it's not called
-        /// very often. If it's a problem, yell at Kyle to implement some
-        /// kinda cache or some shit idk.
-        /// </summary>
-        /// <param name="spell">The spell name to load.</param>
-        /// <returns>Texture2D of the thumbnail.</returns>
-        public static Texture2D GetSpellThumbnail(SpellName spell)
+        public static SpellData GetSpellData(SpellName spell)
         {
-            if (spell == SpellName.None)
-                return null;
-
-            if (SpellDictionary.ContainsKey(spell))
-            {
-                return GD.Load<Texture2D>(SpellDictionary[spell].path);
-            }
-
-            throw new Exception("Spell " + spell.ToString() + " not found!");
+            return spellDictionary[spell];
         }
 
         /// <summary>
@@ -150,9 +149,9 @@ namespace MagicSystem
             if (spell == SpellName.None)
                 return null;
 
-            if (SpellDictionary.ContainsKey(spell))
+            if (spellDictionary.ContainsKey(spell))
             {
-                return (Spell)Activator.CreateInstance(SpellDictionary[spell].spellType);
+                return (Spell)Activator.CreateInstance(spellDictionary[spell].spellType);
             }
 
             throw new Exception("Spell " + spell.ToString() + " not found!");

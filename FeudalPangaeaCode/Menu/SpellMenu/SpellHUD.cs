@@ -51,6 +51,6 @@ public partial class SpellHUD : Control
     /// <param name="name"></param>
     public void UpdateCircle(object sender, SpellManager.SpellChangeEventArgs e)
     {
-        (spellCircles[e.slot].Material as ShaderMaterial).SetShaderParameter("Thumbnail", SpellManager.GetSpellThumbnail(e.name));
+        (spellCircles[e.slot].Material as ShaderMaterial).SetShaderParameter("Thumbnail", SpellManager.GetSpellData(e.name).thumbnail);
     }
 }

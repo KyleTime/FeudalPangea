@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck6xqt3u44ymv"]
+
+[ext_resource type="Script" uid="uid://bvvb3gry4r3j8" path="res://FeudalPangaeaCode/Collectables/CollectableSpell.cs" id="1_2g0en"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2g0en"]
+size = Vector3(1, 1, 0.1)
+
+[node name="SpellCollectable" type="Node3D" node_paths=PackedStringArray("decal")]
+script = ExtResource("1_2g0en")
+decal = NodePath("Decal")
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.54349e-10, -0.0103943)
+size = Vector3(1, 0.3, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2g0en")

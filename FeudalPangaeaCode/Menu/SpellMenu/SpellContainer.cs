@@ -1,4 +1,5 @@
 using Godot;
+using MagicSystem;
 using System;
 
 public partial class SpellContainer : Control
@@ -9,11 +10,13 @@ public partial class SpellContainer : Control
     [Export] public Texture2D thumbnail;
     [Export] public MagicSystem.SpellManager.SpellName spellName;
 
-    public override void _Ready()
+    public void ReadInSpellData(SpellManager.SpellName spell, SpellManager.SpellData data)
     {
-        if (thumbnail != null)
-        {
-            GetNode<TextureRect>("TextureRect").Texture = thumbnail;
-        }
+        name = data.name;
+        description = data.description;
+        pageImage = data.pageImage;
+        thumbnail = data.thumbnail;
+
+        GetNode<TextureRect>("TextureRect").Texture = thumbnail;
     }
 }
