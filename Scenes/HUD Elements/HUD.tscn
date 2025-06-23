@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4s0jb3rhv7ba"]
+[gd_scene load_steps=12 format=3 uid="uid://c4s0jb3rhv7ba"]
 
 [ext_resource type="Script" uid="uid://dm1ayahv0risr" path="res://FeudalPangaeaCode/HUD/HUDHandler.cs" id="1_smdbh"]
 [ext_resource type="Texture2D" uid="uid://dp6j1ja4jrkw0" path="res://Sprites/HUD/HP Counter/HP-0.png" id="2_ajo0l"]
 [ext_resource type="Texture2D" uid="uid://cd6qkoeqjmyn3" path="res://Sprites/HUD/HP Counter/HP-6.png" id="2_ryunw"]
 [ext_resource type="Texture2D" uid="uid://c04y6r13lhcow" path="res://Sprites/HUD/HP Counter/HP-1.png" id="3_6o4el"]
-[ext_resource type="Texture2D" uid="uid://d4k0plad33gx5" path="res://Sprites/HUD/Spell UI/spell UI.png" id="3_ksekh"]
 [ext_resource type="Texture2D" uid="uid://vct5jcp3xsek" path="res://Sprites/HUD/coin count/coin UI.png" id="4_5ihyk"]
 [ext_resource type="Texture2D" uid="uid://cmrld1kwfo801" path="res://Sprites/HUD/HP Counter/HP-2.png" id="4_d7q4b"]
 [ext_resource type="Texture2D" uid="uid://bf3icfk016iis" path="res://Sprites/HUD/HP Counter/HP-3.png" id="5_7ht03"]
@@ -93,24 +92,6 @@ stretch_mode = 3
 layout_mode = 2
 texture = ExtResource("2_ryunw")
 expand_mode = 1
-
-[node name="SPELL_RATIO_CONTAINER" type="AspectRatioContainer" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -721.0
-offset_top = -513.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.5, 0.5)
-pivot_offset = Vector2(650, 450)
-
-[node name="SpellUI" type="TextureRect" parent="SPELL_RATIO_CONTAINER"]
-layout_mode = 2
-texture = ExtResource("3_ksekh")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 2

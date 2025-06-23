@@ -31,6 +31,11 @@ public partial class PlayerCamera : Node3D
 	{
 	}
 
+	public new Basis GetBasis()
+	{
+		return camera.GlobalBasis;
+	}
+
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -42,25 +47,11 @@ public partial class PlayerCamera : Node3D
 
 			camOriginX.Rotation = new Vector3(Math.Clamp(camOriginX.Rotation.X, (float)(Math.PI / 180 * -90), (float)(Math.PI / 180 * 45)), camOriginX.Rotation.Y, camOriginX.Rotation.Z);
 		}
-
-		if (Input.MouseMode == Input.MouseModeEnum.Visible && Input.IsMouseButtonPressed(MouseButton.Left))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-		else if (Input.IsActionJustPressed("QUIT"))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Visible;
-		}
     }
-
-	public new Basis GetBasis()
-	{
-		return camera.GlobalBasis;
-	}
 
 	public void DeathCam(int HP, int MAX_HP)
 	{
-		if(HP <= 0)
+		if (HP <= 0)
 		{
 			camera.Current = false;
 			cinematicCamera.Current = true;

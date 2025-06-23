@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4k0plad33gx5"
-path="res://.godot/imported/spell UI.png-2627c50ea0f923f0e161122f1c302250.ctex"
+uid="uid://bttj0j8oio386"
+path="res://.godot/imported/Shard_Buttons.png-8a7fdb6c5517a595096befb4c080606d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HUD/Spell UI/spell UI.png"
-dest_files=["res://.godot/imported/spell UI.png-2627c50ea0f923f0e161122f1c302250.ctex"]
+source_file="res://Sprites/SpellMenu/Shard_Buttons.png"
+dest_files=["res://.godot/imported/Shard_Buttons.png-8a7fdb6c5517a595096befb4c080606d.ctex"]
 
 [params]
 
