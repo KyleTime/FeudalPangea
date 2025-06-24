@@ -14,7 +14,6 @@ public partial class LevelManager : Node
 
     public void ReloadLevel()
     {
-        SpellManager.ResetSpellChange();
         GetTree().ReloadCurrentScene();
     }
 }

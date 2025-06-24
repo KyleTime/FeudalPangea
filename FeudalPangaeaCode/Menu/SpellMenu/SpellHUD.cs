@@ -22,6 +22,11 @@ public partial class SpellHUD : Control
         SpellManager.SpellChange += UpdateCircle;
     }
 
+    public override void _ExitTree()
+    {
+        SpellManager.ResetSpellChange();
+    }
+
     public override void _Process(double delta)
     {
         for (int i = 0; i < spellCircles.Length; i++)
@@ -67,7 +72,7 @@ public partial class SpellHUD : Control
         // spellCircles[e.slot].Texture = null;
 
         // spellCircles[e.slot].Texture = SpellManager.GetSpellData(e.name).thumbnail;
-        
+
         (spellCircles[e.slot].Material as ShaderMaterial).SetShaderParameter("Thumbnail", SpellManager.GetSpellData(e.name).thumbnail);
     }
 }
