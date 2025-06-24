@@ -23,7 +23,6 @@ public partial class PlayerCamera : Node3D
 
 		RemoveChild(cinematicCamera);
 		GetTree().Root.GetChild(0).AddChild(cinematicCamera);
-
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,8 +57,11 @@ public partial class PlayerCamera : Node3D
 
 			cinematicCamera.GlobalPosition = camera.GlobalPosition;
 			cinematicCamera.GlobalBasis = camera.GlobalBasis;
-
-			GD.Print("Swous!");
+		}
+		else
+		{
+			camera.Current = true;
+			cinematicCamera.Current = false;
 		}
 	}
 }

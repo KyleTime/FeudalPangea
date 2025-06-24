@@ -11,11 +11,15 @@ public partial class Hurtbox : Area3D
     [Export] public HitFx bonkEffect;
     [Export] public HitFx dinkEffect;
 
+    bool isPlayer = false;
+
     public override void _Ready()
     {
         if (Owner is ICreature)
         {
             self = (ICreature)Owner;
+
+            isPlayer = self is Player;
         }
         else
         {
@@ -52,6 +56,11 @@ public partial class Hurtbox : Area3D
 
     public virtual void HitBy(Hitbox hitbox)
     {
+        if (!hitbox.hitsPlayer && isPlayer)
+        {
+            return;
+        }
+
         hit = true;
 
         hitbox.Hit(this); //let hitbox know it hit something
@@ -59,7 +68,7 @@ public partial class Hurtbox : Area3D
         //if major and not stunned, resist nonmagical damage
         if (self.IsProtectedUnlessStunned() && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))
         {
-            if (hitbox.damage_source != DamageSource.Magic)
+            if (hitbox.damage_source != DamageSource.Magic && hitbox.damage_source != DamageSource.Fire)
             {
                 GD.Print("DINK!");
 
@@ -81,6 +90,7 @@ public partial class Hurtbox : Area3D
         {
             case DamageSource.Bonk:
             case DamageSource.Magic:
+            case DamageSource.Fire:
 
                 Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
 

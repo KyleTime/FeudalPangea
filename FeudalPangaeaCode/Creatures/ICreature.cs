@@ -38,4 +38,4 @@ StunAir, Dead, DeadAir, Casting, Attack}
 /// [BONK] - Blunt force trauma, typically causes stun
 /// [MAGIC] - Damage from spells, will probably be split into elemental types later. Goes through defense.
 /// </summary>
-public enum DamageSource {Fall, Bonk, Magic}
+public enum DamageSource {Fall, Bonk, Fire, Magic}

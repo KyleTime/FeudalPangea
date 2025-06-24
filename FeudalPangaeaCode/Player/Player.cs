@@ -199,7 +199,14 @@ public partial class Player : CharacterBody3D, ICreature
 		if (source == DamageSource.Fall)
 			GD.Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		await hud.HUD_Death_Animation();
-		GetTree().ReloadCurrentScene();
+		GetTree().ChangeSceneToFile("res://Scenes/Menus/Main Menu/title_screen.tscn");
+	}
+
+	public void ResetPlayer()
+	{
+		HP = MAX_HP;
+		GlobalPosition = new Vector3();
+		move.SetState(CreatureState.Grounded);
 	}
 
 	public void Stun(float time)

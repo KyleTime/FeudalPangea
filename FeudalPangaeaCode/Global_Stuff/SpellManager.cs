@@ -45,7 +45,7 @@ namespace MagicSystem
 
             { SpellName.Fireball, new SpellData(typeof(FireballSpell), "Fireball",
             "Take aim and fire this spell to destroy your targets!",
-            "res://Sprites/SpellMenu/Fireball/fire_thumbnail.png", "res://Sprites/SpellMenu/Fireball/fireball thingy.png" ) }
+            GlobalData.resourcePaths["fireballThumbnail"], GlobalData.resourcePaths["fireballPageImage"] ) }
         };
 
         public static List<SpellName> spellInventory = new List<SpellName>() {  };

@@ -228,7 +228,7 @@ public partial class PlayerMovement : Node3D
 
 	#region States
 
-	private void SetState(CreatureState newState, bool autoActive = true, bool force = false)
+	public void SetState(CreatureState newState, bool autoActive = true, bool force = false)
 	{
 		if (changedThisFrame && !force)
 			return;
@@ -774,17 +774,16 @@ public partial class PlayerMovement : Node3D
 	#region Forced Transitions
 	//starts a whole chain of events that causes "animationDone" to be false until the animation triggered by the current state has completed
 	//see the attack states for an example
-	private void WaitForAnimation()
+	public void WaitForAnimation()
 	{
 		animationTimer = 0;
 		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 
-	private void PlayAnimation(String animName)
+	public void PlayAnimation(string animName)
 	{
 		EmitSignal(SignalName.AnimationOverride, animName);
 	}
-
 
 	public void Stun(float time)
 	{

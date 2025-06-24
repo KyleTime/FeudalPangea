@@ -14,6 +14,8 @@ public partial class TitleScreen : Control
 
         play.ButtonDown += SwitchToLevelMenu;
         quit.ButtonDown += QuitGame;
+
+        Input.MouseMode = Input.MouseModeEnum.Visible;
     }
 
     private void SwitchToLevelMenu()

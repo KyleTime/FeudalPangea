@@ -15,7 +15,13 @@ public partial class SpellHUD : Control
             menu.SelectSpell += SpellSelectedInUI;
         }
 
+        spellCircles[0] = GetNode<TextureRect>("XButtonThumbnail");
+        spellCircles[1] = GetNode<TextureRect>("YButtonThumbnail");
+        spellCircles[2] = GetNode<TextureRect>("BButtonThumbnail");
+
         SpellManager.SpellChange += UpdateCircle;
+
+        GD.Print("spellCircles: " + (spellCircles[0] != null));
     }
 
     public override void _Process(double delta)
@@ -51,6 +57,19 @@ public partial class SpellHUD : Control
     /// <param name="name"></param>
     public void UpdateCircle(object sender, SpellManager.SpellChangeEventArgs e)
     {
+        if (e.name != SpellManager.SpellName.None)
+            GD.Print("thumbnail " + e.slot + ": " + (SpellManager.GetSpellData(e.name).thumbnail != null));
+        else
+        {
+            GD.Print("slot " + e.slot + " is none");
+        }
+
+        // GD.Print(spellCircles[e.slot].Name);
+
+        // spellCircles[e.slot].Texture = null;
+
+        // spellCircles[e.slot].Texture = SpellManager.GetSpellData(e.name).thumbnail;
+
         (spellCircles[e.slot].Material as ShaderMaterial).SetShaderParameter("Thumbnail", SpellManager.GetSpellData(e.name).thumbnail);
     }
 }
