@@ -98,6 +98,13 @@ namespace MagicSystem
         public static event EventHandler<SpellChangeEventArgs> SpellChange;
 
         /// <summary>
+        /// Removes all subscribers from the SpellChange event.
+        /// This should always be done when changing scenes, as we don't want to
+        /// accidentally keep track of disposed nodes.
+        /// </summary>
+        public static void ResetSpellChange() => SpellChange = null;
+
+        /// <summary>
         /// Given a slot and a spell name, equip a spell in that slot.
         /// </summary>
         /// <param name="slot"></param>

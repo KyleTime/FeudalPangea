@@ -196,7 +196,7 @@ scale = Vector2(0.9, 0.9)
 pivot_offset = Vector2(68, 68)
 texture = SubResource("ImageTexture_cvw67")
 
-[node name="ShardThingControl" type="Control" parent="." node_paths=PackedStringArray("spellUIPositions", "spellCircles", "menu")]
+[node name="SpellHUD" type="Control" parent="." node_paths=PackedStringArray("spellUIPositions", "spellCircles", "menu")]
 anchors_preset = 0
 offset_left = 1512.0
 offset_top = 676.0
@@ -207,14 +207,14 @@ spellUIPositions = [NodePath("XButtonPosition"), NodePath("YButtonPosition"), No
 spellCircles = [NodePath("XButtonThumbnail"), NodePath("YButtonThumbnail"), NodePath("BButtonThumbnail")]
 menu = NodePath("../Menu")
 
-[node name="ShardThing" type="TextureRect" parent="ShardThingControl"]
+[node name="ShardThing" type="TextureRect" parent="SpellHUD"]
 z_index = 4
 layout_mode = 0
 offset_right = 400.0
 offset_bottom = 400.0
 texture = ExtResource("5_l86fv")
 
-[node name="XButtonThumbnail" type="TextureRect" parent="ShardThingControl"]
+[node name="XButtonThumbnail" type="TextureRect" parent="SpellHUD"]
 z_index = 4
 material = SubResource("ShaderMaterial_ud3ci")
 layout_mode = 0
@@ -224,7 +224,7 @@ offset_right = 131.0
 offset_bottom = 403.0
 texture = ExtResource("7_ud3ci")
 
-[node name="YButtonThumbnail" type="TextureRect" parent="ShardThingControl"]
+[node name="YButtonThumbnail" type="TextureRect" parent="SpellHUD"]
 z_index = 4
 material = SubResource("ShaderMaterial_bhg0b")
 layout_mode = 0
@@ -234,7 +234,7 @@ offset_right = 270.0
 offset_bottom = 180.0
 texture = ExtResource("7_ud3ci")
 
-[node name="BButtonThumbnail" type="TextureRect" parent="ShardThingControl"]
+[node name="BButtonThumbnail" type="TextureRect" parent="SpellHUD"]
 z_index = 4
 material = SubResource("ShaderMaterial_go82x")
 layout_mode = 0
@@ -244,21 +244,21 @@ offset_right = 403.0
 offset_bottom = 401.0
 texture = ExtResource("7_ud3ci")
 
-[node name="XButtonPosition" type="Control" parent="ShardThingControl"]
+[node name="XButtonPosition" type="Control" parent="SpellHUD"]
 anchors_preset = 0
 offset_left = -5.0
 offset_top = 267.0
 offset_right = -5.0
 offset_bottom = 267.0
 
-[node name="YButtonPosition" type="Control" parent="ShardThingControl"]
+[node name="YButtonPosition" type="Control" parent="SpellHUD"]
 anchors_preset = 0
 offset_left = 134.0
 offset_top = 44.0
 offset_right = 134.0
 offset_bottom = 44.0
 
-[node name="BButtonPosition" type="Control" parent="ShardThingControl"]
+[node name="BButtonPosition" type="Control" parent="SpellHUD"]
 anchors_preset = 0
 offset_left = 267.0
 offset_top = 265.0

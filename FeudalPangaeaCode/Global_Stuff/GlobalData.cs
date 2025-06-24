@@ -66,4 +66,13 @@ public static class GlobalData
     {
         return ResourceLoader.Load<Texture2D>(resourcePaths[name]);
     }
+
+    /// <summary>
+    /// Call this to reload the current scene.
+    /// </summary>
+    /// <param name="tree"></param>
+    public static void ReloadScene(Node tree)
+    {
+
+    }
 }
