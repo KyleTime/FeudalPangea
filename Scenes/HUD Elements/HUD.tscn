@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4s0jb3rhv7ba"]
+[gd_scene load_steps=13 format=3 uid="uid://c4s0jb3rhv7ba"]
 
 [ext_resource type="Script" uid="uid://dm1ayahv0risr" path="res://FeudalPangaeaCode/HUD/HUDHandler.cs" id="1_smdbh"]
 [ext_resource type="Texture2D" uid="uid://dp6j1ja4jrkw0" path="res://Sprites/HUD/HP Counter/HP-0.png" id="2_ajo0l"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bf3icfk016iis" path="res://Sprites/HUD/HP Counter/HP-3.png" id="5_7ht03"]
 [ext_resource type="Texture2D" uid="uid://bgdat0aq5xemy" path="res://Sprites/HUD/HP Counter/HP-4.png" id="6_wcpbg"]
 [ext_resource type="Texture2D" uid="uid://bil2eau2fadof" path="res://Sprites/HUD/HP Counter/HP-5.png" id="7_t8l4t"]
+[ext_resource type="Texture2D" uid="uid://bfp7k6fmmcohn" path="res://Sprites/HUD/crosshair.png" id="10_tfmn0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gwk3h"]
 font_size = 100
@@ -111,3 +112,18 @@ offset_bottom = 40.0
 [node name="TextureRect" type="TextureRect" parent="COIN_CONTAINER"]
 layout_mode = 2
 texture = ExtResource("4_5ihyk")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_tfmn0")

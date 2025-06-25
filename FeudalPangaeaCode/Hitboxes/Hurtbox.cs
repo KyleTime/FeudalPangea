@@ -56,14 +56,17 @@ public partial class Hurtbox : Area3D
 
     public virtual void HitBy(Hitbox hitbox)
     {
+        hitbox.Hit(this); //let hitbox know it hit something
+
+        //I know the ordering looks weird, but it's a lil
+        //necessary for hitboxes to know they're touching the player
+        //even if no damage is being dealt
         if (!hitbox.hitsPlayer && isPlayer)
         {
             return;
         }
 
         hit = true;
-
-        hitbox.Hit(this); //let hitbox know it hit something
 
         //if major and not stunned, resist nonmagical damage
         if (self.IsProtectedUnlessStunned() && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))

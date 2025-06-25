@@ -23,17 +23,20 @@ groundbox = NodePath("groundbox")
 hitbox = NodePath("Hitbox")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("SphereMesh_d8ww5")
 
 [node name="Hitbox" type="Area3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_d8ww5")
-dmg = 3
+dmg = 10
 damage_source = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("SphereShape3D_k4tj0")
 
 [node name="groundbox" type="Area3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="groundbox"]
 shape = SubResource("SphereShape3D_gas48")

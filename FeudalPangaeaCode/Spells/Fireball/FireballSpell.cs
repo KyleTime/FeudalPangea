@@ -6,15 +6,41 @@ namespace MagicSystem
     {
         public FireballObject fireball;
 
-        const float speed = 5;
+        const float speed = 10;
+
+        public Vector3 camLine;
+        public bool alignWithCamera = true;
+        float camHeight = 0;
+        const float targetDistance = 40;
+
+        public FireballSpell()
+        {
+        }
 
         public override void Start()
         {
             fireball = GetFireball();
-            fireball.Activate();
 
             fireball.GlobalPosition = caster.GlobalPosition;
-            fireball.velocity = -caster.basis.Z * speed;
+
+            if (alignWithCamera)
+            {
+                camLine = -caster.basis.Z;
+                camHeight = Player.player.cam.GlobalPosition.Y - caster.GlobalPosition.Y;
+
+                Vector3 d1 = camLine.Normalized() * targetDistance + new Vector3(0, camHeight, 0);
+
+                Vector3 direction = camLine;
+                Vector3 target = d1 + caster.GlobalPosition;
+
+                fireball.Activate(direction, speed, target);
+            }
+            else
+            {
+                fireball.velocity = -caster.basis.Z * speed;
+                fireball.Activate();
+            }
+
             caster.PlayAnimation("Dive");
             caster.WaitForAnimation();
         }
