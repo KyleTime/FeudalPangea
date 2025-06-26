@@ -5,13 +5,7 @@ namespace MagicSystem
     public class FireballSpell : Spell
     {
         public FireballObject fireball;
-
         const float speed = 10;
-
-        public Vector3 camLine;
-        public bool alignWithCamera = true;
-        float camHeight = 0;
-        const float targetDistance = 40;
 
         public FireballSpell()
         {
@@ -21,25 +15,7 @@ namespace MagicSystem
         {
             fireball = GetFireball();
 
-            fireball.GlobalPosition = caster.GlobalPosition;
-
-            if (alignWithCamera)
-            {
-                camLine = -caster.basis.Z;
-                camHeight = Player.player.cam.GlobalPosition.Y - caster.GlobalPosition.Y;
-
-                Vector3 d1 = camLine.Normalized() * targetDistance + new Vector3(0, camHeight, 0);
-
-                Vector3 direction = camLine;
-                Vector3 target = d1 + caster.GlobalPosition;
-
-                fireball.Activate(direction, speed, target);
-            }
-            else
-            {
-                fireball.velocity = -caster.basis.Z * speed;
-                fireball.Activate();
-            }
+            fireball.FireProjectileFromPlayer(caster, speed);
 
             caster.PlayAnimation("Dive");
             caster.WaitForAnimation();
