@@ -133,6 +133,7 @@ public partial class SpellMenu : Control
     /// <param name="slot"></param>
     public void SelectSpellForSlot(int slot)
     {
+        // GD.Print("Selecting spell " + spellContainers[selection].spellName + " for slot " + slot);
         SpellManager.SelectSpell(slot, spellContainers[selection].spellName);
         EmitSignal(SignalName.SelectSpell, slot, (int)spellContainers[selection].spellName, spellContainers[selection].GlobalPosition);
     }

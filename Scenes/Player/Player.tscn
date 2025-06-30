@@ -54,7 +54,7 @@ script = ExtResource("1_fmy2y")
 [node name="HUD" parent="." instance=ExtResource("5_20fgk")]
 
 [node name="CamOrigin" type="Node3D" parent="." node_paths=PackedStringArray("cinematicCamera")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.96029, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.89944, 0)
 script = ExtResource("6_viir3")
 cinematicCamera = NodePath("Cinematic Camera")
 

@@ -45,7 +45,7 @@ namespace MagicSystem
 
             { SpellName.Fireball, new SpellData(typeof(FireballSpell), "Fireball",
             "Take aim and fire this spell to destroy your targets!",
-            "res://Sprites/SpellMenu/Fireball/fire_thumbnail.png", "res://Sprites/SpellMenu/Fireball/fireball thingy.png" ) }
+            GlobalData.resourcePaths["fireballThumbnail"], GlobalData.resourcePaths["fireballPageImage"] ) }
         };
 
         public static List<SpellName> spellInventory = new List<SpellName>() {  };
@@ -96,6 +96,13 @@ namespace MagicSystem
         }
 
         public static event EventHandler<SpellChangeEventArgs> SpellChange;
+
+        /// <summary>
+        /// Removes all subscribers from the SpellChange event.
+        /// This should always be done when changing scenes, as we don't want to
+        /// accidentally keep track of disposed nodes.
+        /// </summary>
+        public static void ResetSpellChange() => SpellChange = null;
 
         /// <summary>
         /// Given a slot and a spell name, equip a spell in that slot.

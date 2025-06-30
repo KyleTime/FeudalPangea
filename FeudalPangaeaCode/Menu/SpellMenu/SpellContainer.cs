@@ -16,6 +16,7 @@ public partial class SpellContainer : Control
         description = data.description;
         pageImage = data.pageImage;
         thumbnail = data.thumbnail;
+        spellName = spell;
 
         GetNode<TextureRect>("TextureRect").Texture = thumbnail;
     }

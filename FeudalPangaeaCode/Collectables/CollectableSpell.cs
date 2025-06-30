@@ -14,6 +14,14 @@ public partial class CollectableSpell : Collectable
         decal.TextureAlbedo = SpellManager.GetSpellData(spell).thumbnail;
     }
 
+    public override void _EnterTree()
+    {
+        if (SpellManager.spellInventory.Contains(spell))
+        {
+            QueueFree();
+        }
+    }
+
     public override void _Process(double delta)
     {
         RotateY((float)(delta * Math.PI * 1));

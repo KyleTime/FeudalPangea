@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 
 public static class GlobalData
@@ -12,6 +13,17 @@ public static class GlobalData
     public const int hurtboxLayer = 16;
     public const int hitboxLayer = 32;
     public const float parryStunTime = 5;
+    #endregion
+
+    #region ResourcePaths
+
+    public static Dictionary<string, string> resourcePaths = new Dictionary<string, string>()
+    {
+        { "fireballThumbnail", "res://Sprites/SpellMenu/Fireball/fire_thumbnail.png" },
+        { "fireballPageImage", "res://Sprites/SpellMenu/Fireball/fireball_thingy.png"},
+        { "fireballObject", "res://Scenes/Spells/Fireball/fireball.tscn" }
+    };
+
     #endregion
 
     /// <summary>
@@ -35,5 +47,32 @@ public static class GlobalData
             coinCount = 0;
     }
 
-    
+    /// <summary>
+    /// Using the corresponding name in the dictionary, load a PackedScene from a path
+    /// </summary>
+    /// <param name="name">Name given to the resource</param>
+    /// <returns>The PackedScene requested</returns>
+    public static PackedScene GetPackedScene(string name)
+    {
+        return ResourceLoader.Load<PackedScene>(resourcePaths[name]);
+    }
+
+    /// <summary>
+    /// Using the corresponding name in the dictionary, load a PackedScene from a path
+    /// </summary>
+    /// <param name="name">Name given to the resource</param>
+    /// <returns>The requested Texture2D</returns>
+    public static Texture2D GetTexture2D(string name)
+    {
+        return ResourceLoader.Load<Texture2D>(resourcePaths[name]);
+    }
+
+    /// <summary>
+    /// Call this to reload the current scene.
+    /// </summary>
+    /// <param name="tree"></param>
+    public static void ReloadScene(Node tree)
+    {
+
+    }
 }
