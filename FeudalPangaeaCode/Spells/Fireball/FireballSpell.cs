@@ -4,8 +4,12 @@ namespace MagicSystem
 {
     public class FireballSpell : Spell
     {
-        public FireballObject fireball;
-        const float speed = 10;
+        public ObjectPool pool;
+        const float speed = 40;
+        const int numFireballs = 3;
+
+        float minimumStun = 1;
+        float timer = 0;
 
         public FireballSpell()
         {
@@ -13,37 +17,55 @@ namespace MagicSystem
 
         public override void Start()
         {
-            fireball = GetFireball();
+            FireballObject fireball = GetFireball();
 
-            fireball.FireProjectileFromPlayer(caster, speed);
+            if (fireball != null)
+            {
+                timer = 0;
+                fireball.FireProjectileFromPlayer(caster, speed);
 
-            caster.PlayAnimation("Dive");
-            caster.WaitForAnimation();
+                caster.RotateBody();
+                caster.PlayAnimation("Dive");
+                caster.WaitForAnimation();
+                caster.Push(caster.basis.Z * 10);
+            }
+            else
+            {
+                caster.animationDone = true;
+            }
         }
 
         public override void CastState(double delta)
         {
-            if (caster.animationDone)
+            if (caster.animationDone && timer > minimumStun)
             {
                 caster.TryTransition(caster.GroundedCond(), CreatureState.Grounded);
                 caster.TryTransition(caster.OpenAirCond(), CreatureState.OpenAir);
             }
+
+            timer += (float)delta;
         }
 
         public FireballObject GetFireball()
         {
-            if (fireball == null)
+            if (pool == null)
             {
-                PackedScene fireballScene = GlobalData.GetPackedScene("fireballObject");
-
-                FireballObject fireballObject = (FireballObject)fireballScene.Instantiate();
-
-                caster.GetTree().Root.AddChild(fireballObject);
-
-                return fireballObject;
+                pool = new ObjectPool(GlobalData.GetPackedScene("fireballObject"), numFireballs);
             }
 
-            return fireball;
+            FireballObject fireballObject = pool.GetCurrentObject() as FireballObject;
+
+            for(int i = 0; i < numFireballs; i++)
+            {
+                if (!fireballObject.active)
+                {
+                    return fireballObject;
+                }
+
+                fireballObject = pool.GetNext() as FireballObject;
+            }
+
+            return null;
         }
     }
 }

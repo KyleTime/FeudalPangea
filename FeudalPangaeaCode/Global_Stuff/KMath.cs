@@ -71,4 +71,41 @@ public static class KMath
     {
         return v1.X * v2.X + v1.Y * v2.Y;
     }
+
+    public static double RotateTowards(double current, double target, float speed, double delta)
+    {
+        //current and target will be between 0 - PI * 2
+        double diff = target % (Math.PI * 2) - current % (Math.PI * 2);
+
+        if (diff > Math.PI)
+        {
+            diff -= Math.PI * 2;
+        }
+
+        if (diff <= -Math.PI)
+        {
+            diff += Math.PI * 2;
+        }
+
+        if (diff == 0)
+        {
+            return target;
+        }
+
+        //now diff should be between -Math.PI - Math.PI
+
+        int direction = diff > 0 ? 1 : -1;
+
+        double next = current + direction * speed * delta;
+
+        double change1 = next - target;
+        double change2 = current - target;
+
+        if (change1 * change2 < 0)
+        {
+            return target;
+        }
+
+        return next;
+    }
 }

@@ -276,7 +276,7 @@ public partial class PlayerMovement : Node3D
 	private void State_Grounded(double delta)
 	{
 		Move(delta);
-		RotateBody();
+		RotateBody(delta);
 
 		if (Input.IsActionJustPressed("JUMP"))
 		{
@@ -300,7 +300,7 @@ public partial class PlayerMovement : Node3D
 	private void State_OpenAir(double delta)
 	{
 		Move(delta, airMod, false);
-		RotateBody();
+		//RotateBody();
 
 		Gravity((float)delta);
 
@@ -319,7 +319,7 @@ public partial class PlayerMovement : Node3D
 		//note, the mod is currently the square of airMod
 		//this sucks, why
 		Move(delta, airMod * diveAirMod, false);
-		RotateBody();
+		RotateBody(delta, 1, 10);
 
 		Gravity((float)delta);
 
@@ -348,7 +348,7 @@ public partial class PlayerMovement : Node3D
 	private void State_WallSlide(double delta)
 	{
 		Move(delta, 0.6f);
-		RotateBody();
+		RotateBody(delta);
 
 		if (Input.IsActionJustPressed("JUMP") && wallJumpRay.GetCollider() != null)
 		{
@@ -378,7 +378,7 @@ public partial class PlayerMovement : Node3D
 
 	private void State_Stun(double delta)
 	{
-		RotateBody(-1);
+		RotateBody(delta, -1);
 
 		if (stunTimer > 0)
 		{
@@ -401,7 +401,7 @@ public partial class PlayerMovement : Node3D
 	//little note: StunAir may look exactly the same as Stun, but that's largely just because the state is mostly for the animator
 	private void State_StunAir(double delta)
 	{
-		RotateBody(-1);
+		RotateBody(delta, -1);
 
 		if (stunTimer > 0)
 		{
@@ -424,7 +424,7 @@ public partial class PlayerMovement : Node3D
 
 	private void State_Punch(double delta)
 	{
-		RotateBody(1);
+		RotateBody(delta);
 
 		Decelerate(delta);
 		Gravity(delta);
@@ -674,7 +674,12 @@ public partial class PlayerMovement : Node3D
 
 	#region Movement Code
 
-	private void RotateBody(float mod = 1)
+	public void RotateBody(double delta, float mod = 1, float speed = 10)
+	{
+		Rotation = new Vector3(0, (float)KMath.RotateTowards(Rotation.Y, (float)CreatureVelocityCalculations.GetYRotation(this, velocity, mod), speed, delta), 0);
+	}
+
+	public void RotateBody(float mod = 1)
 	{
 		CreatureVelocityCalculations.RotateBody(this, velocity, mod);
 	}
@@ -725,7 +730,6 @@ public partial class PlayerMovement : Node3D
 
 	public void Dive()
 	{
-
 		velocity.Y = 0;
 
 		float XInput = GetXInput();
@@ -746,6 +750,8 @@ public partial class PlayerMovement : Node3D
 
 		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
+
+		RotateBody();
 	}
 
 	public void LedgeHang()
