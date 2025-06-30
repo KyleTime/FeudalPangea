@@ -24,10 +24,11 @@ namespace MagicSystem
                 timer = 0;
                 fireball.FireProjectileFromPlayer(caster, speed);
 
+                caster.velocity = new Vector3();
                 caster.RotateBody();
                 caster.PlayAnimation("Dive");
                 caster.WaitForAnimation();
-                caster.Push(caster.basis.Z * 10);
+                caster.Push(caster.basis.Z * 5);
             }
             else
             {
@@ -44,6 +45,7 @@ namespace MagicSystem
             }
 
             timer += (float)delta;
+            caster.velocity -= caster.velocity * 2f * (float)delta;
         }
 
         public FireballObject GetFireball()
