@@ -11,6 +11,18 @@ public static class KMath
         return firstFloat * (1 - by) + secondFloat * by;
     }
 
+    //Freya Holmer <3
+    public static float InvLerp(float firstFloat, float secondFloat, float value)
+    {
+        return (value - firstFloat) / (secondFloat - firstFloat);
+    }
+
+    public static float Remap(float inputMin, float inputMax, float outputMin, float outputMax, float value)
+    {
+        float t = InvLerp(inputMin, inputMax, value);
+        return Lerp(outputMin, outputMax, t);
+    }
+
     public static float Dist3D(Vector3 first, Vector3 second)
     {
         return (float)Math.Sqrt(Math.Pow(first.X - second.X, 2) + Math.Pow(first.Y - second.Y, 2) + Math.Pow(first.Z - second.Z, 2));
