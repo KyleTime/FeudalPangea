@@ -40,8 +40,7 @@ namespace MagicSystem
         {
             if (caster.animationDone && timer > minimumStun)
             {
-                caster.TryTransition(caster.GroundedCond(), CreatureState.Grounded);
-                caster.TryTransition(caster.OpenAirCond(), CreatureState.OpenAir);
+                caster.Stun(0);
             }
 
             timer += (float)delta;

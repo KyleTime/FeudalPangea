@@ -395,6 +395,7 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 	}
 
@@ -418,6 +419,7 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 
 	}
