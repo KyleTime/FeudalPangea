@@ -10,6 +10,12 @@ public partial class LevelManager : Node
     {
         ProcessMode = Node.ProcessModeEnum.Pausable;
         currentLevel = this;
+
+        if (!HasNode("FatherTime"))
+        {
+            Node time = GlobalData.GetPackedScene("fatherTime").Instantiate();
+            AddChild(time);
+        }
     }
 
     public void ReloadLevel()
