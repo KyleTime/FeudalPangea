@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2od8kwdj5nfe"]
+
+[ext_resource type="Script" uid="uid://b3p3s2pcgnbp7" path="res://FeudalPangaeaCode/Global_Stuff/TimeManager.cs" id="1_rj6am"]
+
+[node name="FatherTime" type="Node"]
+script = ExtResource("1_rj6am")

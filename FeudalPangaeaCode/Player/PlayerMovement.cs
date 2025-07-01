@@ -88,6 +88,7 @@ public partial class PlayerMovement : Node3D
 
 	//spells!
 	int selectedSpell = 0;
+	bool[] canCast = new bool[3];
 
 	[Signal]
 	public delegate void PositionChangeEventHandler(Vector3 pos);
@@ -248,6 +249,12 @@ public partial class PlayerMovement : Node3D
 		{
 			switch (creatureState)
 			{
+				case CreatureState.Grounded:
+					for (int i = 0; i < 3; i++)
+					{
+						canCast[i] = true;
+					}
+					break;
 				case CreatureState.Dive:
 					Dive();
 					break;
@@ -395,6 +402,7 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 	}
 
@@ -418,6 +426,7 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 
 	}
@@ -613,31 +622,24 @@ public partial class PlayerMovement : Node3D
 	public bool CastCond()
 	{
 		bool buttonPressed = false;
-		if (Input.IsActionJustPressed("CAST1"))
+		int selection = SpellManager.GetSpellButton();
+
+		if (selection != -1)
 		{
-			selectedSpell = 0;
-			buttonPressed = true;
-		}
-		if (Input.IsActionJustPressed("CAST2"))
-		{
-			selectedSpell = 1;
-			buttonPressed = true;
-		}
-		if (Input.IsActionJustPressed("CAST3"))
-		{
-			selectedSpell = 2;
+			selectedSpell = selection;
 			buttonPressed = true;
 		}
 
 		if (buttonPressed)
 		{
-			if (selectedSpell != -1 && MagicSystem.SpellManager.GetSpellName(selectedSpell) == MagicSystem.SpellManager.SpellName.None)
+			if (MagicSystem.SpellManager.GetSpellName(selectedSpell) == MagicSystem.SpellManager.SpellName.None || !canCast[selectedSpell])
 			{
 				selectedSpell = -1;
 				return false;
 			}
-			else if (selectedSpell != -1)
+			else
 			{
+				canCast[selectedSpell] = false;
 				return true;
 			}
 		}
