@@ -8,7 +8,7 @@ namespace MagicSystem
         const float speed = 40;
         const int numFireballs = 3;
 
-        float minimumStun = 1;
+        float minimumStun = 0.5f;
         float timer = 0;
 
         public FireballSpell()
