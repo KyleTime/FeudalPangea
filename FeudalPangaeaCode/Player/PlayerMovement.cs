@@ -231,11 +231,8 @@ public partial class PlayerMovement : Node3D
 
 	#region States
 
-	public void SetState(CreatureState newState, bool autoActive = true, bool force = false)
+	public void SetState(CreatureState newState, bool autoActive = true)
 	{
-		if (changedThisFrame && !force)
-			return;
-
 		//reset hitboxes every time to avoid nonsense
 		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
@@ -338,7 +335,7 @@ public partial class PlayerMovement : Node3D
 		if (BonkCond())
 		{
 			velocity = -velocity * bonkPushMod;
-			TryTransition(true, CreatureState.Bonk);
+			SetState(CreatureState.Bonk);
 		}
 	}
 
@@ -409,7 +406,7 @@ public partial class PlayerMovement : Node3D
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		if (exitState)
-			TryTransition(true, CreatureState.OpenAir);
+			SetState(CreatureState.OpenAir);
 	}
 
 	private void State_Stun(double delta)
@@ -604,12 +601,13 @@ public partial class PlayerMovement : Node3D
 
 	public bool TryTransition(bool condition, CreatureState state)
 	{
-		if(condition)
+		if (condition && !changedThisFrame)
 		{
 			SetState(state);
+			return true;
 		}
 
-		return condition;
+		return false;
 	}
 
 	/// <summary>
@@ -837,7 +835,7 @@ public partial class PlayerMovement : Node3D
 			return; //you can't really be stunned if you dead lol
 
 		stunTimer = time;
-		SetState(CreatureState.Stun, true, true);
+		SetState(CreatureState.Stun);
 	}
 
 	public void Die()
