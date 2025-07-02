@@ -38,7 +38,7 @@ material = SubResource("StandardMaterial3D_3xvp6")
 script = ExtResource("1_o8n2q")
 
 [node name="Player" parent="." instance=ExtResource("2_ca7mo")]
-transform = Transform3D(-0.999457, 0, -0.0329458, 0, 1, 0, 0.0329458, 0, -0.999457, -0.831316, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.831316, 4, 0)
 floor_max_angle = 1.0472
 floor_snap_length = 0.4
 
