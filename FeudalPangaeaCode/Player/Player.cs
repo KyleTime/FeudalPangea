@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,6 +19,8 @@ public partial class Player : CharacterBody3D, ICreature
 	public PlayerCamera cam;
 	public PlayerAnimation anim;
 	public HUDHandler hud;
+	public List<Interactable> interactables = new List<Interactable>();
+	int highlightedInteractable = -1;
 
 	[Signal]
 	public delegate void HealthChangeEventHandler(int HP, int MAX_HP);
@@ -45,6 +48,68 @@ public partial class Player : CharacterBody3D, ICreature
 		iFrames -= delta;
 
 		move.ReadInput(delta, cam.GetBasis(), IsOnFloor(), IsOnWall());
+
+		//this bit of code tries to find an interactable nearby that the character is looking at
+		//probably optimize and separate out later or something
+		int closestIndex = -1;
+		if (interactables.Count > 1)
+		{
+			float maxDot = -2f;
+			for (int i = 0; i < interactables.Count; i++)
+			{
+				if (!interactables[i].InRangeOfPlayer())
+				{
+					interactables[i].Highlighted(false);
+					interactables.RemoveAt(i);
+					i--;
+				}
+				else
+				{
+					Vector2 playerLook = new Vector2(Basis.Z.X, Basis.Z.Z).Normalized();
+					Vector3 interPosDir = (interactables[i].GetPosition() - GlobalPosition).Normalized();
+					Vector2 interactDir = new Vector2(interPosDir.X, interPosDir.Z);
+
+					float dot = KMath.DotProduct(playerLook, interactDir);
+
+					if (dot > maxDot)
+					{
+						maxDot = dot;
+						closestIndex = i;
+					}
+				}
+			}
+		}
+		else if (interactables.Count == 1)
+		{
+			if (!interactables[0].InRangeOfPlayer())
+			{
+				interactables[0].Highlighted(false);
+				interactables.RemoveAt(0);
+				highlightedInteractable = -1;
+			}
+			else
+			{
+				interactables[0].Highlighted(true);
+				highlightedInteractable = 0;
+			}
+		}
+		else
+		{
+			highlightedInteractable = -1;
+		}
+
+		if (closestIndex != -1 && highlightedInteractable != closestIndex)
+		{
+			if(highlightedInteractable != -1)
+				interactables[highlightedInteractable].Highlighted(false);
+			interactables[closestIndex].Highlighted(true);
+			highlightedInteractable = closestIndex;
+		}
+
+		if (Input.IsActionJustPressed("INTERACT") && highlightedInteractable != -1)
+		{
+			interactables[highlightedInteractable].Interact();
+		}
 
 		// if(Input.IsActionJustPressed("QUIT"))
 		// 	GetTree().Quit();
@@ -136,7 +201,14 @@ public partial class Player : CharacterBody3D, ICreature
 		if (source == DamageSource.Fall)
 			GD.Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		await hud.HUD_Death_Animation();
-		GetTree().ReloadCurrentScene();
+		LevelManager.currentLevel.ReloadLevel();
+	}
+
+	public void ResetPlayer()
+	{
+		HP = MAX_HP;
+		GlobalPosition = new Vector3();
+		move.SetState(CreatureState.Grounded);
 	}
 
 	public void Stun(float time)

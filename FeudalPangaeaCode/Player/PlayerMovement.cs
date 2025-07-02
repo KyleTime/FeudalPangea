@@ -1,4 +1,5 @@
 using Godot;
+using MagicSystem;
 using System;
 using System.Diagnostics;
 
@@ -89,7 +90,7 @@ public partial class PlayerMovement : Node3D
 
 	//spells!
 	int selectedSpell = 0;
-	Spell[] spells = new Spell[3];
+	bool[] canCast = new bool[3];
 
 	[Signal]
 	public delegate void PositionChangeEventHandler(Vector3 pos);
@@ -112,9 +113,7 @@ public partial class PlayerMovement : Node3D
 	public override void _Ready()
 	{
 		basis = new Basis();
-		spells[0] = new DoubleJumpSpell(this);
 	}
-
 
 	/// <summary>
 	/// Reads the input from the player and changes "velocity" and updates "creatureState"
@@ -168,7 +167,7 @@ public partial class PlayerMovement : Node3D
 				State_DeadAir(delta);
 				break;
 			case CreatureState.Casting:
-				spells[selectedSpell].CastState(delta);
+				MagicSystem.SpellManager.CastState(selectedSpell, delta);
 				break;
 			case CreatureState.Attack:
 				State_Punch(delta);
@@ -232,8 +231,11 @@ public partial class PlayerMovement : Node3D
 
 	#region States
 
-	private void SetState(CreatureState newState, bool autoActive = true, bool force = false) //force isn't currently used because changedThisFrame was moved to TryTransition
+	public void SetState(CreatureState newState, bool autoActive = true, bool force = false)
 	{
+		if (changedThisFrame && !force)
+			return;
+
 		//reset hitboxes every time to avoid nonsense
 		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
@@ -250,6 +252,12 @@ public partial class PlayerMovement : Node3D
 		{
 			switch (creatureState)
 			{
+				case CreatureState.Grounded:
+					for (int i = 0; i < 3; i++)
+					{
+						canCast[i] = true;
+					}
+					break;
 				case CreatureState.Dive:
 					Dive();
 					break;
@@ -258,6 +266,9 @@ public partial class PlayerMovement : Node3D
 					break;
 				case CreatureState.Attack:
 					WaitForAnimation();
+					break;
+				case CreatureState.Casting:
+					SpellManager.CastStart(selectedSpell);
 					break;
 					// case CreatureState.Attack:
 					// 	WaitForAnimation();
@@ -275,7 +286,7 @@ public partial class PlayerMovement : Node3D
 	private void State_Grounded(double delta)
 	{
 		Move(delta);
-		RotateBody();
+		RotateBody(delta);
 
 		if (Input.IsActionJustPressed("JUMP"))
 		{
@@ -299,7 +310,7 @@ public partial class PlayerMovement : Node3D
 	private void State_OpenAir(double delta)
 	{
 		Move(delta, airMod, false);
-		RotateBody();
+		//RotateBody();
 
 		Gravity((float)delta);
 
@@ -318,7 +329,7 @@ public partial class PlayerMovement : Node3D
 		//note, the mod is currently the square of airMod
 		//this sucks, why
 		Move(delta, airMod * diveAirMod, false);
-		RotateBody();
+		RotateBody(delta, 1, 10);
 
 		Gravity((float)delta);
 
@@ -347,7 +358,7 @@ public partial class PlayerMovement : Node3D
 	private void State_WallSlide(double delta)
 	{
 		Move(delta, 0.6f);
-		RotateBody();
+		RotateBody(delta);
 
 		if (Input.IsActionJustPressed("JUMP") && wallJumpRay.GetCollider() != null)
 		{
@@ -403,7 +414,7 @@ public partial class PlayerMovement : Node3D
 
 	private void State_Stun(double delta)
 	{
-		RotateBody(-1);
+		RotateBody(delta, -1);
 
 		if (stunTimer > 0)
 		{
@@ -420,13 +431,14 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 	}
 
 	//little note: StunAir may look exactly the same as Stun, but that's largely just because the state is mostly for the animator
 	private void State_StunAir(double delta)
 	{
-		RotateBody(-1);
+		RotateBody(delta, -1);
 
 		if (stunTimer > 0)
 		{
@@ -443,13 +455,14 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 
 	}
 
 	private void State_Punch(double delta)
 	{
-		RotateBody(1);
+		RotateBody(delta);
 
 		Decelerate(delta);
 		Gravity(delta);
@@ -591,7 +604,7 @@ public partial class PlayerMovement : Node3D
 
 	public bool TryTransition(bool condition, CreatureState state)
 	{
-		if(!changedThisFrame && condition)
+		if(condition)
 		{
 			SetState(state);
 		}
@@ -637,20 +650,27 @@ public partial class PlayerMovement : Node3D
 
 	public bool CastCond()
 	{
-		if (Input.IsActionJustPressed("CAST1") && spells.Length > 0 && spells[0] != null)
+		bool buttonPressed = false;
+		int selection = SpellManager.GetSpellButton();
+
+		if (selection != -1)
 		{
-			selectedSpell = 0;
-			return true;
+			selectedSpell = selection;
+			buttonPressed = true;
 		}
-		if (Input.IsActionJustPressed("CAST2") && spells.Length > 1 && spells[1] != null)
+
+		if (buttonPressed)
 		{
-			selectedSpell = 1;
-			return true;
-		}
-		if (Input.IsActionJustPressed("CAST3") && spells.Length > 2 && spells[2] != null)
-		{
-			selectedSpell = 2;
-			return true;
+			if (MagicSystem.SpellManager.GetSpellName(selectedSpell) == MagicSystem.SpellManager.SpellName.None || !canCast[selectedSpell])
+			{
+				selectedSpell = -1;
+				return false;
+			}
+			else
+			{
+				canCast[selectedSpell] = false;
+				return true;
+			}
 		}
 
 		return false;
@@ -685,7 +705,12 @@ public partial class PlayerMovement : Node3D
 
 	#region Movement Code
 
-	private void RotateBody(float mod = 1)
+	public void RotateBody(double delta, float mod = 1, float speed = 10)
+	{
+		Rotation = new Vector3(0, (float)KMath.RotateTowards(Rotation.Y, (float)CreatureVelocityCalculations.GetYRotation(this, velocity, mod), speed, delta), 0);
+	}
+
+	public void RotateBody(float mod = 1)
 	{
 		CreatureVelocityCalculations.RotateBody(this, velocity, mod);
 	}
@@ -725,13 +750,13 @@ public partial class PlayerMovement : Node3D
 		velocity *= (float) (1/processDelta);
 	}
 
-	private void Jump() 
-  {
+	public void Jump()
+	{
 		velocity.Y = jumpPower;
 		jumping = true;
 	}
 
-	private void WallJump()
+	public void WallJump()
 	{
 		Vector3 zDir = -GetZDirection();
 
@@ -743,9 +768,8 @@ public partial class PlayerMovement : Node3D
 		// GD.Print("WALL JUMP!");
 	}
 
-	private void Dive()
+	public void Dive()
 	{
-
 		velocity.Y = 0;
 
 		float XInput = GetXInput();
@@ -766,6 +790,8 @@ public partial class PlayerMovement : Node3D
 
 		velocity = speed * diveSpeedMod * zDir;
 		velocity.Y = diveUpdraft;
+
+		RotateBody();
 	}
 
 	public void LedgeHang()
@@ -794,17 +820,16 @@ public partial class PlayerMovement : Node3D
 	#region Forced Transitions
 	//starts a whole chain of events that causes "animationDone" to be false until the animation triggered by the current state has completed
 	//see the attack states for an example
-	private void WaitForAnimation()
+	public void WaitForAnimation()
 	{
 		animationTimer = 0;
 		EmitSignal(SignalName.WaitForAnimationSignal);
 	}
 
-	private void PlayAnimation(String animName)
+	public void PlayAnimation(string animName)
 	{
 		EmitSignal(SignalName.AnimationOverride, animName);
 	}
-
 
 	public void Stun(float time)
 	{

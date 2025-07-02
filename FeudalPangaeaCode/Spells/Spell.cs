@@ -1,12 +1,23 @@
 using Godot;
 
-public abstract class Spell {
+namespace MagicSystem
+{
+    public abstract class Spell
+    {
+        protected PlayerMovement caster
+        {
+            get
+            {
+                return Player.player.move;
+            }
+        }
 
-    protected PlayerMovement caster;
+        public abstract void CastState(double delta);
 
-    public Spell(PlayerMovement caster){
-        this.caster = caster;
+        /// <summary>
+        /// When the casting first begins.
+        /// </summary>
+        /// <param name="delta"></param>
+        public virtual void Start() { }
     }
-
-    public abstract void CastState(double delta);
 }

@@ -8,6 +8,7 @@ public partial class Hitbox : Area3D
     [Export] public DamageSource damage_source = DamageSource.Bonk;
     [Export] public CollisionShape3D collider;
     [Export] public float stunDuration = 1;
+    [Export] public bool hitsPlayer = true;
 
     [Signal]
     public delegate void HitHurtBoxEventHandler(Hurtbox hurtbox);

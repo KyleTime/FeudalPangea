@@ -1,0 +1,55 @@
+[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://c1phkn28lmrr6"]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_erdsw"]
+parameter_name = "Alpha"
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ug7nb"]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_ug7nb"]
+parameter_name = "Thumbnail"
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xwx13"]
+source = 5
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform sampler2D Thumbnail : filter_nearest;
+uniform sampler2D Alpha : filter_nearest;
+
+
+
+void fragment() {
+	vec4 n_out5p0;
+// Texture2D:5
+	n_out5p0 = texture(Thumbnail, UV);
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Alpha, UV);
+
+
+// Output:0
+	COLOR.rgb = vec3(n_out5p0.xyz);
+	COLOR.a = n_out3p0.x;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(560, 340)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_erdsw")
+nodes/fragment/2/position = Vector2(-360, 300)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_ug7nb")
+nodes/fragment/3/position = Vector2(260, 460)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture2DParameter_ug7nb")
+nodes/fragment/4/position = Vector2(-360, -40)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_xwx13")
+nodes/fragment/5/position = Vector2(80, 80)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 0, 1, 4, 0, 5, 2, 5, 0, 0, 0)
