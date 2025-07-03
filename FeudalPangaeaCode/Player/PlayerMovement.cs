@@ -373,36 +373,35 @@ public partial class PlayerMovement : Node3D
 
 	private void State_LedgeHang(double delta)
 	{
-		//could use more work on actions
 		Vector3 inputDirection = new Vector3(Input.GetAxis("RIGHT", "LEFT"), 0, Input.GetAxis("FORWARD", "BACKWARD")).Normalized();
 
 		if (Input.IsActionJustPressed("JUMP"))
 		{
 			WallJump();
 			exitState = true;
-		}
-		
-		else if (inputDirection.X + inputDirection.Z != 0 && !exitState)
-		{
-			inputDirection *= basis with {X = basis.X * -1f};
-			float zComponent = inputDirection.Dot(-Transform.Basis.Z.Normalized());
+		} else if (Input.IsActionJustPressed("RIGHT") || Input.IsActionJustPressed("LEFT") || Input.IsActionJustPressed("FORWARD") || Input.IsActionJustPressed("BACKWARD")) {
+			if (!exitState && inputDirection.X + inputDirection.Z != 0)
+			{
+				inputDirection *= basis with { X = basis.X * -1f };
+				float zComponent = inputDirection.Dot(Transform.Basis.Z.Normalized());
 
-			if (animationDone && zComponent < 0)
-			{
-				PlayAnimation("HangGetUp_rootFollow");
-				WaitForAnimation();
-				exitState = true;
-				//would be better to force grounded state after animation
-			}
-			else if (animationDone && zComponent > 0)
-			{
-				velocity = Transform.Basis.Z.Normalized() * 5;
-				velocity.Y = -5;
+				if (animationDone && zComponent < 0)
+				{
+					PlayAnimation("HangGetUp_rootFollow");
+					WaitForAnimation();
+					exitState = true;
+					//would be better to force grounded state after animation
+				}
+				else if (animationDone && zComponent > 0)
+				{
+					velocity = Transform.Basis.Z.Normalized() * 5;
+					velocity.Y = -5;
+				}
 			}
 		}
 		
-		if(!animationDone)
-			return;
+		if (!animationDone)
+				return;
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
 		if (exitState)
@@ -705,7 +704,7 @@ public partial class PlayerMovement : Node3D
 
 	public void RotateBody(double delta, float mod = 1, float speed = 10)
 	{
-		Rotation = new Vector3(0, (float)KMath.RotateTowards(Rotation.Y, (float)CreatureVelocityCalculations.GetYRotation(this, velocity, mod), speed, delta), 0);
+		GlobalRotation = new Vector3(0, (float)KMath.RotateTowards(GlobalRotation.Y, (float)CreatureVelocityCalculations.GetYRotation(this, velocity, mod), speed, delta), 0);
 	}
 
 	public void RotateBody(float mod = 1)

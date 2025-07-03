@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=19 format=3 uid="uid://c6acu4ebqswn3"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_o8n2q"]
-[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="2_ca7mo"]
+[ext_resource type="PackedScene" uid="uid://uuqx2jpialad" path="res://Scenes/Player/Player.tscn" id="2_ca7mo"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_fcabx"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="4_8lv13"]
 [ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="5_g6egq"]
