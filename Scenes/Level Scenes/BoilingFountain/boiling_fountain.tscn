@@ -1,0 +1,139 @@
+[gd_scene load_steps=13 format=3 uid="uid://d2omlm6uv681d"]
+
+[ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
+[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="2_eulta"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
+[ext_resource type="PackedScene" uid="uid://d0gosrvpxpxgh" path="res://Scenes/Level_Elements/Wood_Stuff/floating_wood_block.tscn" id="4_0ic1p"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eulta"]
+albedo_color = Color(0.105882, 0.611765, 1, 0.686275)
+metallic = 1.0
+metallic_specular = 1.0
+emission_enabled = true
+emission = Color(0.235294, 0.517647, 0.572549, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_eulta"]
+material = SubResource("StandardMaterial3D_eulta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0ic1p"]
+size = Vector3(200, 10, 200)
+
+[sub_resource type="Environment" id="Environment_eulta"]
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ic1p"]
+albedo_color = Color(0.673899, 0.694103, 0.516753, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p2xjw"]
+material = SubResource("StandardMaterial3D_0ic1p")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_31u70"]
+
+[node name="BoilingFountain" type="Node3D"]
+script = ExtResource("1_fmtti")
+
+[node name="Player" parent="." instance=ExtResource("2_eulta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.3682, 6.24209, 85.4637)
+
+[node name="Deathplane" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.55679, 0)
+script = ExtResource("3_0ic1p")
+dmg = 99999
+pushMod = Vector2(0, 0)
+damage_source = 0
+collider = NodePath("CollisionShape3D")
+stunDuration = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Deathplane"]
+shape = SubResource("WorldBoundaryShape3D_p2xjw")
+
+[node name="Level Elements" type="Node" parent="."]
+
+[node name="Water" type="Node" parent="Level Elements"]
+
+[node name="WaterLayer0" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("BoxMesh_eulta")
+skeleton = NodePath("../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0"]
+shape = SubResource("BoxShape3D_0ic1p")
+
+[node name="WaterLayer1" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(0.75, 0, 0, 0, 1.5, 0, 0, 0, 0.75, 0, 7.13919, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("BoxMesh_eulta")
+skeleton = NodePath("../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1"]
+shape = SubResource("BoxShape3D_0ic1p")
+
+[node name="Lighting" type="Node" parent="Level Elements"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level Elements/Lighting"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 140.016, 0)
+light_color = Color(1, 1, 0.917647, 1)
+light_energy = 0.8
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Level Elements/Lighting"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 140.016, 0)
+light_color = Color(1, 1, 0.917647, 1)
+light_energy = 0.4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Level Elements/Lighting"]
+environment = SubResource("Environment_eulta")
+
+[node name="Terrain" type="Node" parent="Level Elements"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.73, 0, 86.122)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/StaticBody3D"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/StaticBody3D"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="Floating Boxes" type="Node" parent="Level Elements"]
+
+[node name="floating_wood_block" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 95.0017, -0.14935, 69.5339)
+size = Vector3(6, 0.5, 6)
+
+[node name="floating_wood_block2" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 89.3199, 0.122102, 58.2812)
+size = Vector3(6, 0.5, 6)
+
+[node name="floating_wood_block3" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 93.824, -0.00687146, 46.2447)
+size = Vector3(6, 0.5, 6)
+
+[node name="floating_wood_block4" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 88.6741, -0.00687146, 34.1353)
+size = Vector3(6, 0.5, 6)
+
+[node name="floating_wood_block5" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 90.4311, -0.00687146, 21.5521)
+size = Vector3(6, 0.5, 6)

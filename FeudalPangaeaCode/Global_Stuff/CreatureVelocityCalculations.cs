@@ -29,7 +29,7 @@ public static class CreatureVelocityCalculations
     /// <param name="mod">modifier for the velocity, set to -1 if you want the object to face backwards</param>
     public static double GetYRotation(Node3D node, Vector3 velocity, float mod = 1)
     {
-        Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
+        Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod * -1;
         if (flatVelocity.Length() > 1)
         {
             Vector3 dir = flatVelocity.Normalized();
