@@ -117,7 +117,9 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (IsOnCeiling())
+		if(anim.IsRootMotion())
+			move.ApplyRootMotion(anim.GetRootMotionPosition(), GetProcessDeltaTime());
+		if(IsOnCeiling())
 			move.velocity.Y = 0;
 
 		Velocity = move.velocity;
