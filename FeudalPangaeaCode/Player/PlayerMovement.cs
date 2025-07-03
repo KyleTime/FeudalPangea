@@ -385,7 +385,7 @@ public partial class PlayerMovement : Node3D
 		else if (inputDirection.X + inputDirection.Z != 0 && !exitState)
 		{
 			inputDirection *= basis with {X = basis.X * -1f};
-			float zComponent = inputDirection.Dot(Transform.Basis.Z.Normalized());
+			float zComponent = inputDirection.Dot(-Transform.Basis.Z.Normalized());
 
 			if (animationDone && zComponent < 0)
 			{
