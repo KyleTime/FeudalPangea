@@ -23,6 +23,14 @@ namespace MagicSystem
             this.max = max;
         }
 
+        ~ObjectPool()
+        {
+            foreach (Node n in pool)
+            {
+                n.QueueFree();
+            }    
+        }
+
         public virtual Node GetCurrentObject()
         {
             if (pool.Count > current && pool[current] != null)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dekqd7c7er2k5"]
+[gd_scene load_steps=3 format=3 uid="uid://d23iomi7ae1b0"]
 
 [ext_resource type="PackedScene" uid="uid://dhkptmxbqcr4b" path="res://Models/Player/Red_Psycho.glb" id="1_yq28w"]
 [ext_resource type="Script" uid="uid://boxpxm14jokaw" path="res://FeudalPangaeaCode/Player/PlayerAnimation.cs" id="2_h4jbe"]
