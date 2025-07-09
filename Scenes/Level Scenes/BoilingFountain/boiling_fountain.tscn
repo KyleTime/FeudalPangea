@@ -89,7 +89,7 @@ glow_enabled = true
 script = ExtResource("1_fmtti")
 
 [node name="Player" parent="." instance=ExtResource("2_eulta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.8213, 36.6098, 42.4982)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.6802, 12.812, 86.7052)
 
 [node name="Deathplane" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.55679, 0)
@@ -282,6 +282,23 @@ skeleton = NodePath("../../../../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble4"]
 shape = SubResource("BoxShape3D_35ia0")
 
+[node name="Bubble5" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(11, 0, 0, 0, 15, 0, 0, 0, 11, 25.956, 14.7222, 51.7711)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble5"]
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble5"]
+shape = SubResource("BoxShape3D_35ia0")
+
 [node name="WaterLayer2" type="Area3D" parent="Level Elements/Water"]
 transform = Transform3D(1, 0, 0, 0, 3.82734, 0, 0, 0, 1, 0, 24.9732, 0)
 collision_mask = 13
@@ -449,6 +466,33 @@ shape = SubResource("BoxShape3D_31u70")
 
 [node name="spikey_wood" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
 transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, -34.3159, 32.7973, 47.8867)
+
+[node name="platform7" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 6.89516, 22.2994, 63.4862)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="spikey_wood2" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, 3.81039, 32.7973, 59.975)
+
+[node name="platform8" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 45.646, 22.2994, 48.9864)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform8"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="spikey_wood3" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, 45.5419, 32.7973, 49.2966)
 
 [node name="Checkpoint" parent="Level Elements/Terrain" instance=ExtResource("7_hmw7q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
@@ -667,6 +711,10 @@ size = Vector3(6, 0.5, 6)
 
 [node name="floating_wood_block55" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6.42079, 0, 0, 0, 0.698669, 0, 0, 0, 6.42079, -18.2663, 29.6722, 60.2555)
+size = Vector3(6, 0.5, 6)
+
+[node name="floating_wood_block56" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6.42079, 0, 0, 0, 0.698669, 0, 0, 0, 6.42079, 25.9123, 29.6722, 51.6565)
 size = Vector3(6, 0.5, 6)
 
 [node name="Notes" type="Node" parent="Level Elements"]
