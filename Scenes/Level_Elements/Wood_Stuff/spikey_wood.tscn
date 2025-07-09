@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=3 uid="uid://dnocf3hsq2edq"]
+
+[ext_resource type="Script" uid="uid://rpki271kjeu2" path="res://FeudalPangaeaCode/Hitboxes/Hurtbox.cs" id="1_iofv4"]
+[ext_resource type="Script" uid="uid://bqb78y6segtal" path="res://FeudalPangaeaCode/Level_Elements/Wood_Block/SpikeyWoodBlock.cs" id="1_wmil5"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="2_ax4yg"]
+[ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="2_wmil5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02k5p"]
+albedo_color = Color(0.479026, 0.182365, 0.0771677, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_02k5p"]
+material = SubResource("StandardMaterial3D_02k5p")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qy2tr"]
+radius = 0.576263
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ax4yg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wmil5"]
+radius = 0.725742
+
+[node name="spikey_wood" type="Node3D"]
+script = ExtResource("1_wmil5")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.398349, 0.844868, 0.357094, -0.864116, -0.476235, 0.162803, 0.307607, -0.243718, 0.919771, 0.144137, -0.0695694, 0)
+mesh = SubResource("PrismMesh_02k5p")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.510482, 0.852947, -0.109042, 0.158582, -0.0312505, -0.986851, -0.845139, -0.521062, -0.119309, 0.0938317, -0.0599346, -0.0154916)
+mesh = SubResource("PrismMesh_02k5p")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+script = ExtResource("1_iofv4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("SphereShape3D_qy2tr")
+
+[node name="HitFx" type="Node3D" parent="Hurtbox" node_paths=PackedStringArray("effect")]
+script = ExtResource("2_wmil5")
+effect = NodePath("MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/HitFx"]
+mesh = SubResource("CylinderMesh_ax4yg")
+
+[node name="Hitbox" type="Area3D" parent="."]
+script = ExtResource("2_ax4yg")
+stunDuration = 0.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_wmil5")
+debug_color = Color(0.981582, 0, 0.369798, 0.42)

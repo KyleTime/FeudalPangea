@@ -73,8 +73,6 @@ public partial class Hurtbox : Area3D
         {
             if (hitbox.damage_source != DamageSource.Magic && hitbox.damage_source != DamageSource.Fire)
             {
-                GD.Print("DINK!");
-
                 Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
 
                 self.Push(pushVector.Normalized() * 10f);
