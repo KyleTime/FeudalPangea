@@ -30,9 +30,8 @@ mesh = SubResource("PrismMesh_02k5p")
 transform = Transform3D(-0.510482, 0.852947, -0.109042, 0.158582, -0.0312505, -0.986851, -0.845139, -0.521062, -0.119309, 0.0938317, -0.0599346, -0.0154916)
 mesh = SubResource("PrismMesh_02k5p")
 
-[node name="Hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("bonkEffect")]
+[node name="Hurtbox" type="Area3D" parent="."]
 script = ExtResource("1_iofv4")
-bonkEffect = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
 shape = SubResource("SphereShape3D_qy2tr")
