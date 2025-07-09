@@ -419,10 +419,10 @@ mesh = SubResource("BoxMesh_p2xjw")
 shape = SubResource("BoxShape3D_31u70")
 
 [node name="platform5" type="StaticBody3D" parent="Level Elements/Terrain"]
-transform = Transform3D(18.414, 0, 0, 0, 1.8414, 0, 0, 0, 6.67397, -69.9175, 19.0963, 43.7262)
+transform = Transform3D(18.414, 0, 0, 0, 1.8414, 0, 0, 0, 6.67397, -69.9175, 19.0963, 47.6069)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.645374)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0440063)
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform5"]

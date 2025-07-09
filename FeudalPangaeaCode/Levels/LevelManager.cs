@@ -20,6 +20,7 @@ public partial class LevelManager : Node
 
     public void ReloadLevel()
     {
+        TimeManager.PauseTime(false);
         GetTree().ReloadCurrentScene();
     }
 }
