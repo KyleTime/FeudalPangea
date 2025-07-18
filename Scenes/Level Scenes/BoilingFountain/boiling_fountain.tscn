@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=32 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="PackedScene" uid="uid://uuqx2jpialad" path="res://Scenes/Player/Player.tscn" id="2_eulta"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ssmnb"]
 [ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="8_cl2ka"]
 [ext_resource type="Texture2D" uid="uid://ch8qmgi3o5soa" path="res://Sprites/notes/note3.png" id="8_vbihw"]
+[ext_resource type="PackedScene" uid="uid://6q6fpilhj3wc" path="res://Scenes/Level_Elements/Anchor/entity_anchor.tscn" id="13_bb7if"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
 
@@ -87,9 +88,10 @@ glow_enabled = true
 
 [node name="BoilingFountain" type="Node3D"]
 script = ExtResource("1_fmtti")
+startPos = Vector3(90, 2, 90)
 
 [node name="Player" parent="." instance=ExtResource("2_eulta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 75.3486, 2.39548)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.19, 1.90207, 90.8047)
 
 [node name="Deathplane" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.55679, 0)
@@ -413,7 +415,6 @@ environment = SubResource("Environment_eulta")
 transform = Transform3D(10, 0, 0, 0, 17.2197, 0, 0, 0, 10, 39.7267, 23.1293, -40.9667)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform"]
@@ -423,7 +424,6 @@ shape = SubResource("BoxShape3D_31u70")
 transform = Transform3D(10, 0, 0, 0, 27.5449, 0, 0, 0, 10, -39.9655, 26.0461, -39.704)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform10"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform10"]
@@ -443,7 +443,6 @@ shape = SubResource("BoxShape3D_31u70")
 transform = Transform3D(10, 0, 0, 0, 5, 0, 0, 0, 15, -29.7676, 43.4886, -1.81025)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform12"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform12"]
@@ -453,7 +452,6 @@ shape = SubResource("BoxShape3D_31u70")
 transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 21.1422, -21.0445, 53.6052, -20.1039)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform13"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform13"]
@@ -838,195 +836,195 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -15.1046, 42.4241, -42.5718)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 46.0785, 0)
 
 [node name="floating_wood_block61" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, 17.7365)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 17.7365)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block62" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, 24.9463)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 24.9463)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block63" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, 24.9463)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 24.9463)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block64" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, 17.811)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 17.811)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block65" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, 4.04461)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 4.04461)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block66" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, 10.8157)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 10.8157)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block67" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, 10.8157)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 10.8157)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block68" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, 4.11912)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 4.11912)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block69" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, -9.34769)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -9.34769)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block70" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, -2.57656)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -2.57656)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block71" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, -2.57656)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -2.57656)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block72" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, -9.27318)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -9.27318)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block73" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, -24.1179)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -24.1179)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block74" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -15.4207, -1.95381, -16.406)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -16.406)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block75" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, -16.406)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -16.406)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block76" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -8.16511, -1.95381, -24.0434)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -24.0434)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block77" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, 17.7365)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 17.7365)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block78" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, 24.9463)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 24.9463)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block79" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, 24.9463)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 24.9463)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block80" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, 17.811)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 17.811)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block81" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, 4.04461)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 4.04461)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block82" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, 10.8157)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 10.8157)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block83" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, 10.8157)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 10.8157)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block84" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, 4.11912)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 4.11912)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block85" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, -9.34769)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -9.34769)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block86" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, -2.57656)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -2.57656)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block87" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, -2.57656)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -2.57656)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block88" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, -9.27318)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -9.27318)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block89" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, -24.1179)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -24.1179)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block90" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, -0.984421, -1.95381, -16.406)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -16.406)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block91" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, -16.406)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -16.406)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block92" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 6.27115, -1.95381, -24.0434)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -24.0434)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block93" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, 17.7365)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 17.7365)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block94" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, 24.9463)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 24.9463)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block95" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, 24.9463)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 24.9463)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block96" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, 17.811)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 17.811)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block97" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, 4.04461)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 4.04461)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block98" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, 10.8157)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 10.8157)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block99" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, 10.8157)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 10.8157)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block100" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, 4.11912)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 4.11912)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block101" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, -9.34769)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -9.34769)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block102" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, -2.57656)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -2.57656)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block103" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, -2.57656)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -2.57656)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block104" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, -9.27318)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -9.27318)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block105" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, -24.1179)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -24.1179)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block106" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 13.2852, -1.95381, -16.406)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -16.406)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block107" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, -16.406)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -16.406)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="floating_wood_block108" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.8848, 0, 0, 0, 0.496926, 0, 0, 0, 6.8848, 20.4639, -1.95381, -24.0434)
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -24.0434)
 size = Vector3(5.5, 0.5, 5.5)
 
 [node name="Notes" type="Node" parent="Level Elements"]
@@ -1049,9 +1047,6 @@ spell = 1
 
 [node name="Creature" type="Node" parent="Level Elements"]
 
-[node name="Rock Mimic" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.0242, 0.523901, -2.96724)
-
 [node name="Rock Mimic2" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.0883, 0.253185, -81.5375)
 
@@ -1063,3 +1058,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.2316, 0.253185, -80.9893)
 
 [node name="Rock Mimic5" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5483, 0.253185, -88.4584)
+
+[node name="EntityAnchor" parent="." instance=ExtResource("13_bb7if")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.7818, 3.41929, 0)
+entity = ExtResource("7_ssmnb")
