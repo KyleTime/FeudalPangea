@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://cw3bbuwt8s4qk"]
+
+[ext_resource type="Script" uid="uid://dsqu3o0sxlpt1" path="res://FeudalPangaeaCode/Level_Elements/Anchors/Anchor.cs" id="1_7ceu5"]
+[ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="2_bfb2b"]
+[ext_resource type="PackedScene" uid="uid://dqvmfvmim1sea" path="res://Scenes/Level_Elements/Anchor/anchor_billboard.tscn" id="3_76fu7"]
+[ext_resource type="Texture2D" uid="uid://ci4ic5p2u4ces" path="res://Sprites/editor_indicators/rock_mimic_image.png" id="4_lpkfb"]
+
+[node name="RockMimic_Anchor" type="Node3D"]
+script = ExtResource("1_7ceu5")
+entity = ExtResource("2_bfb2b")
+
+[node name="billboard" parent="." instance=ExtResource("3_76fu7")]
+pixel_size = 0.1
+transparent = false
+texture_filter = 0
+texture = ExtResource("4_lpkfb")

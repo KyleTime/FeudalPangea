@@ -7,6 +7,8 @@ public partial class FloatingWoodBlock : RigidBody3D, ICreature
     private CollisionShape3D shape;
     private MeshInstance3D mesh;
 
+    public bool IsMajor => false;
+
     /// <summary>
     /// Needed because scaling a rigidbody directly doesn't work
     /// Will resize the shape and mesh at the start of the scene
@@ -57,10 +59,6 @@ public partial class FloatingWoodBlock : RigidBody3D, ICreature
     public Vector3 GetCreatureVelocity()
     {
         return new Vector3();
-    }
-    public bool IsProtectedUnlessStunned()
-    {
-        return false;
     }
 
     public void Stun(float time)

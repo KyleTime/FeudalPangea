@@ -13,6 +13,8 @@ public partial class Hurtbox : Area3D
 
     bool isPlayer = false;
 
+    private readonly DamageSource[] majorCreatureVulnerabilities = [DamageSource.Fall, DamageSource.Fire, DamageSource.Magic];
+
     public override void _Ready()
     {
         if (Owner is ICreature)
@@ -61,7 +63,7 @@ public partial class Hurtbox : Area3D
         //I know the ordering looks weird, but it's a lil
         //necessary for hitboxes to know they're touching the player
         //even if no damage is being dealt
-        if (!hitbox.hitsPlayer && isPlayer)
+        if (!hitbox.hitsPlayer && isPlayer || hitbox.ignore != null && hitbox.ignore == Owner)
         {
             return;
         }
@@ -69,19 +71,22 @@ public partial class Hurtbox : Area3D
         hit = true;
 
         //if major and not stunned, resist nonmagical damage
-        if (self.IsProtectedUnlessStunned() && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))
+        if (self.IsMajor && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))
         {
-            if (hitbox.damage_source != DamageSource.Magic && hitbox.damage_source != DamageSource.Fire)
+            foreach (DamageSource dmg in majorCreatureVulnerabilities)
             {
-                Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
-
-                self.Push(pushVector.Normalized() * 10f);
-
-                if (dinkEffect != null)
+                if (dmg == hitbox.damage_source)
                 {
-                    dinkEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
+                    Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
+
+                    self.Push(pushVector.Normalized() * 10f);
+
+                    if (dinkEffect != null)
+                    {
+                        dinkEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
+                    }
+                    return;
                 }
-                return;
             }
         }
 

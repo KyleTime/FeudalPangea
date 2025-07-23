@@ -30,6 +30,10 @@ window/stretch/mode="viewport"
 project/assembly_name="FeudalPangaea"
 project/solution_directory="FeudalPangaeaCode"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Gizmo3DSharp/plugin.cfg")
+
 [filesystem]
 
 import/fbx/enabled=false

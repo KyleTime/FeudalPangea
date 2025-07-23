@@ -4,6 +4,8 @@ using System.Collections;
 
 public partial class SpikeyWoodBlock : Node3D, ICreature
 {
+    public bool IsMajor => false;
+
     public int GetHP()
     {
         return 1;
@@ -35,10 +37,6 @@ public partial class SpikeyWoodBlock : Node3D, ICreature
     public Vector3 GetCreatureVelocity()
     {
         return new Vector3();
-    }
-    public bool IsProtectedUnlessStunned()
-    {
-        return false;
     }
 
     public void Stun(float time)

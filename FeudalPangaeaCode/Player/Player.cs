@@ -31,6 +31,8 @@ public partial class Player : CharacterBody3D, ICreature
 	[Signal]
 	public delegate void HealthChangeEventHandler(int HP, int MAX_HP);
 
+	public bool IsMajor => false;
+
 	// Called when the node enters the scene tree for the first time.
 	public async override void _Ready()
 	{
@@ -227,7 +229,6 @@ public partial class Player : CharacterBody3D, ICreature
 		GlobalPosition = checkpointPosition;
 		Rotation = checkpointRotation;
 		move.SetState(CreatureState.Grounded);
-		
 	}
 
 	public void Stun(float time)
@@ -258,10 +259,5 @@ public partial class Player : CharacterBody3D, ICreature
 	public Vector3 GetCreatureVelocity()
 	{
 		return move.velocity;
-	}
-
-	public bool IsProtectedUnlessStunned()
-	{
-		return false;
 	}
 }

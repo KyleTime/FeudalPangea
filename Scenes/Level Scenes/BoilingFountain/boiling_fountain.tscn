@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=33 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="PackedScene" uid="uid://uuqx2jpialad" path="res://Scenes/Player/Player.tscn" id="2_eulta"]
@@ -12,7 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ssmnb"]
 [ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="8_cl2ka"]
 [ext_resource type="Texture2D" uid="uid://ch8qmgi3o5soa" path="res://Sprites/notes/note3.png" id="8_vbihw"]
-[ext_resource type="PackedScene" uid="uid://6q6fpilhj3wc" path="res://Scenes/Level_Elements/Anchor/entity_anchor.tscn" id="13_bb7if"]
+[ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
+[ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
 
@@ -94,7 +95,7 @@ startPos = Vector3(90, 2, 90)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.19, 1.90207, 90.8047)
 
 [node name="Deathplane" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.55679, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.8504, 0)
 script = ExtResource("3_0ic1p")
 dmg = 99999
 pushMod = Vector2(0, 0)
@@ -216,10 +217,6 @@ skeleton = NodePath("../../../../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.10547, 0, 7.09315)
 shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Sprite3D" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(-2.23602e-08, 0, 0.511542, 0, 0.511542, 0, -0.511542, 0, -2.23602e-08, 69.44, 9.49356, 1.26789)
-texture = ExtResource("5_p2xjw")
 
 [node name="Sprite3D2" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
 transform = Transform3D(-2.23602e-08, 0, 0.511542, 0, 0.511542, 0, -0.511542, 0, -2.23602e-08, -67.2097, 9.49356, 1.26789)
@@ -1059,6 +1056,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.2316, 0.253185, -80.9893)
 [node name="Rock Mimic5" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5483, 0.253185, -88.4584)
 
-[node name="EntityAnchor" parent="." instance=ExtResource("13_bb7if")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.7818, 3.41929, 0)
-entity = ExtResource("7_ssmnb")
+[node name="Anchors" type="Node" parent="."]
+
+[node name="RockMimic_Anchor" parent="Anchors" instance=ExtResource("13_bb7if")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
+
+[node name="fire_goober_anchor" parent="Anchors" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.901, 5.82906, 5.47169)
