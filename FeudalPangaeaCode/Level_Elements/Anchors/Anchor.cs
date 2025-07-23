@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 public partial class Anchor : Node3D
 {
     [Export] PackedScene entity;
-    Node3D current;
+    [Export] Vector3 size = new Vector3(1, 1, 1);
+    [Export] Vector3 rotation = new Vector3(0, 0, 0);
+    protected Node3D current;
 
     public async override void _Ready()
     {
@@ -36,6 +38,8 @@ public partial class Anchor : Node3D
         if (IsInstanceValid(ent))
         {
             ent.GlobalPosition = GlobalPosition;
+            ent.GlobalRotation = rotation;
+            ent.Scale = size;
             current = ent;
         }
         else

@@ -58,6 +58,8 @@ public partial class Player : CharacterBody3D, ICreature
 		move.StateChange += HandleStateChange;
 		move.PositionChange += ChangePosition;
 
+		HealthChange += hud.ChangeHPBar;
+
 		//wait for stuff to FIGURE IT'S SHIT OUT
 		await Task.Delay(1);
 

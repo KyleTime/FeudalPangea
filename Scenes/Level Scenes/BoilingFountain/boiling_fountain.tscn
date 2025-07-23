@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=34 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
 [ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
 [ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
+[ext_resource type="PackedScene" uid="uid://5bpasprcqyv3" path="res://Scenes/Level_Elements/Anchor/floating_wooden_block_anchor.tscn" id="15_j11i1"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
 
@@ -590,9 +591,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
 
 [node name="Floating Boxes" type="Node" parent="Level Elements"]
 
-[node name="floating_wood_block" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 95.0017, -0.14935, 69.5339)
-
 [node name="floating_wood_block2" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 89.3199, 0.122102, 58.2812)
 
@@ -959,3 +957,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.769, 18.2653, -3.79336)
 
 [node name="fire_goober_anchor2" parent="Anchors" instance=ExtResource("14_2gv15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.769, 18.2653, 6.56147)
+
+[node name="FloatingWoodenBlockAnchor" parent="Anchors" instance=ExtResource("15_j11i1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.0017, -0.14935, 69.5339)
+size = Vector3(6, 0.5, 6)
