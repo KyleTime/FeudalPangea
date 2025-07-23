@@ -1,31 +1,49 @@
 using Godot;
 using System;
 using System.Collections;
+using System.IO.Pipes;
+using System.Threading.Tasks;
 
-public partial class FloatingWoodBlock : RigidBody3D, ICreature
+public partial class FloatingWoodBlock : Node3D, ICreature
 {
-    private CollisionShape3D shape;
-    private MeshInstance3D mesh;
-
     public bool IsMajor => false;
 
-    /// <summary>
-    /// Needed because scaling a rigidbody directly doesn't work
-    /// Will resize the shape and mesh at the start of the scene
-    /// </summary>
-    [Export] Vector3 size = new Vector3(3, 0.5f, 3);
-
     private Hurtbox hurtbox;
+    
+    static int bobVariation = 0;
+
+    static float height = 0.1f;
+    static float totalTime = 5;
+    static float frameDelay = 0.05f;
+    static int msDelay = (int)(frameDelay * 1000);
 
     public override void _Ready()
     {
-        shape = GetNode<CollisionShape3D>("CollisionShape3D");
-        mesh = GetNode<MeshInstance3D>("MeshInstance3D");
-        hurtbox = GetNode<Hurtbox>("Hurtbox");
+        BobRoutine(GlobalPosition.Y);
+    }
 
-        shape.Scale = size;
-        mesh.Scale = size;
-        hurtbox.collider.Scale = size;
+    private async void BobRoutine(float yPos)
+    {
+        bobVariation += 1;
+        bobVariation = bobVariation % 3;
+
+        await Task.Delay(bobVariation * 2000);
+
+        float time = 0;
+        while (true)
+        {
+            if (GetTree().Paused)
+            {
+                await Task.Delay(msDelay);
+                continue;
+            }
+
+            time = (time + frameDelay) % totalTime;
+
+            GlobalPosition = GlobalPosition with { Y = yPos + Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
+        
+            await Task.Delay(msDelay);
+        }
     }
 
     public int GetHP()
@@ -67,7 +85,7 @@ public partial class FloatingWoodBlock : RigidBody3D, ICreature
     }
     public void Push(Vector3 force)
     {
-        LinearVelocity += force;
+        //LinearVelocity += force;
     }
 
     public CreatureState GetState()

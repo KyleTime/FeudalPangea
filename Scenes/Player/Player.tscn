@@ -51,23 +51,9 @@ floor_snap_length = 0.25
 safe_margin = 0.1
 script = ExtResource("1_fmy2y")
 
-[node name="HUD" parent="." instance=ExtResource("5_20fgk")]
-
-[node name="CamOrigin" type="Node3D" parent="." node_paths=PackedStringArray("cinematicCamera")]
+[node name="CamOrigin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.89944, 0)
 script = ExtResource("6_viir3")
-cinematicCamera = NodePath("Cinematic Camera")
-
-[node name="CamOriginX" type="Node3D" parent="CamOrigin"]
-
-[node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin/CamOriginX"]
-spring_length = 6.0
-margin = 0.5
-
-[node name="Camera3D" type="Camera3D" parent="CamOrigin/CamOriginX/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
-
-[node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
 
 [node name="Body" type="CollisionShape3D" parent="." node_paths=PackedStringArray("wallJumpRay", "ledgeHangRay", "punchHitbox", "parryHitbox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
@@ -164,6 +150,8 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1.
 
 [node name="Red_Psycho" parent="Body/Body_Center" instance=ExtResource("8_fk5o5")]
 
+[node name="HUD" parent="." instance=ExtResource("5_20fgk")]
+
 [node name="SpellMenu" parent="." instance=ExtResource("12_i5acl")]
 process_mode = 3
 z_index = 4
@@ -172,5 +160,4 @@ z_index = 4
 visible = false
 z_index = 8
 
-[connection signal="HealthChange" from="." to="HUD" method="ChangeHPBar"]
 [connection signal="HealthChange" from="." to="CamOrigin" method="DeathCam"]

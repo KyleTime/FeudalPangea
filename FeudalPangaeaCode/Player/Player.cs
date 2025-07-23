@@ -1,4 +1,5 @@
 using Godot;
+using PhantomCamera;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -43,6 +44,14 @@ public partial class Player : CharacterBody3D, ICreature
 		cam = GetNode<PlayerCamera>("CamOrigin");
 		anim = GetNode<PlayerAnimation>("Body/Body_Center/Red_Psycho"); anim.SetMaxSpeed(move.speed);
 		hud = GetNode<HUDHandler>("HUD");
+
+		cam.playerCam = GetNode<Node3D>("%PlayerCamera").AsPhantomCamera3D();
+		cam.playerCam.Priority = 40;
+
+		cam.deathCam = GetNode<Node3D>("%DeathCamera").AsPhantomCamera3D();
+		cam.deathCam.Priority = 0;
+
+		cam.cam = GetNode<Camera3D>("%Camera3D");
 
 		move.WaitForAnimationSignal += WaitForAnimation;
 		move.AnimationOverride += AnimationOverride;
@@ -152,7 +161,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 	private void ChangePosition(Vector3 pos)
 	{
-		Position = pos;
+		GlobalPosition = pos;
 	}
 
 	private async void WaitForAnimation()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://de2urq0totey1"]
 
 [ext_resource type="Script" uid="uid://dsqu3o0sxlpt1" path="res://FeudalPangaeaCode/Level_Elements/Anchors/Anchor.cs" id="1_pjob5"]
-[ext_resource type="PackedScene" uid="uid://clhw552ipkkos" path="res://Scenes/Enemies/Minor/FireGoober/FireGoober.tscn" id="2_68gsk"]
+[ext_resource type="PackedScene" uid="uid://clhw552ipkkos" path="res://Scenes/Enemies/Minor/FireGoober/fire_goober.tscn" id="2_68gsk"]
 [ext_resource type="PackedScene" uid="uid://dqvmfvmim1sea" path="res://Scenes/Level_Elements/Anchor/anchor_billboard.tscn" id="3_4sre2"]
 [ext_resource type="Texture2D" uid="uid://btu3ybttu2eci" path="res://Sprites/Creature_Tex/fire_turret.png" id="4_u3ahq"]
 

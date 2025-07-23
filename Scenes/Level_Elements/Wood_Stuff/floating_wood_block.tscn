@@ -3,28 +3,27 @@
 [ext_resource type="Script" uid="uid://wmxyund2rmgt" path="res://FeudalPangaeaCode/Level_Elements/Wood_Block/FloatingWoodBlock.cs" id="1_th656"]
 [ext_resource type="Script" uid="uid://rpki271kjeu2" path="res://FeudalPangaeaCode/Hitboxes/Hurtbox.cs" id="2_b0c5a"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_idld1"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_te23b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_th656"]
 albedo_color = Color(0.395338, 0.171668, 0, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_b0c5a"]
+[sub_resource type="BoxMesh" id="BoxMesh_eor12"]
 material = SubResource("StandardMaterial3D_th656")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x5u2e"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_1wg8s"]
 
-[node name="floating_wood_block" type="RigidBody3D"]
-can_sleep = false
+[node name="StaticBody3D" type="StaticBody3D"]
 script = ExtResource("1_th656")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_idld1")
+shape = SubResource("BoxShape3D_te23b")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_b0c5a")
+mesh = SubResource("BoxMesh_eor12")
 
 [node name="Hurtbox" type="Area3D" parent="."]
 script = ExtResource("2_b0c5a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-shape = SubResource("BoxShape3D_x5u2e")
+shape = SubResource("BoxShape3D_1wg8s")
