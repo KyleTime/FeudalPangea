@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqvmfvmim1sea"]
+
+[ext_resource type="Texture2D" uid="uid://dm08e0hkxe5pe" path="res://Sprites/editor_indicators/anchor.png" id="1_mo5jq"]
+[ext_resource type="Script" uid="uid://cyjneovsqmmwb" path="res://FeudalPangaeaCode/Level_Elements/Editor_Elements/EditorBillboard.cs" id="2_2ipfr"]
+
+[node name="billboard" type="Sprite3D"]
+billboard = 1
+texture = ExtResource("1_mo5jq")
+script = ExtResource("2_2ipfr")

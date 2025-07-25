@@ -1,28 +1,37 @@
-[gd_scene load_steps=13 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=34 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
-[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="2_eulta"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
 [ext_resource type="PackedScene" uid="uid://d0gosrvpxpxgh" path="res://Scenes/Level_Elements/Wood_Stuff/floating_wood_block.tscn" id="4_0ic1p"]
+[ext_resource type="Texture2D" uid="uid://btu3ybttu2eci" path="res://Sprites/Creature_Tex/fire_turret.png" id="5_p2xjw"]
+[ext_resource type="Texture2D" uid="uid://c4vcmrigmwf2v" path="res://Sprites/notes/note.png" id="6_31u70"]
+[ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="6_wk5oe"]
+[ext_resource type="Texture2D" uid="uid://dm276jt2cg7yh" path="res://Sprites/notes/note2.png" id="7_35ia0"]
+[ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="7_hmw7q"]
+[ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ssmnb"]
+[ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="8_cl2ka"]
+[ext_resource type="Texture2D" uid="uid://ch8qmgi3o5soa" path="res://Sprites/notes/note3.png" id="8_vbihw"]
+[ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
+[ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
+[ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
+[ext_resource type="PackedScene" uid="uid://5bpasprcqyv3" path="res://Scenes/Level_Elements/Anchor/floating_wooden_block_anchor.tscn" id="15_j11i1"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eulta"]
-albedo_color = Color(0.105882, 0.611765, 1, 0.686275)
+albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
 metallic = 1.0
 metallic_specular = 1.0
+roughness = 0.0
 emission_enabled = true
-emission = Color(0.235294, 0.517647, 0.572549, 1)
+emission = Color(0.246993, 0.537569, 0.594145, 1)
 emission_energy_multiplier = 4.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_eulta"]
 material = SubResource("StandardMaterial3D_eulta")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_0ic1p"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_p2xjw"]
 size = Vector3(200, 10, 200)
-
-[sub_resource type="Environment" id="Environment_eulta"]
-glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ic1p"]
 albedo_color = Color(0.673899, 0.694103, 0.516753, 1)
@@ -32,14 +41,59 @@ material = SubResource("StandardMaterial3D_0ic1p")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31u70"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2xjw"]
+albedo_color = Color(0, 0.909804, 1, 1)
+metallic = 1.0
+metallic_specular = 1.0
+emission_enabled = true
+emission = Color(0.768627, 0.92549, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_31u70"]
+material = SubResource("StandardMaterial3D_p2xjw")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssmnb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_35ia0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31u70"]
+albedo_color = Color(0.180468, 0.530719, 1, 0.686275)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.219608, 0.478431, 0.607843, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ssmnb"]
+material = SubResource("StandardMaterial3D_31u70")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vbihw"]
+size = Vector3(140, 15, 140)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35ia0"]
+albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.235294, 0.505882, 0.635294, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_vbihw"]
+material = SubResource("StandardMaterial3D_35ia0")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0ic1p"]
+size = Vector3(70, 10, 70)
+
+[sub_resource type="Environment" id="Environment_eulta"]
+glow_enabled = true
+
 [node name="BoilingFountain" type="Node3D"]
 script = ExtResource("1_fmtti")
-
-[node name="Player" parent="." instance=ExtResource("2_eulta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.3682, 6.24209, 85.4637)
+startPos = Vector3(90, 2, 90)
 
 [node name="Deathplane" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.55679, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.8504, 0)
 script = ExtResource("3_0ic1p")
 dmg = 99999
 pushMod = Vector2(0, 0)
@@ -49,6 +103,9 @@ stunDuration = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Deathplane"]
 shape = SubResource("WorldBoundaryShape3D_p2xjw")
+
+[node name="Player_Package" parent="." instance=ExtResource("14_j11i1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.3788, 4.74974, 86.4418)
 
 [node name="Level Elements" type="Node" parent="."]
 
@@ -70,10 +127,63 @@ mesh = SubResource("BoxMesh_eulta")
 skeleton = NodePath("../../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0"]
-shape = SubResource("BoxShape3D_0ic1p")
+shape = SubResource("BoxShape3D_p2xjw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.73, 5, 86.122)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.7434, 5, 0.36438)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.000314191)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D3"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="Bubble1" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(10.2791, 0, 0, 0, 5.04042, 0, 0, 0, 10.2791, 90.2104, 7.3003, -46.8774)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/Bubble1"]
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/Bubble1"]
+shape = SubResource("BoxShape3D_ssmnb")
+
+[node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, 86.3786, 9.83627, -61.0269)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/Bubble2"]
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/Bubble2"]
+shape = SubResource("BoxShape3D_35ia0")
 
 [node name="WaterLayer1" type="Area3D" parent="Level Elements/Water"]
-transform = Transform3D(0.75, 0, 0, 0, 1.5, 0, 0, 0, 0.75, 0, 7.13919, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.45384, 0)
 collision_mask = 13
 gravity_space_override = 1
 gravity_point_center = Vector3(0, 1, 0)
@@ -83,12 +193,201 @@ linear_damp_space_override = 3
 linear_damp = 0.7
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
-mesh = SubResource("BoxMesh_eulta")
+transform = Transform3D(140, 0, 0, 0, 15, 0, 0, 0, 140, 0, 0, 0)
+mesh = SubResource("BoxMesh_ssmnb")
 skeleton = NodePath("../../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1"]
+shape = SubResource("BoxShape3D_vbihw")
+
+[node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -41.9358, 12.0648, -43.3441)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.10547, 0, 7.09315)
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.10547, 0, 7.09315)
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(-2.23602e-08, 0, 0.511542, 0, 0.511542, 0, -0.511542, 0, -2.23602e-08, -67.2097, 9.49356, 1.26789)
+texture = ExtResource("5_p2xjw")
+
+[node name="floating_wood_block9" parent="Level Elements/Water/WaterLayer1" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 2, 0, 0, 0, 20, 67.7111, 7.27609, 0.99398)
+
+[node name="floating_wood_block11" parent="Level Elements/Water/WaterLayer1" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(7, 0, 0, 0, 2, 0, 0, 0, 7, -66.6773, 7.27609, 0.99398)
+
+[node name="floating_wood_block10" parent="Level Elements/Water/WaterLayer1" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(20, 0, 0, 0, 2, 0, 0, 0, 6, 6.87553, 6.72874, -68.3138)
+
+[node name="Sprite3D4" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(0.512, 0, 0, 0, 0.512, 0, 0, 0, 0.512, 13.8922, 9.6559, -66.7422)
+texture = ExtResource("5_p2xjw")
+
+[node name="Sprite3D5" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(0.512, 0, 0, 0, 0.512, 0, 0, 0, 0.512, 7.37624, 9.6559, -66.7422)
+texture = ExtResource("5_p2xjw")
+
+[node name="Sprite3D6" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(0.512, 0, 0, 0, 0.512, 0, 0, 0, 0.512, 0.148568, 9.6559, -66.7422)
+texture = ExtResource("5_p2xjw")
+
+[node name="Bubble3" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -52.5374, 12.0648, 44.077)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.369983)
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.369983)
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="Bubble4" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(11, 0, 0, 0, 15, 0, 0, 0, 11, -18.2663, 14.7222, 60.2555)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble4"]
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble4"]
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="Bubble5" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(11, 0, 0, 0, 15, 0, 0, 0, 11, 25.956, 14.7222, 51.7711)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble5"]
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble5"]
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="WaterLayer2" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(1, 0, 0, 0, 3.82734, 0, 0, 0, 1, 0, 24.9732, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer2"]
+transform = Transform3D(70, 0, 0, 0, 10, 0, 0, 0, 70, 0, 0, 0)
+mesh = SubResource("BoxMesh_vbihw")
+skeleton = NodePath("../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer2"]
 shape = SubResource("BoxShape3D_0ic1p")
+
+[node name="Bubble2" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -81.8803, -1.21394, -55.9071)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble2"]
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble2"]
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="Bubble3" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -88.8389, 1.10806, -28.0994)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.176337, 0)
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.176337, 0)
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="Bubble4" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(10.2791, 0, 0, 0, 13.6503, 0, 0, 0, 10.2791, -81.7956, 4.23974, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.523756, 0, -0.397312)
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.523756, 0, -0.397312)
+shape = SubResource("BoxShape3D_35ia0")
+
+[node name="Bubble5" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(10.2791, 0, 0, 0, 17.087, 0, 0, 0, 10.2791, -85.5142, 6.79972, 25.3624)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.515352)
+mesh = SubResource("BoxMesh_31u70")
+skeleton = NodePath("../../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.515352)
+shape = SubResource("BoxShape3D_35ia0")
 
 [node name="Lighting" type="Node" parent="Level Elements"]
 
@@ -107,33 +406,558 @@ environment = SubResource("Environment_eulta")
 
 [node name="Terrain" type="Node" parent="Level Elements"]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Terrain"]
-transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.73, 0, 86.122)
+[node name="platform" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 17.2197, 0, 0, 0, 10, 39.7267, 23.1293, -40.9667)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform"]
 mesh = SubResource("BoxMesh_p2xjw")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform"]
 shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform10" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 27.5449, 0, 0, 0, 10, -39.9655, 26.0461, -39.704)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform10"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform10"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform11" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 29.862, 0, 0, 0, 24.8441, -39.9655, 27.604, -22.4757)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.89968, 0, 0, 0.412014)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform11"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform12" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 5, 0, 0, 0, 15, -29.7676, 43.4886, -1.81025)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform12"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform12"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform13" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 21.1422, -21.0445, 53.6052, -20.1039)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform13"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform13"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform14" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 22.6391, -21.0445, 53.6052, 18.8109)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform14"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform14"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform16" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(-7.66261e-08, 0, 48.1831, 0, 20, 0, -1.753, 0, -2.10615e-06, 2.24909, 53.6052, 30.2306)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -4.44089e-16, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform16"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform18" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(-7.66261e-08, 0, 48.1831, 0, 20, 0, -1.753, 0, -2.10615e-06, 2.24909, 53.6052, -29.9568)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -4.44089e-16, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform18"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform17" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 61.7342, 26.025, 53.605, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -4.44089e-16, 0, 1, 0, 0, 0.00316571)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform17"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform15" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 5, 0, 0, 0, 19.472, -21.0445, 45.1459, -1.58888)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform15"]
+transform = Transform3D(0.931514, 0, 0, 0, 1, 0, 0, 0, 0.918691, 0.886593, 0, 0.00497335)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform15"]
+transform = Transform3D(0.931514, 0, 0, 0, 1, 0, 0, 0, 0.918691, 0.886593, 0, 0.00497335)
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform9" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 16.2028, 0, 0, 0, 10, 39.5997, 22.7813, 1.25408)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform9"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform9"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform2" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(16.0592, 0, 0, 0, 1, 0, 0, 0, 16.0592, 79.988, 0.0542056, -83.0809)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform2"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform2"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform3" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(18.414, 0, 0, 0, 1.8414, 0, 0, 0, 18.414, -79.9594, -0.15603, -83.0532)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform3"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform3"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform5" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(18.414, 0, 0, 0, 1.8414, 0, 0, 0, 6.67397, -69.9175, 19.0963, 47.6069)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0440063)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform5"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform4" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(12.8253, 0, 0, 0, 26.3423, 0, 0, 0, 12.8253, -85.2133, 6.86806, 44.9647)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform4"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform4"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform6" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, -34.2118, 22.2994, 47.5765)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform6"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform6"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="spikey_wood" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, -34.3159, 32.7973, 47.8867)
+
+[node name="platform7" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 6.89516, 22.2994, 63.4862)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="spikey_wood2" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, 3.81039, 32.7973, 59.975)
+
+[node name="platform8" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 45.646, 22.2994, 48.9864)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform8"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform8"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="spikey_wood3" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, 45.5419, 32.7973, 49.2966)
+
+[node name="Checkpoint" parent="Level Elements/Terrain" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
 
 [node name="Floating Boxes" type="Node" parent="Level Elements"]
 
-[node name="floating_wood_block" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 95.0017, -0.14935, 69.5339)
-size = Vector3(6, 0.5, 6)
-
 [node name="floating_wood_block2" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 89.3199, 0.122102, 58.2812)
-size = Vector3(6, 0.5, 6)
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 89.3199, 0.122102, 58.2812)
 
 [node name="floating_wood_block3" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 93.824, -0.00687146, 46.2447)
-size = Vector3(6, 0.5, 6)
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 93.824, -0.00687122, 46.2447)
 
 [node name="floating_wood_block4" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 88.6741, -0.00687146, 34.1353)
-size = Vector3(6, 0.5, 6)
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.6741, -0.00687122, 34.1353)
 
 [node name="floating_wood_block5" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 90.4311, -0.00687146, 21.5521)
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90.4311, -0.00687122, 21.5521)
+
+[node name="floating_wood_block6" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.094, -0.00687122, -19.3531)
+
+[node name="floating_wood_block11" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 43.4262, -0.00687122, -81.0196)
+
+[node name="floating_wood_block14" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 43.4262, -0.00687122, -87.1056)
+
+[node name="floating_wood_block16" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 49.5818, -0.00687075, -81.0296)
+
+[node name="floating_wood_block17" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 49.5818, -0.00687075, -87.1301)
+
+[node name="floating_wood_block18" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 30.9274, -0.00687122, -81.0196)
+
+[node name="floating_wood_block19" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 30.9274, -0.00687122, -87.1056)
+
+[node name="floating_wood_block20" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 37.083, -0.00687075, -81.0296)
+
+[node name="floating_wood_block21" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 37.083, -0.00687075, -87.1301)
+
+[node name="floating_wood_block22" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 18.0568, -0.00687122, -81.0196)
+
+[node name="floating_wood_block23" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 18.0568, -0.00687122, -87.1056)
+
+[node name="floating_wood_block24" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 24.2125, -0.00687075, -81.0296)
+
+[node name="floating_wood_block25" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 24.2125, -0.00687075, -87.1301)
+
+[node name="floating_wood_block26" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 5.41717, -0.00687122, -81.0196)
+
+[node name="floating_wood_block27" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 5.41717, -0.00687122, -87.1056)
+
+[node name="floating_wood_block28" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 11.5728, -0.00687075, -81.0296)
+
+[node name="floating_wood_block29" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 11.5728, -0.00687075, -87.1301)
+
+[node name="floating_wood_block30" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -7.38608, -0.00687122, -81.0196)
+
+[node name="floating_wood_block31" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -7.38608, -0.00687122, -87.1056)
+
+[node name="floating_wood_block32" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -1.23042, -0.00687075, -81.0296)
+
+[node name="floating_wood_block33" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -1.23042, -0.00687075, -87.1301)
+
+[node name="floating_wood_block34" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -20.3485, -0.00687122, -81.0196)
+
+[node name="floating_wood_block35" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -20.3485, -0.00687122, -87.1056)
+
+[node name="floating_wood_block36" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -14.1928, -0.00687075, -81.0296)
+
+[node name="floating_wood_block37" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -14.1928, -0.00687075, -87.1301)
+
+[node name="floating_wood_block38" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -33.4258, -0.00687122, -81.0196)
+
+[node name="floating_wood_block39" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -33.4258, -0.00687122, -87.1056)
+
+[node name="floating_wood_block40" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -27.2701, -0.00687075, -81.0296)
+
+[node name="floating_wood_block41" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -27.2701, -0.00687075, -87.1301)
+
+[node name="floating_wood_block42" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.2856, -0.00687122, -81.0196)
+
+[node name="floating_wood_block43" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.2856, -0.00687122, -87.1056)
+
+[node name="floating_wood_block44" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -40.1299, -0.00687075, -81.0296)
+
+[node name="floating_wood_block45" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -40.1299, -0.00687075, -87.1301)
+
+[node name="floating_wood_block46" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -59.0321, -0.00687122, -81.0196)
+
+[node name="floating_wood_block47" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -59.0321, -0.00687122, -87.1056)
+
+[node name="floating_wood_block48" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -52.8765, -0.00687075, -81.0296)
+
+[node name="floating_wood_block49" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -52.8765, -0.00687075, -87.1301)
+
+[node name="floating_wood_block7" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(3, 0, 0, 0, 0.5, 0, 0, 0, 3, 90.4311, 4.76283, -46.9129)
+
+[node name="floating_wood_block8" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(3, 0, 0, 0, 0.5, 0, 0, 0, 3, 86.2237, 10.1372, -61.0287)
+
+[node name="floating_wood_block9" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 94.7172, -0.00687122, -32.7181)
+
+[node name="floating_wood_block12" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 51.6205, 24.9612, 29.4375)
+
+[node name="floating_wood_block50" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -81.8803, 4.24069, -55.9071)
+
+[node name="floating_wood_block51" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -88.8389, 8.53221, -28.0994)
+
+[node name="floating_wood_block52" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -87.1793, 11.121, -4.08401)
+
+[node name="floating_wood_block53" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -85.5142, 15.4321, 20.065)
+
+[node name="floating_wood_block13" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 38.0877, 41.1376, 18.4818)
+
+[node name="floating_wood_block15" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 38.3608, 41.4509, -18.7885)
+
+[node name="floating_wood_block57" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 22.0925, 31.71, -37.8462)
+
+[node name="floating_wood_block58" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -0.0960751, 36.8999, -37.8462)
+
+[node name="floating_wood_block59" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -26.197, 41.3642, -37.8462)
+
+[node name="floating_wood_block54" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -52.5374, 24.9791, 47.8801)
+
+[node name="floating_wood_block55" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6.42079, 0, 0, 0, 0.698669, 0, 0, 0, 6.42079, -18.2663, 29.6722, 60.2555)
+
+[node name="floating_wood_block56" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(6.42079, 0, 0, 0, 0.698669, 0, 0, 0, 6.42079, 25.9123, 29.6722, 51.6565)
+
+[node name="spikey_wood" parent="Level Elements/Floating Boxes" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 11.6218, 42.4241, -42.5718)
+
+[node name="spikey_wood2" parent="Level Elements/Floating Boxes" instance=ExtResource("8_cl2ka")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -15.1046, 42.4241, -42.5718)
+
+[node name="Arena" type="Node3D" parent="Level Elements/Floating Boxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 46.0785, 0)
+
+[node name="floating_wood_block61" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 17.7365)
+
+[node name="floating_wood_block62" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 24.9463)
+
+[node name="floating_wood_block63" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 24.9463)
+
+[node name="floating_wood_block64" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 17.811)
+
+[node name="floating_wood_block65" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 4.04461)
+
+[node name="floating_wood_block66" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, 10.8157)
+
+[node name="floating_wood_block67" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 10.8157)
+
+[node name="floating_wood_block68" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, 4.11912)
+
+[node name="floating_wood_block69" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -9.34769)
+
+[node name="floating_wood_block70" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -2.57656)
+
+[node name="floating_wood_block71" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -2.57656)
+
+[node name="floating_wood_block72" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -9.27318)
+
+[node name="floating_wood_block73" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -24.1179)
+
+[node name="floating_wood_block74" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -15.4207, -1.95381, -16.406)
+
+[node name="floating_wood_block75" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -16.406)
+
+[node name="floating_wood_block76" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -8.16511, -1.95381, -24.0434)
+
+[node name="floating_wood_block77" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 17.7365)
+
+[node name="floating_wood_block78" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 24.9463)
+
+[node name="floating_wood_block79" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 24.9463)
+
+[node name="floating_wood_block80" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 17.811)
+
+[node name="floating_wood_block81" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 4.04461)
+
+[node name="floating_wood_block82" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, 10.8157)
+
+[node name="floating_wood_block83" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 10.8157)
+
+[node name="floating_wood_block84" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, 4.11912)
+
+[node name="floating_wood_block85" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -9.34769)
+
+[node name="floating_wood_block86" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -2.57656)
+
+[node name="floating_wood_block87" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -2.57656)
+
+[node name="floating_wood_block88" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -9.27318)
+
+[node name="floating_wood_block89" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -24.1179)
+
+[node name="floating_wood_block90" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, -0.984421, -1.95381, -16.406)
+
+[node name="floating_wood_block91" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -16.406)
+
+[node name="floating_wood_block92" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 6.27115, -1.95381, -24.0434)
+
+[node name="floating_wood_block93" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 17.7365)
+
+[node name="floating_wood_block94" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 24.9463)
+
+[node name="floating_wood_block95" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 24.9463)
+
+[node name="floating_wood_block96" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 17.811)
+
+[node name="floating_wood_block97" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 4.04461)
+
+[node name="floating_wood_block98" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, 10.8157)
+
+[node name="floating_wood_block99" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 10.8157)
+
+[node name="floating_wood_block100" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, 4.11912)
+
+[node name="floating_wood_block101" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -9.34769)
+
+[node name="floating_wood_block102" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -2.57656)
+
+[node name="floating_wood_block103" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -2.57656)
+
+[node name="floating_wood_block104" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -9.27318)
+
+[node name="floating_wood_block105" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -24.1179)
+
+[node name="floating_wood_block106" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 13.2852, -1.95381, -16.406)
+
+[node name="floating_wood_block107" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -16.406)
+
+[node name="floating_wood_block108" parent="Level Elements/Floating Boxes/Arena" instance=ExtResource("4_0ic1p")]
+transform = Transform3D(5.5, 0, 0, 0, 0.5, 0, 0, 0, 5.5, 20.4639, -1.95381, -24.0434)
+
+[node name="Notes" type="Node" parent="Level Elements"]
+
+[node name="Sprite3D" type="Sprite3D" parent="Level Elements/Notes"]
+transform = Transform3D(-2.382e-07, 0, 5.44938, 0, 5.44938, 0, -5.44938, 0, -2.382e-07, 35.6872, 37.3313, 2.75463)
+texture = ExtResource("6_31u70")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Level Elements/Notes"]
+transform = Transform3D(-7.79965, 0, -6.81867e-07, 0, 7.79965, 0, 6.81867e-07, 0, -7.79965, 8.34887, 4.73961, -70.5922)
+texture = ExtResource("7_35ia0")
+
+[node name="Sprite3D3" type="Sprite3D" parent="Level Elements/Notes"]
+transform = Transform3D(-2.72573e-07, 0, 6.23575, 0, 6.23575, 0, -6.23575, 0, -2.72573e-07, 70.7535, 5.52427, -47.7076)
+texture = ExtResource("8_vbihw")
+
+[node name="SpellCollectable" parent="Level Elements" instance=ExtResource("6_wk5oe")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -85.1105, 23.8213, 45.08)
+spell = 1
+
+[node name="Creature" type="Node" parent="Level Elements"]
+
+[node name="Rock Mimic2" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.0883, 0.253185, -81.5375)
+
+[node name="Rock Mimic3" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.51115, 0.253185, -87.6058)
+
+[node name="Rock Mimic4" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.2316, 0.253185, -80.9893)
+
+[node name="Rock Mimic5" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5483, 0.253185, -88.4584)
+
+[node name="Anchors" type="Node" parent="."]
+
+[node name="RockMimic_Anchor" parent="Anchors" instance=ExtResource("13_bb7if")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
+
+[node name="fire_goober_anchor" parent="Anchors" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.769, 18.2653, -3.79336)
+
+[node name="fire_goober_anchor2" parent="Anchors" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.769, 18.2653, 6.56147)
+
+[node name="FloatingWoodenBlockAnchor" parent="Anchors" instance=ExtResource("15_j11i1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.0017, -0.14935, 69.5339)
 size = Vector3(6, 0.5, 6)

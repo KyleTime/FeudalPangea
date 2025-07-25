@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://6q6fpilhj3wc"]
+
+[ext_resource type="Script" uid="uid://dsqu3o0sxlpt1" path="res://FeudalPangaeaCode/Level_Elements/Anchors/Anchor.cs" id="1_ssi8j"]
+[ext_resource type="PackedScene" uid="uid://dqvmfvmim1sea" path="res://Scenes/Level_Elements/Anchor/anchor_billboard.tscn" id="2_2mhc0"]
+
+[node name="EntityAnchor" type="Node3D"]
+script = ExtResource("1_ssi8j")
+
+[node name="Sprite3D" parent="." instance=ExtResource("2_2mhc0")]

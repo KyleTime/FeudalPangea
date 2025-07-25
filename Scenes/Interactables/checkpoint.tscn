@@ -12,4 +12,5 @@ script = ExtResource("1_lkanm")
 visual = NodePath("MeshInstance3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("PrismMesh_tlnd1")

@@ -4,11 +4,21 @@ public partial class TimeManager : Node
 {
     public static TimeManager stn;
 
-    public static int freezeTimeCount;
+    public static int freezeTimeCount = 0;
+    public static bool gamePaused = false;
 
+    /// <summary>
+    /// Triggers whenever the freezeframe pause state changes.
+    /// </summary>
+    /// <param name="paused">Whether the game is currently in "freezeframe", also denoted by (freezeTimeCount != 0).
+    /// Note that the game might be otherwise paused, so please check the GetTree().Paused property too</param>
     [Signal]
     public delegate void FreezeFrameEventHandler(bool paused);
 
+    /// <summary>
+    /// Triggers whenever the game is paused.
+    /// </summary>
+    /// <param name="paused">Whether the game is paused, also denoted by the (gamePaused) value</param>
     [Signal]
     public delegate void PauseEventHandler(bool paused);
 
@@ -30,16 +40,24 @@ public partial class TimeManager : Node
 
         freezeTimeCount = Mathf.Clamp(freezeTimeCount, 0, 999);
 
-        bool timeFrozen = !(freezeTimeCount == 0);
+        stn.GetTree().Paused = ShouldPause();
 
-        stn.GetTree().Paused = timeFrozen;
-
-        stn.EmitSignal(SignalName.FreezeFrame, timeFrozen);
+        stn.EmitSignal(SignalName.FreezeFrame, freezeTimeCount != 0);
     }
 
     public static void PauseTime(bool pause)
     {
-        stn.GetTree().Paused = pause;
-        stn.EmitSignal(SignalName.Pause, pause);
+        gamePaused = pause;
+
+        bool shouldPause = ShouldPause();
+
+        stn.GetTree().Paused = shouldPause;
+
+        stn.EmitSignal(SignalName.Pause, shouldPause);
+    }
+
+    private static bool ShouldPause()
+    {
+        return gamePaused || freezeTimeCount != 0;
     }
 }
