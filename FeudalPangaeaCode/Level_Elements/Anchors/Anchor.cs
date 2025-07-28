@@ -66,10 +66,17 @@ public partial class Anchor : Node3D
 
         Node3D ent = (Node3D)entity.Instantiate();
 
+        //this little bit makes sure our new node doesn't do anything weird
+        //before it officially exists
+        ProcessModeEnum defMode = ent.ProcessMode;
+        ent.ProcessMode = ProcessModeEnum.Disabled;
+
         Node root = GetTree().Root;
         root.CallDeferred(Node.MethodName.AddChild, ent);
 
         await Task.Delay(100);
+
+        ent.ProcessMode = defMode;
 
         if (IsInstanceValid(ent))
         {
