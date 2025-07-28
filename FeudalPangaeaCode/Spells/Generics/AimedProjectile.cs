@@ -122,7 +122,7 @@ namespace MagicSystem
         /// enables the hitbox.
         /// </summary>
         /// <param name="target">Whether the projectile should use aim assist.</param>
-        public void Activate(bool target = false)
+        public virtual void Activate(bool target = false)
         {
             active = true;
             hitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);

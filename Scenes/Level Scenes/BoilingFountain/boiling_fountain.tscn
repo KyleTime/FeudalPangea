@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=30 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
@@ -28,9 +28,6 @@ emission_energy_multiplier = 4.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_eulta"]
 material = SubResource("StandardMaterial3D_eulta")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_p2xjw"]
-size = Vector3(200, 10, 200)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ic1p"]
 albedo_color = Color(0.673899, 0.694103, 0.516753, 1)
@@ -66,9 +63,6 @@ emission_energy_multiplier = 4.0
 [sub_resource type="BoxMesh" id="BoxMesh_ssmnb"]
 material = SubResource("StandardMaterial3D_31u70")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vbihw"]
-size = Vector3(140, 15, 140)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35ia0"]
 albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
 metallic = 1.0
@@ -80,9 +74,6 @@ emission_energy_multiplier = 4.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_vbihw"]
 material = SubResource("StandardMaterial3D_35ia0")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_0ic1p"]
-size = Vector3(70, 10, 70)
 
 [sub_resource type="Environment" id="Environment_eulta"]
 glow_enabled = true
@@ -124,9 +115,6 @@ linear_damp = 0.7
 transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
 mesh = SubResource("BoxMesh_eulta")
 skeleton = NodePath("../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0"]
-shape = SubResource("BoxShape3D_p2xjw")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Water/WaterLayer0"]
 transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.73, 5, 86.122)
@@ -195,9 +183,6 @@ linear_damp = 0.7
 transform = Transform3D(140, 0, 0, 0, 15, 0, 0, 0, 140, 0, 0, 0)
 mesh = SubResource("BoxMesh_ssmnb")
 skeleton = NodePath("../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1"]
-shape = SubResource("BoxShape3D_vbihw")
 
 [node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
 transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -41.9358, 12.0648, -43.3441)
@@ -310,9 +295,6 @@ linear_damp = 0.7
 transform = Transform3D(70, 0, 0, 0, 10, 0, 0, 0, 70, 0, 0, 0)
 mesh = SubResource("BoxMesh_vbihw")
 skeleton = NodePath("../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer2"]
-shape = SubResource("BoxShape3D_0ic1p")
 
 [node name="Bubble2" type="Area3D" parent="Level Elements/Water"]
 transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -81.8803, -1.21394, -55.9071)
@@ -819,10 +801,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
 [node name="Fire Goobers" type="Node" parent="Anchors"]
 
 [node name="fire_goober_anchor" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.2694, 18.2653, -3.79336)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.8437, 18.2653, -3.79336)
 
 [node name="fire_goober_anchor2" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.1774, 18.2653, 6.56147)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.6627, 23.2653, 6.56147)
 
 [node name="Floating Wood" type="Node" parent="Anchors"]
 

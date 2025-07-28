@@ -8,24 +8,45 @@ public partial class RegenAnchor : Anchor
     private float timer = 0;
     private bool cooldowning = false;
 
-    public async override void _Process(double delta)
+    bool initialWait = false;
+
+    public override void _Process(double delta)
     {
-        if (!cooldowning && !IsInstanceValid(current) && timer == 0)
-        {
-            timer = respawnTime;
-            cooldowning = true;
-        }
-        else if (cooldowning && timer > 0)
-        {
-            timer -= (float)delta;
-        }
-        else if (cooldowning)
+        if (inProgress)
         {
             timer = 0;
-            ResetEntity();
             cooldowning = false;
-            await Task.Delay(2000); //this is probably optimal because I'd imagine the thing won't die again for at least 2 seconds
+            return;
         }
+
+        if (!cooldowning && !IsInstanceValid(current) && timer == 0)
+            {
+                timer = respawnTime;
+                cooldowning = true;
+
+                if (Name == "FloatingWoodenBlockAnchor")
+                {
+                    GD.Print("Started Respawn Timer");
+                }
+            }
+            else if (cooldowning && timer > 0)
+            {
+                if (timer == respawnTime && Name == "FloatingWoodenBlockAnchor")
+                {
+                    GD.Print("Timer has begun!");
+                }
+
+                timer -= (float)delta;
+            }
+            else if (cooldowning)
+            {
+                timer = 0;
+                cooldowning = false;
+                ResetEntity();
+
+                if (Name == "FloatingWoodenBlockAnchor")
+                    GD.Print("Reset Entity");
+            }
     }
 
 }

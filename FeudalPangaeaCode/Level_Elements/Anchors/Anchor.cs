@@ -9,6 +9,11 @@ public partial class Anchor : Node3D
     [Export] Vector3 rotation = new Vector3(0, 0, 0);
     [Export] bool useAnchorNodeStatsInstead = false;
     protected Node3D current;
+    
+    /// <summary>
+    /// This is true when the anchor is currently creating or resetting an entity
+    /// </summary>
+    protected bool inProgress = false;
 
     public async override void _Ready()
     {
@@ -18,23 +23,47 @@ public partial class Anchor : Node3D
             rotation = GlobalRotation;
         }
 
-        CreateEntity();
+        await CreateEntity();
 
-        //wait just a lil
-        await Task.Delay(1);
-
-        LevelManager.currentLevel.ResetLevel += ResetEntity;
+        LevelManager.currentLevel.ResetLevel += ResetEntityOnLevelReset;
     }
 
-    protected virtual void ResetEntity()
+    /// <summary>
+    /// Passes the ResetLevel event to the ResetEntity function.
+    /// </summary>
+    protected void ResetEntityOnLevelReset()
     {
+        ResetEntity();
+    }
+
+    /// <summary>
+    /// Resets the current entity. It's asynchronous to account for the time it takes the engine
+    /// to figure out creating an entity so we can properly assign it a parent and position.
+    /// It's really messy but as long as wherever this is called awaits it, it should be fine.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual async Task ResetEntity()
+    {
+        while (inProgress)
+        {
+            await Task.Delay(10);
+        }
+
         if (IsInstanceValid(current))
             current.QueueFree();
-        CreateEntity();
+        await CreateEntity();
     }
 
-    protected async virtual void CreateEntity()
+    /// <summary>
+    /// Creates a new entity to be kept track of by the anchor.
+    /// Uses asynchronous behavior to allow the engine to figure out the object.
+    /// MAKE SURE YOU AWAIT THIS OTHERWISE WEIRD THINGS MAY HAPPEN!
+    /// </summary>
+    /// <returns></returns>
+    protected async virtual Task CreateEntity()
     {
+        inProgress = true;
+
         Node3D ent = (Node3D)entity.Instantiate();
 
         Node root = GetTree().Root;
@@ -53,7 +82,9 @@ public partial class Anchor : Node3D
         {
             //if our instance disappeared, try to remake it in 1 second
             await Task.Delay(1000);
-            CreateEntity();
+            await CreateEntity();
         }
+
+        inProgress = false;
     }
 }
