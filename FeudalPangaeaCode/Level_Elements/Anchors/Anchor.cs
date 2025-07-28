@@ -7,10 +7,17 @@ public partial class Anchor : Node3D
     [Export] PackedScene entity;
     [Export] Vector3 size = new Vector3(1, 1, 1);
     [Export] Vector3 rotation = new Vector3(0, 0, 0);
+    [Export] bool useAnchorNodeStatsInstead = false;
     protected Node3D current;
 
     public async override void _Ready()
     {
+        if (useAnchorNodeStatsInstead)
+        {
+            size = Scale;
+            rotation = GlobalRotation;
+        }
+
         CreateEntity();
 
         //wait just a lil

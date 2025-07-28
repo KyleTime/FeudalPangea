@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=33 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="6_wk5oe"]
 [ext_resource type="Texture2D" uid="uid://dm276jt2cg7yh" path="res://Sprites/notes/note2.png" id="7_35ia0"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="7_hmw7q"]
-[ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ssmnb"]
 [ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="8_cl2ka"]
 [ext_resource type="Texture2D" uid="uid://ch8qmgi3o5soa" path="res://Sprites/notes/note3.png" id="8_vbihw"]
 [ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
@@ -149,7 +148,7 @@ mesh = SubResource("BoxMesh_p2xjw")
 shape = SubResource("BoxShape3D_31u70")
 
 [node name="Bubble1" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
-transform = Transform3D(10.2791, 0, 0, 0, 5.04042, 0, 0, 0, 10.2791, 90.2104, 7.3003, -46.8774)
+transform = Transform3D(10.2791, 0, 0, 0, 5.04042, 0, 0, 0, 10.2791, 90, 7.3, -46)
 collision_mask = 13
 gravity_space_override = 1
 gravity_point_center = Vector3(0, 1, 0)
@@ -166,7 +165,7 @@ skeleton = NodePath("../../../../..")
 shape = SubResource("BoxShape3D_ssmnb")
 
 [node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
-transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, 86.3786, 9.83627, -61.0269)
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, 86, 9.836, -61)
 collision_mask = 13
 gravity_space_override = 1
 gravity_point_center = Vector3(0, 1, 0)
@@ -591,138 +590,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
 
 [node name="Floating Boxes" type="Node" parent="Level Elements"]
 
-[node name="floating_wood_block2" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 89.3199, 0.122102, 58.2812)
-
-[node name="floating_wood_block3" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 93.824, -0.00687122, 46.2447)
-
-[node name="floating_wood_block4" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.6741, -0.00687122, 34.1353)
-
-[node name="floating_wood_block5" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90.4311, -0.00687122, 21.5521)
-
-[node name="floating_wood_block6" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.094, -0.00687122, -19.3531)
-
-[node name="floating_wood_block11" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 43.4262, -0.00687122, -81.0196)
-
-[node name="floating_wood_block14" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 43.4262, -0.00687122, -87.1056)
-
-[node name="floating_wood_block16" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 49.5818, -0.00687075, -81.0296)
-
-[node name="floating_wood_block17" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 49.5818, -0.00687075, -87.1301)
-
-[node name="floating_wood_block18" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 30.9274, -0.00687122, -81.0196)
-
-[node name="floating_wood_block19" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 30.9274, -0.00687122, -87.1056)
-
-[node name="floating_wood_block20" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 37.083, -0.00687075, -81.0296)
-
-[node name="floating_wood_block21" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 37.083, -0.00687075, -87.1301)
-
-[node name="floating_wood_block22" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 18.0568, -0.00687122, -81.0196)
-
-[node name="floating_wood_block23" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 18.0568, -0.00687122, -87.1056)
-
-[node name="floating_wood_block24" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 24.2125, -0.00687075, -81.0296)
-
-[node name="floating_wood_block25" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 24.2125, -0.00687075, -87.1301)
-
-[node name="floating_wood_block26" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 5.41717, -0.00687122, -81.0196)
-
-[node name="floating_wood_block27" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 5.41717, -0.00687122, -87.1056)
-
-[node name="floating_wood_block28" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 11.5728, -0.00687075, -81.0296)
-
-[node name="floating_wood_block29" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 11.5728, -0.00687075, -87.1301)
-
-[node name="floating_wood_block30" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -7.38608, -0.00687122, -81.0196)
-
-[node name="floating_wood_block31" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -7.38608, -0.00687122, -87.1056)
-
-[node name="floating_wood_block32" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -1.23042, -0.00687075, -81.0296)
-
-[node name="floating_wood_block33" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -1.23042, -0.00687075, -87.1301)
-
-[node name="floating_wood_block34" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -20.3485, -0.00687122, -81.0196)
-
-[node name="floating_wood_block35" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -20.3485, -0.00687122, -87.1056)
-
-[node name="floating_wood_block36" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -14.1928, -0.00687075, -81.0296)
-
-[node name="floating_wood_block37" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -14.1928, -0.00687075, -87.1301)
-
-[node name="floating_wood_block38" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -33.4258, -0.00687122, -81.0196)
-
-[node name="floating_wood_block39" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -33.4258, -0.00687122, -87.1056)
-
-[node name="floating_wood_block40" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -27.2701, -0.00687075, -81.0296)
-
-[node name="floating_wood_block41" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -27.2701, -0.00687075, -87.1301)
-
-[node name="floating_wood_block42" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.2856, -0.00687122, -81.0196)
-
-[node name="floating_wood_block43" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.2856, -0.00687122, -87.1056)
-
-[node name="floating_wood_block44" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -40.1299, -0.00687075, -81.0296)
-
-[node name="floating_wood_block45" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -40.1299, -0.00687075, -87.1301)
-
-[node name="floating_wood_block46" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -59.0321, -0.00687122, -81.0196)
-
-[node name="floating_wood_block47" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -59.0321, -0.00687122, -87.1056)
-
-[node name="floating_wood_block48" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -52.8765, -0.00687075, -81.0296)
-
-[node name="floating_wood_block49" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -52.8765, -0.00687075, -87.1301)
-
-[node name="floating_wood_block7" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(3, 0, 0, 0, 0.5, 0, 0, 0, 3, 90.4311, 4.76283, -46.9129)
-
-[node name="floating_wood_block8" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(3, 0, 0, 0, 0.5, 0, 0, 0, 3, 86.2237, 10.1372, -61.0287)
-
-[node name="floating_wood_block9" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 94.7172, -0.00687122, -32.7181)
-
 [node name="floating_wood_block12" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 51.6205, 24.9612, 29.4375)
 
@@ -933,31 +800,192 @@ texture = ExtResource("8_vbihw")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -85.1105, 23.8213, 45.08)
 spell = 1
 
+[node name="SpellCollectable2" parent="Level Elements" instance=ExtResource("6_wk5oe")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 87.2254, 3.59709, 80.6243)
+spell = 1
+
 [node name="Creature" type="Node" parent="Level Elements"]
 
-[node name="Rock Mimic2" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.0883, 0.253185, -81.5375)
-
-[node name="Rock Mimic3" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.51115, 0.253185, -87.6058)
-
-[node name="Rock Mimic4" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.2316, 0.253185, -80.9893)
-
-[node name="Rock Mimic5" parent="Level Elements/Creature" instance=ExtResource("7_ssmnb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5483, 0.253185, -88.4584)
+[node name="Checkpoint" parent="Level Elements" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.0355, 1.63292, 81.5782)
 
 [node name="Anchors" type="Node" parent="."]
 
-[node name="RockMimic_Anchor" parent="Anchors" instance=ExtResource("13_bb7if")]
+[node name="Rock Mimics" type="Node" parent="Anchors"]
+
+[node name="RockMimic_Anchor" parent="Anchors/Rock Mimics" instance=ExtResource("13_bb7if")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
 
-[node name="fire_goober_anchor" parent="Anchors" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.769, 18.2653, -3.79336)
+[node name="Fire Goobers" type="Node" parent="Anchors"]
 
-[node name="fire_goober_anchor2" parent="Anchors" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.769, 18.2653, 6.56147)
+[node name="fire_goober_anchor" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.2694, 18.2653, -3.79336)
 
-[node name="FloatingWoodenBlockAnchor" parent="Anchors" instance=ExtResource("15_j11i1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.0017, -0.14935, 69.5339)
-size = Vector3(6, 0.5, 6)
+[node name="fire_goober_anchor2" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.1774, 18.2653, 6.56147)
+
+[node name="Floating Wood" type="Node" parent="Anchors"]
+
+[node name="FloatingWoodenBlockAnchor" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 95.0017, -0.14935, 69.5339)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor2" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 89.0456, -0.14935, 58.0856)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor3" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 93.7666, -0.149348, 46.2474)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor4" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.6011, -0.149348, 34.1095)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor5" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90.5866, -0.149348, 21.8682)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor6" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 86.6498, -0.149348, -19.5295)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor7" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 94.9588, -0.149348, -33.626)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor8" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90, 4.725, -46)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor9" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 86, 10.262, -61)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor10" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 54.837, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor11" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 54.837, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor12" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 48.1299, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor13" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 48.1299, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor14" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 41.3426, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor15" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 41.3426, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor16" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 34.6355, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor17" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 34.6355, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor18" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 28.0248, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor19" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 28.0248, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor20" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 21.3176, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor21" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 21.3176, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor22" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 14.5686, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor23" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 14.5686, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor24" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 7.8615, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor25" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 7.8615, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor26" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0.999804, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor27" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0.999804, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor28" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -5.70731, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor29" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -5.70731, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor30" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -12.3683, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor31" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -12.3683, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor32" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -19.0754, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor33" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -19.0754, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor34" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -25.8126, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor35" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -25.8126, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor36" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -32.5197, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor37" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -32.5197, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor38" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -39.3872, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor39" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -39.3872, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor40" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor41" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
