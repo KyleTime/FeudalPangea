@@ -34,6 +34,5 @@ namespace MagicSystem
             base.Activate(target);
             timer = 0;
         }
-
     }
 }

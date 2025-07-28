@@ -15,7 +15,7 @@ public partial class FireGoober : CreatureStateMachine, ICreature
             .SetHP(10)
             .SetStunState("Stun")
             .SetDeathState("Death")
-            .AddTransition("Idle", new SeePlayerAtDistance(30), "Fireball")
+            .AddTransition("Idle", new SeePlayerAtDistance(60), "Fireball")
             .AddTransition("Fireball", new StunOver(), "Idle")
             .buildOnExisting(this);
     }

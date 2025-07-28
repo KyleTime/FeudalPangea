@@ -66,6 +66,7 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     {
         if (change < 0 && source == DamageSource.Fire)
         {
+
             QueueFree();
         }
     }

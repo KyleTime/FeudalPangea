@@ -804,7 +804,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.8437, 18.2653, -3.79336)
 
 [node name="fire_goober_anchor2" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.6627, 23.2653, 6.56147)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.6627, 19.3918, 6.56147)
 
 [node name="Floating Wood" type="Node" parent="Anchors"]
 
