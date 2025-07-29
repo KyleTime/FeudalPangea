@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=31 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
 [ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
 [ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
+[ext_resource type="PackedScene" uid="uid://1j8uuyuogq0y" path="res://Scenes/Level_Elements/Geyser/buble.tscn" id="15_7x8kf"]
 [ext_resource type="PackedScene" uid="uid://5bpasprcqyv3" path="res://Scenes/Level_Elements/Anchor/floating_wooden_block_anchor.tscn" id="15_j11i1"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
@@ -37,7 +38,7 @@ material = SubResource("StandardMaterial3D_0ic1p")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31u70"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2xjw"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75ad7"]
 albedo_color = Color(0, 0.909804, 1, 1)
 metallic = 1.0
 metallic_specular = 1.0
@@ -45,7 +46,7 @@ emission_enabled = true
 emission = Color(0.768627, 0.92549, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_31u70"]
-material = SubResource("StandardMaterial3D_p2xjw")
+material = SubResource("StandardMaterial3D_75ad7")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssmnb"]
 
@@ -971,3 +972,10 @@ useAnchorNodeStatsInstead = true
 [node name="FloatingWoodenBlockAnchor41" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
 useAnchorNodeStatsInstead = true
+
+[node name="Node3D" parent="." instance=ExtResource("15_7x8kf")]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 97.393, 0, 36.7663)
+riseFactor = 15.0
+hangFactor = 0.5
+hangScaleLimit = 0.025
+totalTime = 2.0

@@ -52,7 +52,7 @@ public partial class FloatingWoodBlock : Node3D, ICreature
 
             time = (time + frameDelay) % totalTime;
 
-            GlobalPosition = GlobalPosition with { Y = yPos + Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
+            GlobalPosition = GlobalPosition with { Y = yPos + Mathf.Sin(time * Mathf.Pi / totalTime) * height };
 
             await Task.Delay(msDelay);
         }

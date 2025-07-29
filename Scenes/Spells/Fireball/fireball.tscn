@@ -18,6 +18,7 @@ material = SubResource("StandardMaterial3D_d8ww5")
 radius = 0.45
 
 [node name="Fireball" type="Node3D" node_paths=PackedStringArray("groundbox", "hitbox")]
+physics_interpolation_mode = 2
 script = ExtResource("1_k4tj0")
 groundbox = NodePath("groundbox")
 hitbox = NodePath("Hitbox")
