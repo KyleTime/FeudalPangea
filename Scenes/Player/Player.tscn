@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bosu0j6amay5p"]
+[gd_scene load_steps=21 format=3 uid="uid://uuqx2jpialad"]
 
 [ext_resource type="Script" uid="uid://cbkps5rwocubj" path="res://FeudalPangaeaCode/Player/Player.cs" id="1_fmy2y"]
 [ext_resource type="Script" uid="uid://ql82ri578m3d" path="res://FeudalPangaeaCode/Player/PlayerMovement.cs" id="4_te5vt"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dy7q45v8bjsw0" path="res://FeudalPangaeaCode/Player/PlayerCamera.cs" id="6_viir3"]
 [ext_resource type="Script" uid="uid://bj7xbodi3wwyu" path="res://FeudalPangaeaCode/Hitboxes/ParryHitbox.cs" id="7_fk5o5"]
 [ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="8_825xp"]
-[ext_resource type="PackedScene" uid="uid://dekqd7c7er2k5" path="res://Scenes/Player/ModelScene/Red_Psycho_Scene.tscn" id="8_fk5o5"]
+[ext_resource type="PackedScene" uid="uid://d23iomi7ae1b0" path="res://Scenes/Player/ModelScene/Red_Psycho_Scene.tscn" id="8_fk5o5"]
 [ext_resource type="Material" uid="uid://dmo6h5ltljnbb" path="res://mats/glowy gold.tres" id="9_ji083"]
 [ext_resource type="PackedScene" uid="uid://dm4v2ukebelgm" path="res://Scenes/Menus/pause_menu.tscn" id="11_0kmp4"]
 [ext_resource type="PackedScene" uid="uid://biqrvx2r8pfp6" path="res://Scenes/Menus/SpellMenu/spell_menu.tscn" id="12_i5acl"]
@@ -51,23 +51,9 @@ floor_snap_length = 0.25
 safe_margin = 0.1
 script = ExtResource("1_fmy2y")
 
-[node name="HUD" parent="." instance=ExtResource("5_20fgk")]
-
-[node name="CamOrigin" type="Node3D" parent="." node_paths=PackedStringArray("cinematicCamera")]
+[node name="CamOrigin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.89944, 0)
 script = ExtResource("6_viir3")
-cinematicCamera = NodePath("Cinematic Camera")
-
-[node name="CamOriginX" type="Node3D" parent="CamOrigin"]
-
-[node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin/CamOriginX"]
-spring_length = 6.0
-margin = 0.5
-
-[node name="Camera3D" type="Camera3D" parent="CamOrigin/CamOriginX/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.03563)
-
-[node name="Cinematic Camera" type="Camera3D" parent="CamOrigin"]
 
 [node name="Body" type="CollisionShape3D" parent="." node_paths=PackedStringArray("wallJumpRay", "ledgeHangRay", "punchHitbox", "parryHitbox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
@@ -164,6 +150,8 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1.
 
 [node name="Red_Psycho" parent="Body/Body_Center" instance=ExtResource("8_fk5o5")]
 
+[node name="HUD" parent="." instance=ExtResource("5_20fgk")]
+
 [node name="SpellMenu" parent="." instance=ExtResource("12_i5acl")]
 process_mode = 3
 z_index = 4
@@ -172,5 +160,4 @@ z_index = 4
 visible = false
 z_index = 8
 
-[connection signal="HealthChange" from="." to="HUD" method="ChangeHPBar"]
 [connection signal="HealthChange" from="." to="CamOrigin" method="DeathCam"]

@@ -48,6 +48,12 @@ public partial class HUDHandler : Node
         float timer = 0;
         while (timer < first_time)
         {
+            if (GetTree().Paused)
+            {
+                await Task.Delay(100);
+                continue;
+            }
+
             diedPanel.Scale = new Vector2(1 + timer * 0.2f, 1 + timer * 0.2f);
             diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, Math.Clamp(timer, 0, 1));
             label.LabelSettings.FontColor = new Color(label.LabelSettings.FontColor.R, label.LabelSettings.FontColor.B, label.LabelSettings.FontColor.G, Math.Clamp(timer, 0, 1));

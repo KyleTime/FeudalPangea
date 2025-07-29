@@ -21,7 +21,8 @@ public static class GlobalData
     {
         { "fireballThumbnail", "res://Sprites/SpellMenu/Fireball/fire_thumbnail.png" },
         { "fireballPageImage", "res://Sprites/SpellMenu/Fireball/fireball_thingy.png"},
-        { "fireballObject", "res://Scenes/Spells/Fireball/fireball.tscn" }
+        { "fireballObject", "res://Scenes/Spells/Fireball/fireball.tscn" },
+        {"fatherTime", "res://Scenes/Level Scenes/Level_Needs/father_time.tscn"}
     };
 
     #endregion

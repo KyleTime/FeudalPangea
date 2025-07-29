@@ -10,6 +10,8 @@ public partial class Hitbox : Area3D
     [Export] public float stunDuration = 1;
     [Export] public bool hitsPlayer = true;
 
+    public ICreature ignore; 
+
     [Signal]
     public delegate void HitHurtBoxEventHandler(Hurtbox hurtbox);
 

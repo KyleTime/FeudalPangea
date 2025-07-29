@@ -67,7 +67,7 @@ public partial class PlayerMovement : Node3D
 	//maximum speed a player should move while sliding down a wall. (velocity)
 	[Export] private float maxSlideFallingSpeed = -2.5f;
 
-	public bool animationDone = false;
+	public bool animationDone = true;
 
 	//X/Z and Y offset between ledge and player origin
 	[Export] private Vector2 ledgeHangOffset = new Vector2(0.9f, 1.3f);
@@ -81,6 +81,8 @@ public partial class PlayerMovement : Node3D
 	//is true if the player wall jumped, used to track when to cut off upward velocity
 	private bool wallJumping = false;
 
+	private bool exitState = false; //used within state functions to force transitions after certain conditions. Set to false in SetState()
+
 	//used to store the current push vector from outside sources
 	//applied at the end of the frame to avoid weird side effects
 	//like how bonking sometimes reverses the velocity of a push
@@ -88,6 +90,7 @@ public partial class PlayerMovement : Node3D
 
 	//spells!
 	int selectedSpell = 0;
+	bool[] canCast = new bool[3];
 
 	[Signal]
 	public delegate void PositionChangeEventHandler(Vector3 pos);
@@ -228,16 +231,14 @@ public partial class PlayerMovement : Node3D
 
 	#region States
 
-	public void SetState(CreatureState newState, bool autoActive = true, bool force = false)
+	public void SetState(CreatureState newState, bool autoActive = true)
 	{
-		if (changedThisFrame && !force)
-			return;
-
 		//reset hitboxes every time to avoid nonsense
 		punchHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 		parryHitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
 
 		changedThisFrame = true;
+		exitState = false;
 
 		creatureState = newState;
 		// GD.Print("STATE: " + creatureState.ToString());
@@ -248,6 +249,12 @@ public partial class PlayerMovement : Node3D
 		{
 			switch (creatureState)
 			{
+				case CreatureState.Grounded:
+					for (int i = 0; i < 3; i++)
+					{
+						canCast[i] = true;
+					}
+					break;
 				case CreatureState.Dive:
 					Dive();
 					break;
@@ -328,7 +335,7 @@ public partial class PlayerMovement : Node3D
 		if (BonkCond())
 		{
 			velocity = -velocity * bonkPushMod;
-			TryTransition(true, CreatureState.Bonk);
+			SetState(CreatureState.Bonk);
 		}
 	}
 
@@ -366,14 +373,39 @@ public partial class PlayerMovement : Node3D
 
 	private void State_LedgeHang(double delta)
 	{
-		//needs more actions
+		Vector3 inputDirection = new Vector3(Input.GetAxis("RIGHT", "LEFT"), 0, Input.GetAxis("FORWARD", "BACKWARD")).Normalized();
+
 		if (Input.IsActionJustPressed("JUMP"))
 		{
 			WallJump();
-		}
+			exitState = true;
+		} else if (Input.IsActionJustPressed("RIGHT") || Input.IsActionJustPressed("LEFT") || Input.IsActionJustPressed("FORWARD") || Input.IsActionJustPressed("BACKWARD")) {
+			if (!exitState && inputDirection.X + inputDirection.Z != 0)
+			{
+				inputDirection *= basis with { X = basis.X * -1f };
+				float zComponent = inputDirection.Dot(Transform.Basis.Z.Normalized());
 
+				if (animationDone && zComponent < 0)
+				{
+					PlayAnimation("HangGetUp_rootFollow");
+					WaitForAnimation();
+					exitState = true;
+					//would be better to force grounded state after animation
+				}
+				else if (animationDone && zComponent > 0)
+				{
+					velocity = Transform.Basis.Z.Normalized() * 5;
+					velocity.Y = -5;
+				}
+			}
+		}
+		
+		if (!animationDone)
+				return;
 		TryTransition(GroundedCond(), CreatureState.Grounded);
 		TryTransition(OpenAirCond(), CreatureState.OpenAir);
+		if (exitState)
+			SetState(CreatureState.OpenAir);
 	}
 
 	private void State_Stun(double delta)
@@ -395,6 +427,7 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(GroundedCond(), CreatureState.Grounded);
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 	}
 
@@ -418,6 +451,7 @@ public partial class PlayerMovement : Node3D
 		{
 			TryTransition(OpenAirCond(), CreatureState.OpenAir);
 			TryTransition(GroundedCond(), CreatureState.Grounded);
+			TryTransition(WallSlideCond(), CreatureState.WallSlide);
 		}
 
 	}
@@ -566,12 +600,13 @@ public partial class PlayerMovement : Node3D
 
 	public bool TryTransition(bool condition, CreatureState state)
 	{
-		if (condition)
+		if (condition && !changedThisFrame)
 		{
 			SetState(state);
+			return true;
 		}
 
-		return condition;
+		return false;
 	}
 
 	/// <summary>
@@ -579,7 +614,7 @@ public partial class PlayerMovement : Node3D
 	/// </summary>
 	public bool GroundedCond()
 	{
-		return grounded && velocity.Y < 0;
+		return grounded && velocity.Y <= 0;
 	}
 
 	/// <summary>
@@ -597,7 +632,7 @@ public partial class PlayerMovement : Node3D
 
 	public bool LedgeHangCond()
 	{
-		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.GetCollisionNormal() == new Vector3(0, 1, 0);
+		return !grounded && wall && velocity.Y <= 0 && !wallJumping && wallJumpRay.IsColliding() && ledgeHangRay.IsColliding() && ledgeHangRay.GetCollisionNormal().Y == 1;
 	}
 
 	public bool DiveCond()
@@ -613,31 +648,24 @@ public partial class PlayerMovement : Node3D
 	public bool CastCond()
 	{
 		bool buttonPressed = false;
-		if (Input.IsActionJustPressed("CAST1"))
+		int selection = SpellManager.GetSpellButton();
+
+		if (selection != -1)
 		{
-			selectedSpell = 0;
-			buttonPressed = true;
-		}
-		if (Input.IsActionJustPressed("CAST2"))
-		{
-			selectedSpell = 1;
-			buttonPressed = true;
-		}
-		if (Input.IsActionJustPressed("CAST3"))
-		{
-			selectedSpell = 2;
+			selectedSpell = selection;
 			buttonPressed = true;
 		}
 
 		if (buttonPressed)
 		{
-			if (selectedSpell != -1 && MagicSystem.SpellManager.GetSpellName(selectedSpell) == MagicSystem.SpellManager.SpellName.None)
+			if (MagicSystem.SpellManager.GetSpellName(selectedSpell) == MagicSystem.SpellManager.SpellName.None || !canCast[selectedSpell])
 			{
 				selectedSpell = -1;
 				return false;
 			}
-			else if (selectedSpell != -1)
+			else
 			{
+				canCast[selectedSpell] = false;
 				return true;
 			}
 		}
@@ -676,7 +704,7 @@ public partial class PlayerMovement : Node3D
 
 	public void RotateBody(double delta, float mod = 1, float speed = 10)
 	{
-		Rotation = new Vector3(0, (float)KMath.RotateTowards(Rotation.Y, (float)CreatureVelocityCalculations.GetYRotation(this, velocity, mod), speed, delta), 0);
+		GlobalRotation = new Vector3(0, (float)KMath.RotateTowards(GlobalRotation.Y, (float)CreatureVelocityCalculations.GetYRotation(this, velocity, mod), speed, delta), 0);
 	}
 
 	public void RotateBody(float mod = 1)
@@ -708,6 +736,15 @@ public partial class PlayerMovement : Node3D
 	public void Decelerate(double delta)
 	{
 		velocity = CreatureVelocityCalculations.Decelerate(velocity, deceleration, delta);
+	}
+  
+	public void ApplyRootMotion(Vector3 rootTransform, double processDelta)
+	{
+		Basis rotationBasis = Transform.Basis.Orthonormalized();
+		velocity = rootTransform.X * rotationBasis.X;
+		velocity += rootTransform.Y * rotationBasis.Y;
+		velocity += rootTransform.Z * rotationBasis.Z;
+		velocity *= (float) (1/processDelta);
 	}
 
 	public void Jump()
@@ -797,7 +834,7 @@ public partial class PlayerMovement : Node3D
 			return; //you can't really be stunned if you dead lol
 
 		stunTimer = time;
-		SetState(CreatureState.Stun, true, true);
+		SetState(CreatureState.Stun);
 	}
 
 	public void Die()

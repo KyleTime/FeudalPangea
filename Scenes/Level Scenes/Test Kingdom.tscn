@@ -1,14 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://cr4vr0cr3qss8"]
+[gd_scene load_steps=19 format=3 uid="uid://c6acu4ebqswn3"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_o8n2q"]
-[ext_resource type="PackedScene" uid="uid://bosu0j6amay5p" path="res://Scenes/Player/Player.tscn" id="2_ca7mo"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_fcabx"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="4_8lv13"]
 [ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="5_g6egq"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_51eun"]
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ewgxt"]
-[ext_resource type="Script" uid="uid://b3p3s2pcgnbp7" path="res://FeudalPangaeaCode/Global_Stuff/TimeManager.cs" id="8_7tfv0"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="9_ca7mo"]
+[ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="9_fcabx"]
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="10_fcabx"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
@@ -37,13 +36,10 @@ material = SubResource("StandardMaterial3D_3xvp6")
 
 [node name="Test Kingdom" type="Node3D"]
 script = ExtResource("1_o8n2q")
+startPos = Vector3(0, 5, 6)
 
-[node name="Player" parent="." instance=ExtResource("2_ca7mo")]
-transform = Transform3D(-0.999457, 0, -0.0329458, 0, 1, 0, 0.0329458, 0, -0.999457, -0.831316, 4, 0)
-floor_max_angle = 1.0472
-floor_snap_length = 0.4
-
-[node name="Cinematic Camera" type="Camera3D" parent="."]
+[node name="Player_Package" parent="." instance=ExtResource("9_fcabx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 6)
 
 [node name="Death Plane" type="Area3D" parent="."]
 script = ExtResource("3_fcabx")
@@ -184,9 +180,6 @@ mesh = SubResource("BoxMesh_nlxxi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_yxnnm")
-
-[node name="Father Time" type="Node" parent="."]
-script = ExtResource("8_7tfv0")
 
 [node name="Checkpoint" parent="." instance=ExtResource("9_ca7mo")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -13.827, 1.57567, 10.0516)

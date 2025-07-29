@@ -8,7 +8,7 @@ namespace MagicSystem
         const float speed = 40;
         const int numFireballs = 3;
 
-        float minimumStun = 1;
+        float minimumStun = 0.5f;
         float timer = 0;
 
         public FireballSpell()
@@ -40,8 +40,7 @@ namespace MagicSystem
         {
             if (caster.animationDone && timer > minimumStun)
             {
-                caster.TryTransition(caster.GroundedCond(), CreatureState.Grounded);
-                caster.TryTransition(caster.OpenAirCond(), CreatureState.OpenAir);
+                caster.Stun(0);
             }
 
             timer += (float)delta;

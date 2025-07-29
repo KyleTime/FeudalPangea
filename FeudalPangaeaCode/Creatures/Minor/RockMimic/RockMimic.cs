@@ -9,7 +9,7 @@ public partial class RockMimic : CreatureStateMachine, ICreature
     [Export] RagdollCreature ragdoll;
     [Export] Hitbox hitbox;
 
-    public override void _Ready()
+    public override void _EnterTree()
     {
         CreatureStateMachine.GetNewBuilder()
                         .AddState("Follow", new FollowCreature(20, 10, 5))
@@ -19,7 +19,6 @@ public partial class RockMimic : CreatureStateMachine, ICreature
                         .AddState("Death", new DeathSpawnRagdoll(ragdoll))
                         .AddState("Attack", new JumpAtCreature([hitbox], 20, 5, 10))
                         .SetHP(20)
-                        .SetMajor()
                         .SetDeathState("Death")
                         .SetInitialState("Idle")
                         .SetStunState("Stun")
@@ -31,5 +30,4 @@ public partial class RockMimic : CreatureStateMachine, ICreature
                         .AddTransition("Reset", new StunOver(), "Idle")
                         .buildOnExisting(this);
     }
-
 }

@@ -30,9 +30,12 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     [Export] public Node3D model;
 
+    public bool IsMajor => isMajorCreature;
+
     //This is the builder for the CreatureStateMachine
     // refer to the following link for a resource on the Builder Pattern: https://www.baeldung.com/java-builder-pattern 
     // yes, it's in java, but that's how my classes taught me so anyway
+
     public class Builder
     {
         int HP = 1;
@@ -226,11 +229,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
         if (deathState == null)
         {
-            GD.Print("WHAT!");
-        }
-        else
-        {
-            GD.Print("death assigned properly!");
+            GD.Print("DEATH STATE IS NULL, CREATURE WILL NOT DIE");
         }
     }
 
@@ -363,10 +362,5 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     public Vector3 GetCreatureCenter()
     {
         return GlobalPosition + creatureCenterOffset;
-    }
-
-    public bool IsProtectedUnlessStunned()
-    {
-        return isMajorCreature;
     }
 }

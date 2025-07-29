@@ -1,4 +1,5 @@
 using Godot;
+using PhantomCamera;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,12 +22,20 @@ public partial class Player : CharacterBody3D, ICreature
 	public HUDHandler hud;
 	public List<Interactable> interactables = new List<Interactable>();
 	int highlightedInteractable = -1;
+	
+	/// <summary>
+	/// The position that the player should return to on a reset
+	/// </summary>
+	public Vector3 checkpointPosition = new Vector3();
+	public Vector3 checkpointRotation = new Vector3();
 
 	[Signal]
 	public delegate void HealthChangeEventHandler(int HP, int MAX_HP);
 
+	public bool IsMajor => false;
+
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	public async override void _Ready()
 	{
 		player = this;
 
@@ -36,10 +45,30 @@ public partial class Player : CharacterBody3D, ICreature
 		anim = GetNode<PlayerAnimation>("Body/Body_Center/Red_Psycho"); anim.SetMaxSpeed(move.speed);
 		hud = GetNode<HUDHandler>("HUD");
 
+		cam.playerCam = GetNode<Node3D>("%PlayerCamera").AsPhantomCamera3D();
+		cam.playerCam.Priority = 40;
+
+		cam.deathCam = GetNode<Node3D>("%DeathCamera").AsPhantomCamera3D();
+		cam.deathCam.Priority = 0;
+
+		cam.cam = GetNode<Camera3D>("%Camera3D");
+
 		move.WaitForAnimationSignal += WaitForAnimation;
 		move.AnimationOverride += AnimationOverride;
 		move.StateChange += HandleStateChange;
 		move.PositionChange += ChangePosition;
+
+		HealthChange += hud.ChangeHPBar;
+
+		//wait for stuff to FIGURE IT'S SHIT OUT
+		await Task.Delay(1);
+
+		LevelManager.currentLevel.ResetLevel += ResetPlayer;
+		checkpointPosition = LevelManager.currentLevel.startPos;
+		checkpointRotation = LevelManager.currentLevel.startRot;
+
+		GlobalPosition = checkpointPosition;
+		Rotation = checkpointRotation;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -117,7 +146,9 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (IsOnCeiling())
+		if(anim.IsRootMotion())
+			move.ApplyRootMotion(anim.GetRootMotionPosition(), GetProcessDeltaTime());
+		if(IsOnCeiling())
 			move.velocity.Y = 0;
 
 		Velocity = move.velocity;
@@ -132,7 +163,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 	private void ChangePosition(Vector3 pos)
 	{
-		Position = pos;
+		GlobalPosition = pos;
 	}
 
 	private async void WaitForAnimation()
@@ -205,7 +236,9 @@ public partial class Player : CharacterBody3D, ICreature
 	public void ResetPlayer()
 	{
 		HP = MAX_HP;
-		GlobalPosition = new Vector3();
+		EmitSignal(SignalName.HealthChange, HP, MAX_HP);
+		GlobalPosition = checkpointPosition;
+		Rotation = checkpointRotation;
 		move.SetState(CreatureState.Grounded);
 	}
 
@@ -237,10 +270,5 @@ public partial class Player : CharacterBody3D, ICreature
 	public Vector3 GetCreatureVelocity()
 	{
 		return move.velocity;
-	}
-
-	public bool IsProtectedUnlessStunned()
-	{
-		return false;
 	}
 }

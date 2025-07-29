@@ -1,11 +1,26 @@
 using Godot;
 using System;
 using CreatureBehaviors.CreatureStates;
+using System.Threading.Tasks;
 
 public partial class RagdollCreature : RigidBody3D, ICreature
 {
     [Export] public CollisionShape3D collider;
     [Export] public Area3D hurtbox;
+
+    public bool IsMajor => false;
+
+    public async override void _EnterTree()
+    {
+        await Task.Delay(100);
+        LevelManager.currentLevel.ResetLevel += Reset;
+    }
+
+    public void Reset()
+    {
+        LevelManager.currentLevel.ResetLevel -= Reset;
+        QueueFree();
+    }
 
     public int GetHP()
     {
@@ -30,11 +45,6 @@ public partial class RagdollCreature : RigidBody3D, ICreature
     public Vector3 GetCreatureVelocity()
     {
         return LinearVelocity;
-    }
-
-    public bool IsProtectedUnlessStunned()
-    {
-        return false;
     }
 
     public void Stun(float time)

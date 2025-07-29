@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 public partial class PauseMenu : Control
 {
-    private bool paused = false;
-
     [Export] public Button cont;
     [Export] public Button quit;
 
@@ -29,7 +27,7 @@ public partial class PauseMenu : Control
     {
         if (Input.IsActionJustPressed("QUIT"))
         {
-            if (paused)
+            if (TimeManager.gamePaused)
             {
                 UnPause();
             }
@@ -45,7 +43,6 @@ public partial class PauseMenu : Control
         Input.MouseMode = Input.MouseModeEnum.Visible;
         Visible = true;
         TimeManager.PauseTime(true);
-        paused = true;
     }
 
     public async void UnPause()
@@ -54,6 +51,5 @@ public partial class PauseMenu : Control
         Input.MouseMode = Input.MouseModeEnum.Captured;
         Visible = false;
         TimeManager.PauseTime(false);
-        paused = false;
     }
 }

@@ -15,6 +15,10 @@ run/main_scene="uid://c4c0obkgvtwru"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -28,7 +32,10 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="FeudalPangaea"
-project/solution_directory="FeudalPangaeaCode"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [filesystem]
 
@@ -111,7 +118,16 @@ INTERACT={
 3d_physics/layer_5="Hurtbox"
 3d_physics/layer_6="Hitbox"
 
+[physics]
+
+common/physics_interpolation=true
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
 textures/lossless_compression/force_png=true
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=3
+anti_aliasing/quality/msaa_2d=2
+anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/screen_space_aa=1

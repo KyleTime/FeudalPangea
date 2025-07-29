@@ -15,7 +15,7 @@ namespace MagicSystem
         /// <summary>
         /// Hitbox that projectile uses to deal damage
         /// </summary>
-        [Export] Hitbox hitbox;
+        [Export] public Hitbox hitbox;
 
         #region Camera Alignment Aiming Variables
         /// <summary>
@@ -39,7 +39,6 @@ namespace MagicSystem
         public override void _Ready()
         {
             groundbox.BodyShapeEntered += CollideWithGround;
-            hitbox.HitHurtBox += HitHurtBox;
         }
 
         public override void _PhysicsProcess(double delta)
@@ -69,22 +68,6 @@ namespace MagicSystem
         }
 
         /// <summary>
-        /// This triggers when the projectile hitbox hits a hurtbox.
-        /// If that hurtbox is the player, make sure the hitbox will hit the player
-        /// by the next frame. This only exists such that if we start the projectile not
-        /// hitting the player, the player can still be hit by it after it leaves their 
-        /// hurtbox.
-        /// </summary>
-        /// <param name="hurtbox"></param>
-        public void HitHurtBox(Hurtbox hurtbox)
-        {
-            if (hurtbox.self is Player)
-            {
-                hitbox.SetDeferred(Hitbox.PropertyName.hitsPlayer, true);
-            }
-        }
-
-        /// <summary>
         /// Fire the projectile from the player with automatic direction.
         /// This will spawn the projectile at the player position and set 
         /// up the aim assist automatically.
@@ -108,7 +91,7 @@ namespace MagicSystem
         public void FireProjectileFromPlayer(PlayerMovement caster, Vector3 direction, float speed, float targetDistance = 40)
         {
             GlobalPosition = caster.GlobalPosition;
-            hitbox.SetDeferred(Hitbox.PropertyName.hitsPlayer, false);
+            hitbox.ignore = Player.player;
             this.direction = direction;
             float camHeight = Player.player.cam.GlobalPosition.Y - caster.GlobalPosition.Y;
             target = direction.Normalized() * targetDistance + new Vector3(0, camHeight, 0) + caster.GlobalPosition;
@@ -124,10 +107,10 @@ namespace MagicSystem
         /// </summary>
         /// <param name="position"></param>
         /// <param name="velocity"></param>
-        public void FireProjectile(Vector3 position, Vector3 velocity)
+        public void FireProjectile(ICreature caster, Vector3 position, Vector3 velocity)
         {
             GlobalPosition = position;
-            hitbox.SetDeferred(Hitbox.PropertyName.hitsPlayer, true);
+            hitbox.ignore = caster;
             this.velocity = velocity;
 
             Activate(false);
@@ -144,7 +127,7 @@ namespace MagicSystem
             active = true;
             hitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
             Visible = true;
-            hitbox.hitsPlayer = false;
+            hitbox.hitsPlayer = true;
             aligning = target;
         }
 

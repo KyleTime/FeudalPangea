@@ -18,6 +18,13 @@ public partial class HitFx : Node3D
 
     public async override void _Ready()
     {
+        if (effect == null)
+        {
+            effect = GetChild<Node3D>(0);
+        }
+
+        effect.Visible = false;
+
         initialScale = effect.Scale.Normalized();
 
         await Task.Delay(1);
