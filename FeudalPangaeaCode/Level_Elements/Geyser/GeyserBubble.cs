@@ -5,55 +5,39 @@ using System.Threading.Tasks;
 public partial class GeyserBubble : Node3D
 {
     private float bottomY;
+    [Export] Node3D scaleNode;
     [Export] private float riseFactor = 2;
     [Export] private float hangFactor = 0.2f;
     [Export] private float hangScaleLimit = 0.05f;
-    [Export] private int bobOrder = 0;
+    [Export] private float bobDelay = 0;
     [Export] private float totalTime = 4;
-    static float frameDelay = 0.01f;
-    static int msDelay = (int)(frameDelay * 1000);
 
+    private float time = 0;
 
     public override void _Ready()
     {
-        bottomY = GlobalPosition.Y - Scale.Y / 2;
-
-        BobRoutine();
+        bottomY = scaleNode.GlobalPosition.Y - scaleNode.Scale.Y / 2;
     }
 
-    private async void BobRoutine()
+    public override void _PhysicsProcess(double delta)
     {
-        await Task.Delay(bobOrder * 2000);
-
-        float time = 0;
-        while (true)
+        if (Time.GetTicksMsec() / 1000.0f < bobDelay)
         {
-            if (!IsInstanceValid(GetTree()))
-            {
-                return;
-            }
-
-            if (GetTree().Paused)
-            {
-                await Task.Delay(msDelay);
-                continue;
-            }
-
-            if (Mathf.Abs(Scale.Y - riseFactor) < riseFactor * hangScaleLimit || Mathf.Abs(Scale.Y) < riseFactor * hangScaleLimit)
-            {
-                time = (time + frameDelay * hangFactor) % totalTime;
-            }
-            else
-            {
-                time = (time + frameDelay) % totalTime;
-            }
-
-            Scale = Scale with { Y = ScaleSine(time, riseFactor) + 0.01f };
-
-            GlobalPosition = GlobalPosition with { Y = bottomY + Scale.Y / 2 };
-
-            await Task.Delay(msDelay);
+            return;
         }
+
+        if (Mathf.Abs(Scale.Y - riseFactor) < riseFactor * hangScaleLimit || Mathf.Abs(Scale.Y) < riseFactor * hangScaleLimit)
+        {
+            time = (time + (float)delta * hangFactor) % totalTime;
+        }
+        else
+        {
+            time = (time + (float)delta) % totalTime;
+        }
+
+        scaleNode.Scale = scaleNode.Scale with { Y = ScaleSine(time, riseFactor) + 0.01f };
+
+        scaleNode.GlobalPosition = scaleNode.GlobalPosition with { Y = bottomY + scaleNode.Scale.Y / 2 };
     }
 
     /// <summary>

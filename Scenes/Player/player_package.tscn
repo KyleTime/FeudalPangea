@@ -6,8 +6,6 @@
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_hfben"]
 [ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="7_hfben"]
 
-[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_fwf6u"]
-
 [sub_resource type="Resource" id="Resource_kx1y4"]
 script = ExtResource("3_hfben")
 duration = 0.0
@@ -54,21 +52,11 @@ metadata/_custom_type_script = "uid://b8hhnqsugykly"
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_hfben"]
 
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_fwf6u"]
+
 [node name="Player_Package" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_kx1y4")]
-
-[node name="Camera3D" type="Camera3D" parent="."]
-unique_name_in_owner = true
-physics_interpolation_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 6)
-attributes = SubResource("CameraAttributesPhysical_fwf6u")
-
-[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
-process_priority = 300
-process_physics_priority = 300
-script = ExtResource("2_fwf6u")
-metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="PlayerCamera" type="Node3D" parent="." node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
@@ -96,3 +84,15 @@ tween_resource = SubResource("Resource_q7mjd")
 camera_3d_resource = SubResource("Resource_hfben")
 attributes = SubResource("CameraAttributesPhysical_hfben")
 metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 6)
+attributes = SubResource("CameraAttributesPhysical_fwf6u")
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("2_fwf6u")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"

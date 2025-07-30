@@ -8,6 +8,10 @@ public partial class Anchor : Node3D
     [Export] Vector3 size = new Vector3(1, 1, 1);
     [Export] Vector3 rotation = new Vector3(0, 0, 0);
     [Export] bool useAnchorNodeStatsInstead = false;
+    /// <summary>
+    /// Override the default behavior of adding the new object to the tree and instead add it to a specific node
+    /// </summary>
+    [Export] protected Node3D rootOverride;
     protected Node3D current;
     
     /// <summary>
@@ -71,8 +75,14 @@ public partial class Anchor : Node3D
         ProcessModeEnum defMode = ent.ProcessMode;
         ent.ProcessMode = ProcessModeEnum.Disabled;
 
-        Node root = GetTree().Root;
-        root.CallDeferred(Node.MethodName.AddChild, ent);
+        if (!IsInstanceValid(rootOverride))
+        {
+            GetTree().Root.CallDeferred(Node.MethodName.AddChild, ent);
+        }
+        else
+        {
+            rootOverride.CallDeferred(Node.MethodName.AddChild, ent);
+        }
 
         await Task.Delay(100);
 
@@ -80,9 +90,14 @@ public partial class Anchor : Node3D
 
         if (IsInstanceValid(ent))
         {
-            ent.GlobalPosition = GlobalPosition;
+            if (!IsInstanceValid(rootOverride))
+                ent.GlobalPosition = GlobalPosition;
+            else
+                ent.Position = new Vector3();
+            
             ent.GlobalRotation = rotation;
             ent.Scale = size;
+
             current = ent;
         }
         else

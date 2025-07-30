@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://1j8uuyuogq0y"]
+[gd_scene load_steps=5 format=3 uid="uid://1j8uuyuogq0y"]
 
 [ext_resource type="Script" uid="uid://4hyic4gkx404" path="res://FeudalPangaeaCode/Level_Elements/Geyser/GeyserBubble.cs" id="1_76j7q"]
+[ext_resource type="PackedScene" uid="uid://5bpasprcqyv3" path="res://Scenes/Level_Elements/Anchor/floating_wooden_block_anchor.tscn" id="3_1q4c1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e7ejt"]
 albedo_color = Color(0, 0.909804, 1, 1)
@@ -12,8 +13,24 @@ emission = Color(0.768627, 0.92549, 1, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_bepau"]
 material = SubResource("StandardMaterial3D_e7ejt")
 
-[node name="Buble" type="Node3D"]
+[node name="Buble" type="Node3D" node_paths=PackedStringArray("scaleNode")]
 script = ExtResource("1_76j7q")
+scaleNode = NodePath("MeshInstance3D")
+hangScaleLimit = 0.005
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 mesh = SubResource("BoxMesh_bepau")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+remote_path = NodePath("../../WoodPosition")
+update_scale = false
+
+[node name="FloatingWoodenBlockAnchor" parent="." node_paths=PackedStringArray("rootOverride") instance=ExtResource("3_1q4c1")]
+transform = Transform3D(3, 0, 0, 0, 0.5, 0, 0, 0, 3, 0, 0.449208, 0)
+size = Vector3(3, 0.5, 3)
+rootOverride = NodePath("../WoodPosition")
+
+[node name="WoodPosition" type="Node3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0.5, 0)

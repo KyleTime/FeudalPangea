@@ -14,49 +14,20 @@ public partial class FloatingWoodBlock : Node3D, ICreature
 
     static float height = 0.1f;
     static float totalTime = 5;
-    static float frameDelay = 0.05f;
-    static int msDelay = (int)(frameDelay * 1000);
-
-    bool gone = false;
 
     public override void _Ready()
     {
-        BobRoutine(GlobalPosition.Y);
-    }
-
-    public override void _ExitTree()
-    {
-        gone = true;
-    }
-
-    private async void BobRoutine(float yPos)
-    {
         bobVariation += 1;
         bobVariation = bobVariation % 3;
-
-        await Task.Delay(bobVariation * 2000);
-
-        float time = 0;
-        while (!gone)
-        {
-            if (!IsInstanceValid(GetTree()))
-            {
-                return;
-            }
-
-            if (GetTree().Paused)
-            {
-                await Task.Delay(msDelay);
-                continue;
-            }
-
-            time = (time + frameDelay) % totalTime;
-
-            GlobalPosition = GlobalPosition with { Y = yPos + Mathf.Sin(time * Mathf.Pi / totalTime) * height };
-
-            await Task.Delay(msDelay);
-        }
     }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        float time = Time.GetTicksMsec() / 1000.0f;
+
+        Position = Position with { Y = Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
+    }
+
 
     public int GetHP()
     {

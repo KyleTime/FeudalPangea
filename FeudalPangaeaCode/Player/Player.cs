@@ -60,6 +60,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 		HealthChange += hud.ChangeHPBar;
 
+
 		//wait for stuff to FIGURE IT'S SHIT OUT
 		await Task.Delay(1);
 
@@ -146,9 +147,9 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if(anim.IsRootMotion())
+		if (anim.IsRootMotion())
 			move.ApplyRootMotion(anim.GetRootMotionPosition(), GetProcessDeltaTime());
-		if(IsOnCeiling())
+		if (IsOnCeiling())
 			move.velocity.Y = 0;
 
 		Velocity = move.velocity;

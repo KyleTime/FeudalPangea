@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=29 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://dm276jt2cg7yh" path="res://Sprites/notes/note2.png" id="7_35ia0"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="7_hmw7q"]
 [ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="8_cl2ka"]
-[ext_resource type="Texture2D" uid="uid://ch8qmgi3o5soa" path="res://Sprites/notes/note3.png" id="8_vbihw"]
 [ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
 [ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
 [ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
@@ -38,20 +37,6 @@ material = SubResource("StandardMaterial3D_0ic1p")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31u70"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75ad7"]
-albedo_color = Color(0, 0.909804, 1, 1)
-metallic = 1.0
-metallic_specular = 1.0
-emission_enabled = true
-emission = Color(0.768627, 0.92549, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_31u70"]
-material = SubResource("StandardMaterial3D_75ad7")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ssmnb"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_35ia0"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31u70"]
 albedo_color = Color(0.180468, 0.530719, 1, 0.686275)
 metallic = 1.0
@@ -63,6 +48,18 @@ emission_energy_multiplier = 4.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_ssmnb"]
 material = SubResource("StandardMaterial3D_31u70")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75ad7"]
+albedo_color = Color(0, 0.909804, 1, 1)
+metallic = 1.0
+metallic_specular = 1.0
+emission_enabled = true
+emission = Color(0.768627, 0.92549, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_31u70"]
+material = SubResource("StandardMaterial3D_75ad7")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_35ia0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35ia0"]
 albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
@@ -96,7 +93,7 @@ stunDuration = 0.0
 shape = SubResource("WorldBoundaryShape3D_p2xjw")
 
 [node name="Player_Package" parent="." instance=ExtResource("14_j11i1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.3788, 4.74974, 86.4418)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.6029, 4.74974, 86.4418)
 
 [node name="Level Elements" type="Node" parent="."]
 
@@ -136,23 +133,6 @@ mesh = SubResource("BoxMesh_p2xjw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D3"]
 shape = SubResource("BoxShape3D_31u70")
 
-[node name="Bubble1" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
-transform = Transform3D(10.2791, 0, 0, 0, 5.04042, 0, 0, 0, 10.2791, 90, 7.3, -46)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/Bubble1"]
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/Bubble1"]
-shape = SubResource("BoxShape3D_ssmnb")
-
 [node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
 transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, 86, 9.836, -61)
 collision_mask = 13
@@ -162,13 +142,6 @@ gravity_direction = Vector3(0, 1, 0)
 gravity = 10.0
 linear_damp_space_override = 3
 linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/Bubble2"]
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/Bubble2"]
-shape = SubResource("BoxShape3D_35ia0")
 
 [node name="WaterLayer1" type="Area3D" parent="Level Elements/Water"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.45384, 0)
@@ -775,16 +748,12 @@ texture = ExtResource("6_31u70")
 transform = Transform3D(-7.79965, 0, -6.81867e-07, 0, 7.79965, 0, 6.81867e-07, 0, -7.79965, 8.34887, 4.73961, -70.5922)
 texture = ExtResource("7_35ia0")
 
-[node name="Sprite3D3" type="Sprite3D" parent="Level Elements/Notes"]
-transform = Transform3D(-2.72573e-07, 0, 6.23575, 0, 6.23575, 0, -6.23575, 0, -2.72573e-07, 70.7535, 5.52427, -47.7076)
-texture = ExtResource("8_vbihw")
-
 [node name="SpellCollectable" parent="Level Elements" instance=ExtResource("6_wk5oe")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -85.1105, 23.8213, 45.08)
 spell = 1
 
 [node name="SpellCollectable2" parent="Level Elements" instance=ExtResource("6_wk5oe")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 87.2254, 3.59709, 80.6243)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 86.8791, 3.59709, 80.6243)
 spell = 1
 
 [node name="Creature" type="Node" parent="Level Elements"]
@@ -805,7 +774,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.8437, 18.2653, -3.79336)
 
 [node name="fire_goober_anchor2" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.6627, 19.3918, 6.56147)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.6627, 18.0794, 6.56147)
 
 [node name="Floating Wood" type="Node" parent="Anchors"]
 
@@ -835,14 +804,6 @@ useAnchorNodeStatsInstead = true
 
 [node name="FloatingWoodenBlockAnchor7" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 94.9588, -0.149348, -33.626)
-useAnchorNodeStatsInstead = true
-
-[node name="FloatingWoodenBlockAnchor8" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90, 4.725, -46)
-useAnchorNodeStatsInstead = true
-
-[node name="FloatingWoodenBlockAnchor9" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 86, 10.262, -61)
 useAnchorNodeStatsInstead = true
 
 [node name="FloatingWoodenBlockAnchor10" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
@@ -973,9 +934,17 @@ useAnchorNodeStatsInstead = true
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
 useAnchorNodeStatsInstead = true
 
-[node name="Node3D" parent="." instance=ExtResource("15_7x8kf")]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 97.393, 0, 36.7663)
-riseFactor = 15.0
+[node name="Geyser2" parent="." instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.5, 0, 0, 0, 1, 0, 0, 0, 2.5, 81.4337, 0.343933, -63.76)
+riseFactor = 8.0
 hangFactor = 0.5
 hangScaleLimit = 0.025
-totalTime = 2.0
+bobDelay = 0.5
+totalTime = 10.0
+
+[node name="Geyser" parent="." instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.10334, 0, 0, 0, 1, 0, 0, 0, 2.10334, 90.9272, 0.305614, -48.3872)
+riseFactor = 5.0
+hangFactor = 0.5
+hangScaleLimit = 0.025
+totalTime = 10.0

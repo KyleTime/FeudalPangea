@@ -12,9 +12,10 @@ emission = Color(0.400742, 0, 0.139588, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_gs002"]
 material = SubResource("StandardMaterial3D_wm55b")
 
-[node name="FloatingWoodenBlockAnchor" type="Node3D"]
+[node name="FloatingWoodenBlockAnchor" type="Node3D" node_paths=PackedStringArray("rootOverride")]
 script = ExtResource("1_ys0il")
 entity = ExtResource("2_wm55b")
+rootOverride = NodePath(".")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_gs002")
