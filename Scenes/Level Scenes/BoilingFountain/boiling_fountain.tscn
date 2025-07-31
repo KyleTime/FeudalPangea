@@ -779,171 +779,171 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.6627, 18.0794, 6.56147)
 [node name="Floating Wood" type="Node" parent="Anchors"]
 
 [node name="FloatingWoodenBlockAnchor" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 95.0017, -0.14935, 69.5339)
-useAnchorNodeStatsInstead = true
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 95, -0.1, 70)
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor2" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 89.0456, -0.14935, 58.0856)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor3" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 93.7666, -0.149348, 46.2474)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor4" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.6011, -0.149348, 34.1095)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor5" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90.5866, -0.149348, 21.8682)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor6" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 86.6498, -0.149348, -19.5295)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor7" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 94.9588, -0.149348, -33.626)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor10" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 54.837, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor11" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 54.837, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor12" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 48.1299, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor13" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 48.1299, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor14" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 41.3426, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor15" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 41.3426, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor16" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 34.6355, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor17" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 34.6355, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor18" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 28.0248, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor19" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 28.0248, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor20" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 21.3176, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor21" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 21.3176, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor22" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 14.5686, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor23" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 14.5686, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor24" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 7.8615, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor25" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 7.8615, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor26" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0.999804, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor27" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0.999804, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor28" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -5.70731, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor29" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -5.70731, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor30" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -12.3683, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor31" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -12.3683, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor32" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -19.0754, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor33" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -19.0754, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor34" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -25.8126, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor35" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -25.8126, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor36" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -32.5197, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor37" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -32.5197, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor38" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -39.3872, 0.00547981, -87.2261)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor39" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -39.3872, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor40" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -80.7785)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="FloatingWoodenBlockAnchor41" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
-useAnchorNodeStatsInstead = true
+size = Vector3(6, 0.5, 6)
 
 [node name="Geyser2" parent="." instance=ExtResource("15_7x8kf")]
-transform = Transform3D(2.5, 0, 0, 0, 1, 0, 0, 0, 2.5, 81.4337, 0.343933, -63.76)
-riseFactor = 8.0
+transform = Transform3D(2.5, 0, 0, 0, 1, 0, 0, 0, 2.5, 81.4337, 0.221998, -63.76)
+riseFactor = 3.0
 hangFactor = 0.5
 hangScaleLimit = 0.025
 bobDelay = 0.5
 totalTime = 10.0
 
 [node name="Geyser" parent="." instance=ExtResource("15_7x8kf")]
-transform = Transform3D(2.10334, 0, 0, 0, 1, 0, 0, 0, 2.10334, 90.9272, 0.305614, -48.3872)
+transform = Transform3D(2.10334, 0, 0, 0, 1, 0, 0, 0, 2.10334, 90.9272, 0.190391, -48.3872)
 riseFactor = 5.0
 hangFactor = 0.5
 hangScaleLimit = 0.025

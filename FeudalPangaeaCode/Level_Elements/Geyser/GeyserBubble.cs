@@ -6,6 +6,7 @@ public partial class GeyserBubble : Node3D
 {
     private float bottomY;
     [Export] Node3D scaleNode;
+    [Export] Node3D platformPosition;
     [Export] private float riseFactor = 2;
     [Export] private float hangFactor = 0.2f;
     [Export] private float hangScaleLimit = 0.05f;
@@ -16,7 +17,7 @@ public partial class GeyserBubble : Node3D
 
     public override void _Ready()
     {
-        bottomY = scaleNode.GlobalPosition.Y - scaleNode.Scale.Y / 2;
+        bottomY = scaleNode.GlobalPosition.Y - (Scale.Y * scaleNode.Scale.Y) / 2;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -37,7 +38,9 @@ public partial class GeyserBubble : Node3D
 
         scaleNode.Scale = scaleNode.Scale with { Y = ScaleSine(time, riseFactor) + 0.01f };
 
-        scaleNode.GlobalPosition = scaleNode.GlobalPosition with { Y = bottomY + scaleNode.Scale.Y / 2 };
+        scaleNode.GlobalPosition = scaleNode.GlobalPosition with { Y = bottomY + (Scale.Y * scaleNode.Scale.Y) / 2 };
+
+        platformPosition.Position = new Vector3(0, scaleNode.Scale.Y - platformPosition.Scale.Y, 0);
     }
 
     /// <summary>

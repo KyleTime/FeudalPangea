@@ -74,8 +74,11 @@ public partial class Anchor : Node3D
         //before it officially exists
         ProcessModeEnum defMode = ent.ProcessMode;
         ent.ProcessMode = ProcessModeEnum.Disabled;
+        ent.Visible = false;
 
-        if (!IsInstanceValid(rootOverride))
+        bool rootIsParent = rootOverride == null || !IsInstanceValid(rootOverride);
+        
+        if (rootIsParent)
         {
             GetTree().Root.CallDeferred(Node.MethodName.AddChild, ent);
         }
@@ -87,18 +90,28 @@ public partial class Anchor : Node3D
         await Task.Delay(100);
 
         ent.ProcessMode = defMode;
+        ent.Visible = true;
 
         if (IsInstanceValid(ent))
         {
-            if (!IsInstanceValid(rootOverride))
-                ent.GlobalPosition = GlobalPosition;
-            else
-                ent.Position = new Vector3();
-            
-            ent.GlobalRotation = rotation;
-            ent.Scale = size;
-
             current = ent;
+
+            if (rootIsParent)
+                current.SetDeferred(Node3D.PropertyName.GlobalPosition, GlobalPosition);
+            else
+                current.SetDeferred(Node3D.PropertyName.Position, new Vector3());
+
+            current.Scale = size;
+            current.GlobalRotation = rotation;
+
+            if (Name == "FloatingWoodenBlockAnchor")
+            {
+                GD.Print("ROOT IS PARENT: " + rootIsParent);
+                GD.Print("POSITION: " + current.GlobalPosition);
+                GD.Print("ANCHOR GLOBAL POSITION: " + GlobalPosition);
+                GD.Print("SIZE: " + size);
+                GD.Print("SCALE: " + current.Scale);
+            }
         }
         else
         {

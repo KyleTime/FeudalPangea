@@ -23,19 +23,9 @@ public partial class RegenAnchor : Anchor
             {
                 timer = respawnTime;
                 cooldowning = true;
-
-                if (Name == "FloatingWoodenBlockAnchor")
-                {
-                    GD.Print("Started Respawn Timer");
-                }
             }
             else if (cooldowning && timer > 0)
             {
-                if (timer == respawnTime && Name == "FloatingWoodenBlockAnchor")
-                {
-                    GD.Print("Timer has begun!");
-                }
-
                 timer -= (float)delta;
             }
             else if (cooldowning)
@@ -43,9 +33,6 @@ public partial class RegenAnchor : Anchor
                 timer = 0;
                 cooldowning = false;
                 ResetEntity();
-
-                if (Name == "FloatingWoodenBlockAnchor")
-                    GD.Print("Reset Entity");
             }
     }
 

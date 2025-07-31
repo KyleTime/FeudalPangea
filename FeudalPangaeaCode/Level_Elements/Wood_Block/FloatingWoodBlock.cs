@@ -15,17 +15,25 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     static float height = 0.1f;
     static float totalTime = 5;
 
+    Node3D position;
+
     public override void _Ready()
     {
         bobVariation += 1;
         bobVariation = bobVariation % 3;
+
+        position = GetNode<Node3D>("position");
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        float time = Time.GetTicksMsec() / 1000.0f;
+        if (!IsInstanceValid(position))
+        {
+            return;
+        }
 
-        Position = Position with { Y = Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
+        float time = Time.GetTicksMsec() / 1000.0f;
+        position.Position = new Vector3() with { Y = Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
     }
 
 
