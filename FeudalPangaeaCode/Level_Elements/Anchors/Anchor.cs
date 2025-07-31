@@ -87,31 +87,28 @@ public partial class Anchor : Node3D
             rootOverride.CallDeferred(Node.MethodName.AddChild, ent);
         }
 
-        await Task.Delay(100);
+        // await Task.Delay(100);
 
-        ent.ProcessMode = defMode;
-        ent.Visible = true;
+
 
         if (IsInstanceValid(ent))
         {
             current = ent;
 
             if (rootIsParent)
-                current.SetDeferred(Node3D.PropertyName.GlobalPosition, GlobalPosition);
-            else
-                current.SetDeferred(Node3D.PropertyName.Position, new Vector3());
-
-            current.Scale = size;
-            current.GlobalRotation = rotation;
-
-            if (Name == "FloatingWoodenBlockAnchor")
             {
-                GD.Print("ROOT IS PARENT: " + rootIsParent);
-                GD.Print("POSITION: " + current.GlobalPosition);
-                GD.Print("ANCHOR GLOBAL POSITION: " + GlobalPosition);
-                GD.Print("SIZE: " + size);
-                GD.Print("SCALE: " + current.Scale);
+                current.SetDeferred(Node3D.PropertyName.GlobalPosition, GlobalPosition);
             }
+            else
+            {
+                current.SetDeferred(Node3D.PropertyName.Position, new Vector3());
+            }
+
+            current.SetDeferred(Node3D.PropertyName.Scale, size);
+            current.SetDeferred(Node3D.PropertyName.GlobalRotation, rotation);
+
+            current.SetDeferred(Node3D.PropertyName.ProcessMode, (int)defMode);
+            current.SetDeferred(Node3D.PropertyName.Visible, true);
         }
         else
         {
