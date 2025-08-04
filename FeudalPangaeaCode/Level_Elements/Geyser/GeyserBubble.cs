@@ -9,7 +9,7 @@ public partial class GeyserBubble : Node3D
     [Export] Node3D platformPosition;
     [Export] private float riseFactor = 2;
     [Export] private float hangFactor = 0.2f;
-    [Export] private float hangScaleLimit = 0.05f;
+    [Export] private float hangScaleLimit = 0.025f;
     [Export] private float bobDelay = 0;
     [Export] private float totalTime = 4;
 

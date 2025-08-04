@@ -184,21 +184,6 @@ texture = ExtResource("5_p2xjw")
 [node name="floating_wood_block11" parent="Level Elements/Water/WaterLayer1" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(7, 0, 0, 0, 2, 0, 0, 0, 7, -66.6773, 7.27609, 0.99398)
 
-[node name="floating_wood_block10" parent="Level Elements/Water/WaterLayer1" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(20, 0, 0, 0, 2, 0, 0, 0, 6, 6.87553, 6.72874, -68.3138)
-
-[node name="Sprite3D4" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(0.512, 0, 0, 0, 0.512, 0, 0, 0, 0.512, 13.8922, 9.6559, -66.7422)
-texture = ExtResource("5_p2xjw")
-
-[node name="Sprite3D5" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(0.512, 0, 0, 0, 0.512, 0, 0, 0, 0.512, 7.37624, 9.6559, -66.7422)
-texture = ExtResource("5_p2xjw")
-
-[node name="Sprite3D6" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(0.512, 0, 0, 0, 0.512, 0, 0, 0, 0.512, 0.148568, 9.6559, -66.7422)
-texture = ExtResource("5_p2xjw")
-
 [node name="Bubble3" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
 transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -52.5374, 12.0648, 44.077)
 collision_mask = 13
@@ -266,80 +251,6 @@ linear_damp = 0.7
 transform = Transform3D(70, 0, 0, 0, 10, 0, 0, 0, 70, 0, 0, 0)
 mesh = SubResource("BoxMesh_vbihw")
 skeleton = NodePath("../../../..")
-
-[node name="Bubble2" type="Area3D" parent="Level Elements/Water"]
-transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -81.8803, -1.21394, -55.9071)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble2"]
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble2"]
-shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Bubble3" type="Area3D" parent="Level Elements/Water"]
-transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -88.8389, 1.10806, -28.0994)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.176337, 0)
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.176337, 0)
-shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Bubble4" type="Area3D" parent="Level Elements/Water"]
-transform = Transform3D(10.2791, 0, 0, 0, 13.6503, 0, 0, 0, 10.2791, -81.7956, 4.23974, 0)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.523756, 0, -0.397312)
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.523756, 0, -0.397312)
-shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Bubble5" type="Area3D" parent="Level Elements/Water"]
-transform = Transform3D(10.2791, 0, 0, 0, 17.087, 0, 0, 0, 10.2791, -85.5142, 6.79972, 25.3624)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/Bubble5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.515352)
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/Bubble5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.515352)
-shape = SubResource("BoxShape3D_35ia0")
 
 [node name="Lighting" type="Node" parent="Level Elements"]
 
@@ -545,18 +456,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
 
 [node name="floating_wood_block12" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 51.6205, 24.9612, 29.4375)
-
-[node name="floating_wood_block50" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -81.8803, 4.24069, -55.9071)
-
-[node name="floating_wood_block51" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -88.8389, 8.53221, -28.0994)
-
-[node name="floating_wood_block52" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -87.1793, 11.121, -4.08401)
-
-[node name="floating_wood_block53" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -85.5142, 15.4321, 20.065)
 
 [node name="floating_wood_block13" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 38.0877, 41.1376, 18.4818)
@@ -767,11 +666,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
 
 [node name="Fire Goobers" type="Node" parent="Anchors"]
 
-[node name="fire_goober_anchor2" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.9134, 17.5252, 7.55183)
+[node name="Group 1" type="Node" parent="Anchors/Fire Goobers"]
 
-[node name="fire_goober_anchor" parent="Anchors/Fire Goobers" instance=ExtResource("14_2gv15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.9134, 17.5252, -4.21344)
+[node name="fire_goober_anchor" parent="Anchors/Fire Goobers/Group 1" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 17, -4.5)
+
+[node name="fire_goober_anchor2" parent="Anchors/Fire Goobers/Group 1" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 17, 7.5)
+
+[node name="Group 2" type="Node" parent="Anchors/Fire Goobers"]
+
+[node name="fire_goober_anchor" parent="Anchors/Fire Goobers/Group 2" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 17, -69)
+
+[node name="fire_goober_anchor2" parent="Anchors/Fire Goobers/Group 2" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 17, -69)
+
+[node name="fire_goober_anchor3" parent="Anchors/Fire Goobers/Group 2" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 17, -69)
 
 [node name="Floating Wood" type="Node" parent="Anchors"]
 
@@ -796,7 +708,11 @@ transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90.5866, -0.149348, 21.8682
 useAnchorNodeStatsInstead = true
 
 [node name="FloatingWoodenBlockAnchor8" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
-transform = Transform3D(5.01483, 0, 0, 0, 1.25614, 0, 0, 0, 18.4984, 69.4371, 14.9949, 1.43714)
+transform = Transform3D(5.01483, 0, 0, 0, 1.25614, 0, 0, 0, 18.4984, 69, 14.995, 1.5)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor9" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(-2.19205e-07, 0, 18.4984, 0, 1.25614, 0, -5.01483, 0, -8.08591e-07, 7.2, 15, -67)
 useAnchorNodeStatsInstead = true
 
 [node name="FloatingWoodenBlockAnchor6" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
@@ -935,17 +851,34 @@ useAnchorNodeStatsInstead = true
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
 useAnchorNodeStatsInstead = true
 
-[node name="Geyser2" parent="." instance=ExtResource("15_7x8kf")]
+[node name="Geysers" type="Node" parent="Anchors"]
+
+[node name="First Duo" type="Node" parent="Anchors/Geysers"]
+
+[node name="Geyser2" parent="Anchors/Geysers/First Duo" instance=ExtResource("15_7x8kf")]
 transform = Transform3D(2.5, 0, 0, 0, 1, 0, 0, 0, 2.5, 81.4337, 0.221998, -63.76)
 riseFactor = 3.0
 hangFactor = 0.5
-hangScaleLimit = 0.025
 bobDelay = 0.5
 totalTime = 10.0
 
-[node name="Geyser" parent="." instance=ExtResource("15_7x8kf")]
+[node name="Geyser" parent="Anchors/Geysers/First Duo" instance=ExtResource("15_7x8kf")]
 transform = Transform3D(2.10334, 0, 0, 0, 1, 0, 0, 0, 2.10334, 90.9272, 0.190391, -48.3872)
 riseFactor = 5.0
 hangFactor = 0.5
-hangScaleLimit = 0.025
 totalTime = 10.0
+
+[node name="Leadup to Fireball" type="Node" parent="Anchors/Geysers"]
+
+[node name="Buble" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 1, 0, 0, 0, 2.175, -84.1456, 0.216267, -52.8919)
+
+[node name="Buble2" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 5, 0, 0, 0, 2.175, -88.246, 2.26266, -27.7607)
+
+[node name="Buble3" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 6, 0, 0, 0, 2.175, -81.6551, 2.58899, -4.15372)
+
+[node name="Buble4" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 6, 0, 0, 0, 2.175, -88.3471, 2.58899, 20.5703)
+riseFactor = 5.0

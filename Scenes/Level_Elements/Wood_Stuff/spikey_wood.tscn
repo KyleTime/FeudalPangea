@@ -11,13 +11,13 @@ albedo_color = Color(0.479026, 0.182365, 0.0771677, 1)
 material = SubResource("StandardMaterial3D_02k5p")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qy2tr"]
-radius = 0.576263
+radius = 0.6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_wmil5"]
-radius = 0.725742
+radius = 0.6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_amnqw"]
-radius = 0.67313
+radius = 0.6
 
 [node name="spikey_wood" type="Node3D"]
 script = ExtResource("1_wmil5")

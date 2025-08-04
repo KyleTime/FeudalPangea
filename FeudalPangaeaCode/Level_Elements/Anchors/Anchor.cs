@@ -6,7 +6,7 @@ public partial class Anchor : Node3D
 {
     [Export] PackedScene entity;
     [Export] Vector3 size = new Vector3(1, 1, 1);
-    [Export] Vector3 rotation = new Vector3(0, 0, 0);
+    [Export] Vector3 rot = new Vector3(0, 0, 0);
     [Export] bool useAnchorNodeStatsInstead = false;
     /// <summary>
     /// Override the default behavior of adding the new object to the tree and instead add it to a specific node
@@ -24,10 +24,15 @@ public partial class Anchor : Node3D
         if (useAnchorNodeStatsInstead)
         {
             size = Scale;
-            rotation = GlobalRotation;
+            rot = GlobalRotation;
         }
 
         await CreateEntity();
+
+        while (LevelManager.currentLevel == null)
+        {
+            await Task.Delay(100);
+        }
 
         LevelManager.currentLevel.ResetLevel += ResetEntityOnLevelReset;
     }
@@ -105,7 +110,7 @@ public partial class Anchor : Node3D
             }
 
             current.SetDeferred(Node3D.PropertyName.Scale, size);
-            current.SetDeferred(Node3D.PropertyName.GlobalRotation, rotation);
+            current.SetDeferred(Node3D.PropertyName.GlobalRotation, rot);
 
             current.SetDeferred(Node3D.PropertyName.ProcessMode, (int)defMode);
             current.SetDeferred(Node3D.PropertyName.Visible, true);

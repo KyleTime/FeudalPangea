@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 public partial class Checkpoint : Node3D, Interactable
 {
     [Export] public MeshInstance3D visual;
+    [Export] public HitFx checkpointEffect;
+    [Export] public Vector3 checkpointPosOffset = new Vector3();
+    [Export] public Vector3 checkpointRot = new Vector3();
+
+    static Checkpoint current = null;
 
     public void Interact()
     {
@@ -21,6 +26,19 @@ public partial class Checkpoint : Node3D, Interactable
         if (InRangeOfPlayer() && !Player.player.interactables.Contains(this))
         {
             Player.player.interactables.Add(this);
+
+            if (current != this)
+            {
+                if (checkpointEffect != null)
+                {
+                    checkpointEffect.Effect(GlobalPosition, GlobalRotation);
+                }
+
+                Player.player.checkpointPosition = GlobalPosition + checkpointPosOffset;
+                Player.player.checkpointRotation = checkpointRot;
+
+                current = this;
+            }
         }
 
         await Task.Delay(100);

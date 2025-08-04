@@ -17,7 +17,6 @@ material = SubResource("StandardMaterial3D_e7ejt")
 script = ExtResource("1_76j7q")
 scaleNode = NodePath("MeshInstance3D")
 platformPosition = NodePath("WoodPosition")
-hangScaleLimit = 0.005
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
