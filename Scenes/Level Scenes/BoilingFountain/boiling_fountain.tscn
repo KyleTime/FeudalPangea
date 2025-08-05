@@ -1,9 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=26 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
 [ext_resource type="PackedScene" uid="uid://d0gosrvpxpxgh" path="res://Scenes/Level_Elements/Wood_Stuff/floating_wood_block.tscn" id="4_0ic1p"]
-[ext_resource type="Texture2D" uid="uid://btu3ybttu2eci" path="res://Sprites/Creature_Tex/fire_turret.png" id="5_p2xjw"]
 [ext_resource type="Texture2D" uid="uid://c4vcmrigmwf2v" path="res://Sprites/notes/note.png" id="6_31u70"]
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="6_wk5oe"]
 [ext_resource type="Texture2D" uid="uid://dm276jt2cg7yh" path="res://Sprites/notes/note2.png" id="7_35ia0"]
@@ -13,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
 [ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
 [ext_resource type="PackedScene" uid="uid://1j8uuyuogq0y" path="res://Scenes/Level_Elements/Geyser/buble.tscn" id="15_7x8kf"]
+[ext_resource type="PackedScene" uid="uid://ck4txwt2ocoia" path="res://Scenes/Level_Elements/Anchor/spikey_wood_anchor.tscn" id="15_75ad7"]
 [ext_resource type="PackedScene" uid="uid://5bpasprcqyv3" path="res://Scenes/Level_Elements/Anchor/floating_wooden_block_anchor.tscn" id="15_j11i1"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
@@ -48,18 +48,6 @@ emission_energy_multiplier = 4.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_ssmnb"]
 material = SubResource("StandardMaterial3D_31u70")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75ad7"]
-albedo_color = Color(0, 0.909804, 1, 1)
-metallic = 1.0
-metallic_specular = 1.0
-emission_enabled = true
-emission = Color(0.768627, 0.92549, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_31u70"]
-material = SubResource("StandardMaterial3D_75ad7")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_35ia0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35ia0"]
 albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
@@ -157,85 +145,6 @@ linear_damp = 0.7
 transform = Transform3D(140, 0, 0, 0, 15, 0, 0, 0, 140, 0, 0, 0)
 mesh = SubResource("BoxMesh_ssmnb")
 skeleton = NodePath("../../../..")
-
-[node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -41.9358, 12.0648, -43.3441)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.10547, 0, 7.09315)
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.10547, 0, 7.09315)
-shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Sprite3D2" type="Sprite3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(-2.23602e-08, 0, 0.511542, 0, 0.511542, 0, -0.511542, 0, -2.23602e-08, -67.2097, 9.49356, 1.26789)
-texture = ExtResource("5_p2xjw")
-
-[node name="floating_wood_block11" parent="Level Elements/Water/WaterLayer1" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(7, 0, 0, 0, 2, 0, 0, 0, 7, -66.6773, 7.27609, 0.99398)
-
-[node name="Bubble3" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, -52.5374, 12.0648, 44.077)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.369983)
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.369983)
-shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Bubble4" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(11, 0, 0, 0, 15, 0, 0, 0, 11, -18.2663, 14.7222, 60.2555)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble4"]
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble4"]
-shape = SubResource("BoxShape3D_35ia0")
-
-[node name="Bubble5" type="Area3D" parent="Level Elements/Water/WaterLayer1"]
-transform = Transform3D(11, 0, 0, 0, 15, 0, 0, 0, 11, 25.956, 14.7222, 51.7711)
-collision_mask = 13
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 1, 0)
-gravity_direction = Vector3(0, 1, 0)
-gravity = 10.0
-linear_damp_space_override = 3
-linear_damp = 0.7
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1/Bubble5"]
-mesh = SubResource("BoxMesh_31u70")
-skeleton = NodePath("../../../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer1/Bubble5"]
-shape = SubResource("BoxShape3D_35ia0")
 
 [node name="WaterLayer2" type="Area3D" parent="Level Elements/Water"]
 transform = Transform3D(1, 0, 0, 0, 3.82734, 0, 0, 0, 1, 0, 24.9732, 0)
@@ -420,9 +329,6 @@ mesh = SubResource("BoxMesh_p2xjw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform6"]
 shape = SubResource("BoxShape3D_31u70")
 
-[node name="spikey_wood" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
-transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, -34.3159, 32.7973, 47.8867)
-
 [node name="platform7" type="StaticBody3D" parent="Level Elements/Terrain"]
 transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 6.89516, 22.2994, 63.4862)
 
@@ -434,9 +340,6 @@ mesh = SubResource("BoxMesh_p2xjw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
 shape = SubResource("BoxShape3D_31u70")
 
-[node name="spikey_wood2" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
-transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, 3.81039, 32.7973, 59.975)
-
 [node name="platform8" type="StaticBody3D" parent="Level Elements/Terrain"]
 transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 45.646, 22.2994, 48.9864)
 
@@ -446,16 +349,10 @@ mesh = SubResource("BoxMesh_p2xjw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform8"]
 shape = SubResource("BoxShape3D_31u70")
 
-[node name="spikey_wood3" parent="Level Elements/Terrain" instance=ExtResource("8_cl2ka")]
-transform = Transform3D(7.53815, 0, 0, 0, 7.53815, 0, 0, 0, 7.53815, 45.5419, 32.7973, 49.2966)
-
 [node name="Checkpoint" parent="Level Elements/Terrain" instance=ExtResource("7_hmw7q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
 
 [node name="Floating Boxes" type="Node" parent="Level Elements"]
-
-[node name="floating_wood_block12" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 51.6205, 24.9612, 29.4375)
 
 [node name="floating_wood_block13" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 38.0877, 41.1376, 18.4818)
@@ -471,15 +368,6 @@ transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -0.0960751, 36.8999, -37.84
 
 [node name="floating_wood_block59" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -26.197, 41.3642, -37.8462)
-
-[node name="floating_wood_block54" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -52.5374, 24.9791, 47.8801)
-
-[node name="floating_wood_block55" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.42079, 0, 0, 0, 0.698669, 0, 0, 0, 6.42079, -18.2663, 29.6722, 60.2555)
-
-[node name="floating_wood_block56" parent="Level Elements/Floating Boxes" instance=ExtResource("4_0ic1p")]
-transform = Transform3D(6.42079, 0, 0, 0, 0.698669, 0, 0, 0, 6.42079, 25.9123, 29.6722, 51.6565)
 
 [node name="spikey_wood" parent="Level Elements/Floating Boxes" instance=ExtResource("8_cl2ka")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 11.6218, 42.4241, -42.5718)
@@ -657,6 +545,12 @@ spell = 1
 [node name="Checkpoint" parent="Level Elements" instance=ExtResource("7_hmw7q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.0355, 1.63292, 81.5782)
 
+[node name="Checkpoint2" parent="Level Elements" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80.2142, 1.63292, -83.5048)
+
+[node name="Checkpoint3" parent="Level Elements" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.8036, 1.63292, -83.5048)
+
 [node name="Anchors" type="Node" parent="."]
 
 [node name="Rock Mimics" type="Node" parent="Anchors"]
@@ -684,6 +578,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 17, -69)
 
 [node name="fire_goober_anchor3" parent="Anchors/Fire Goobers/Group 2" instance=ExtResource("14_2gv15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 17, -69)
+
+[node name="Group 3" type="Node" parent="Anchors/Fire Goobers"]
+
+[node name="fire_goober_anchor" parent="Anchors/Fire Goobers/Group 3" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -69.8273, 16.8413, 0.99398)
 
 [node name="Floating Wood" type="Node" parent="Anchors"]
 
@@ -851,6 +750,9 @@ useAnchorNodeStatsInstead = true
 transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
 useAnchorNodeStatsInstead = true
 
+[node name="FloatingWoodenBlockAnchor42" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(7, 0, 0, 0, 2, 0, 0, 0, 7, -66.6773, 14.4295, 0.99398)
+
 [node name="Geysers" type="Node" parent="Anchors"]
 
 [node name="First Duo" type="Node" parent="Anchors/Geysers"]
@@ -882,3 +784,43 @@ transform = Transform3D(2.175, 0, 0, 0, 6, 0, 0, 0, 2.175, -81.6551, 2.58899, -4
 [node name="Buble4" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
 transform = Transform3D(2.175, 0, 0, 0, 6, 0, 0, 0, 2.175, -88.3471, 2.58899, 20.5703)
 riseFactor = 5.0
+
+[node name="Spikey Wood Geysers" type="Node" parent="Anchors/Geysers"]
+
+[node name="Buble" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -48.9773, 15.3121, 47.8073)
+riseFactor = 12.0
+hangFactor = 0.5
+totalTime = 6.0
+
+[node name="Buble2" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -14.2116, 15.3121, 55.0062)
+riseFactor = 12.0
+hangFactor = 0.5
+bobDelay = 6.0
+totalTime = 6.0
+
+[node name="Buble3" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 23.2488, 15.3121, 52.8824)
+riseFactor = 12.0
+hangFactor = 0.5
+bobDelay = 12.0
+totalTime = 6.0
+
+[node name="Buble4" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 47.6926, 15.3121, 30.0672)
+riseFactor = 12.0
+hangFactor = 0.5
+bobDelay = 18.0
+totalTime = 6.0
+
+[node name="Spikey Wood" type="Node" parent="Anchors"]
+
+[node name="spikey_wood_anchor" parent="Anchors/Spikey Wood" instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, -34.5623, 34.139, 47.2826)
+
+[node name="spikey_wood_anchor2" parent="Anchors/Spikey Wood" instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 4.44607, 34.139, 59.3066)
+
+[node name="spikey_wood_anchor3" parent="Anchors/Spikey Wood" instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 45.6535, 34.139, 48.525)

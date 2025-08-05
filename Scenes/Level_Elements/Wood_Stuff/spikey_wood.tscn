@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://bqb78y6segtal" path="res://FeudalPangaeaCode/Level_Elements/Wood_Block/SpikeyWoodBlock.cs" id="1_wmil5"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="2_ax4yg"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02k5p"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ax4yg"]
 albedo_color = Color(0.479026, 0.182365, 0.0771677, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_02k5p"]
-material = SubResource("StandardMaterial3D_02k5p")
+material = SubResource("StandardMaterial3D_ax4yg")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qy2tr"]
 radius = 0.6
