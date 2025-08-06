@@ -8,8 +8,19 @@ public partial class Checkpoint : Node3D, Interactable
     [Export] public HitFx checkpointEffect;
     [Export] public Vector3 checkpointPosOffset = new Vector3();
     [Export] public Vector3 checkpointRot = new Vector3();
+    [Export] public bool startPlayerHere = false;
 
     static Checkpoint current = null;
+
+    public async override void _EnterTree()
+    {
+        if (startPlayerHere)
+        {
+            await Task.Delay(100);
+            SetCheckpoint();
+            Player.player.ResetPlayer();
+        }
+    }
 
     public void Interact()
     {
@@ -29,19 +40,24 @@ public partial class Checkpoint : Node3D, Interactable
 
             if (current != this)
             {
-                if (checkpointEffect != null)
-                {
-                    checkpointEffect.Effect(GlobalPosition, GlobalRotation);
-                }
-
-                Player.player.checkpointPosition = GlobalPosition + checkpointPosOffset;
-                Player.player.checkpointRotation = checkpointRot;
-
-                current = this;
+                SetCheckpoint();
             }
         }
 
         await Task.Delay(100);
+    }
+
+    public void SetCheckpoint()
+    {
+        if (checkpointEffect != null)
+        {
+            checkpointEffect.Effect(GlobalPosition, GlobalRotation);
+        }
+
+        Player.player.checkpointPosition = GlobalPosition + checkpointPosOffset;
+        Player.player.checkpointRotation = checkpointRot;
+
+        current = this;
     }
 
     public bool InRangeOfPlayer()

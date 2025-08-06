@@ -351,6 +351,7 @@ shape = SubResource("BoxShape3D_31u70")
 
 [node name="Checkpoint" parent="Level Elements/Terrain" instance=ExtResource("7_hmw7q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
+startPlayerHere = true
 
 [node name="Floating Boxes" type="Node" parent="Level Elements"]
 
@@ -797,21 +798,21 @@ totalTime = 6.0
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -14.2116, 15.3121, 55.0062)
 riseFactor = 12.0
 hangFactor = 0.5
-bobDelay = 6.0
+bobDelay = 3.0
 totalTime = 6.0
 
 [node name="Buble3" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 23.2488, 15.3121, 52.8824)
 riseFactor = 12.0
 hangFactor = 0.5
-bobDelay = 12.0
+bobDelay = 6.0
 totalTime = 6.0
 
 [node name="Buble4" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 47.6926, 15.3121, 30.0672)
 riseFactor = 12.0
 hangFactor = 0.5
-bobDelay = 18.0
+bobDelay = 9.0
 totalTime = 6.0
 
 [node name="Spikey Wood" type="Node" parent="Anchors"]

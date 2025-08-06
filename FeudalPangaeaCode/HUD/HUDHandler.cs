@@ -26,10 +26,6 @@ public partial class HUDHandler : Node
         float percentage = (float)HP / MAX_HP;
         int hpDisplay = (int)(percentage * 6);
 
-        GD.Print("HP: " + HP + " MAX_HP: " + MAX_HP);
-
-        GD.Print("percentage: " + percentage + " hpDisplay: " + hpDisplay);
-
         rect.Texture = hpFrames[hpDisplay];
     }
 
@@ -74,7 +70,6 @@ public partial class HUDHandler : Node
 
         await Task.Delay(500);
 
-        GD.Print("Routine end");
         diedGraphic.Visible = false;
     }
 }
