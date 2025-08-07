@@ -82,7 +82,9 @@ public partial class Anchor : Node3D
         ent.Visible = false;
 
         bool rootIsParent = rootOverride == null || !IsInstanceValid(rootOverride);
-        
+
+        ent.Scale = size;
+
         if (rootIsParent)
         {
             GetTree().Root.CallDeferred(Node.MethodName.AddChild, ent);
@@ -92,9 +94,7 @@ public partial class Anchor : Node3D
             rootOverride.CallDeferred(Node.MethodName.AddChild, ent);
         }
 
-        // await Task.Delay(100);
-
-
+        // await Task.Delay(1000);
 
         if (IsInstanceValid(ent))
         {
@@ -109,11 +109,12 @@ public partial class Anchor : Node3D
                 current.SetDeferred(Node3D.PropertyName.Position, new Vector3());
             }
 
-            current.SetDeferred(Node3D.PropertyName.Scale, size);
             current.SetDeferred(Node3D.PropertyName.GlobalRotation, rot);
 
             current.SetDeferred(Node3D.PropertyName.ProcessMode, (int)defMode);
             current.SetDeferred(Node3D.PropertyName.Visible, true);
+
+            // current.SetDeferred(Node3D.PropertyName.Scale, size);
         }
         else
         {

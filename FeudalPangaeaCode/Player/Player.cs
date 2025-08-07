@@ -99,7 +99,7 @@ public partial class Player : CharacterBody3D, ICreature
 					Vector3 interPosDir = (interactables[i].GetPosition() - GlobalPosition).Normalized();
 					Vector2 interactDir = new Vector2(interPosDir.X, interPosDir.Z);
 
-					float dot = KMath.DotProduct(playerLook, interactDir);
+					float dot = playerLook.Dot(interactDir);
 
 					if (dot > maxDot)
 					{

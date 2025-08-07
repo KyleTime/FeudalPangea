@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ck4txwt2ocoia"]
 
-[ext_resource type="Script" uid="uid://bde72hmwrvo8g" path="res://FeudalPangaeaCode/Level_Elements/Anchors/RegenAnchor.cs" id="1_mbh0y"]
+[ext_resource type="Script" uid="uid://dsqu3o0sxlpt1" path="res://FeudalPangaeaCode/Level_Elements/Anchors/Anchor.cs" id="1_nyraj"]
 [ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="2_nyraj"]
 [ext_resource type="Script" uid="uid://cyjneovsqmmwb" path="res://FeudalPangaeaCode/Level_Elements/Editor_Elements/EditorBillboard.cs" id="3_nyraj"]
 
@@ -11,7 +11,7 @@ albedo_color = Color(0.815686, 0.345098, 1, 1)
 material = SubResource("StandardMaterial3D_mbh0y")
 
 [node name="spikey_wood_anchor" type="Node3D"]
-script = ExtResource("1_mbh0y")
+script = ExtResource("1_nyraj")
 entity = ExtResource("2_nyraj")
 useAnchorNodeStatsInstead = true
 
