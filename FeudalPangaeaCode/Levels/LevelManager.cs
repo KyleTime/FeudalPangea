@@ -12,6 +12,8 @@ public partial class LevelManager : Node
     [Export] public Vector3 startPos = new Vector3();
     [Export] public Vector3 startRot = new Vector3();
 
+    [Export] public ulong tickStartTime;
+
     [Signal]
     public delegate void ResetLevelEventHandler();
 
@@ -25,11 +27,18 @@ public partial class LevelManager : Node
             Node time = GlobalData.GetPackedScene("fatherTime").Instantiate();
             AddChild(time);
         }
+
+        tickStartTime = Time.GetTicksMsec();
     }
 
     public void ReloadLevel()
     {
         TimeManager.PauseTime(false);
         EmitSignal(SignalName.ResetLevel);
+    }
+
+    public ulong GetElapsedMS()
+    {
+        return Time.GetTicksMsec() - tickStartTime;
     }
 }
