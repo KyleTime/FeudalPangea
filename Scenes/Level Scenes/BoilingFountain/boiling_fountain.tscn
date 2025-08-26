@@ -1,10 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=23 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
-[ext_resource type="Texture2D" uid="uid://c4vcmrigmwf2v" path="res://Sprites/notes/note.png" id="6_31u70"]
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="6_wk5oe"]
-[ext_resource type="Texture2D" uid="uid://dm276jt2cg7yh" path="res://Sprites/notes/note2.png" id="7_35ia0"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="7_hmw7q"]
 [ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
 [ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
@@ -187,7 +185,7 @@ mesh = SubResource("BoxMesh_p2xjw")
 shape = SubResource("BoxShape3D_31u70")
 
 [node name="platform10" type="StaticBody3D" parent="Level Elements/Terrain"]
-transform = Transform3D(10, 0, 0, 0, 27.5449, 0, 0, 0, 10, -39.9655, 26.0461, -39.704)
+transform = Transform3D(10, 0, 0, 0, 27.5449, 0, 0, 0, 10, -39.9655, 20.4942, -39.704)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform10"]
 mesh = SubResource("BoxMesh_p2xjw")
@@ -196,14 +194,20 @@ mesh = SubResource("BoxMesh_p2xjw")
 shape = SubResource("BoxShape3D_31u70")
 
 [node name="platform11" type="StaticBody3D" parent="Level Elements/Terrain"]
-transform = Transform3D(10, 0, 0, 0, 29.862, 0, 0, 0, 24.8441, -39.9655, 27.604, -22.4757)
+transform = Transform3D(10, 0, 0, 0, 29.862, 0, 0, 0, 30, -39.9655, 23.42, -20.0171)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform11"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.89968, 0, 0, 0.412014)
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform11"]
-shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform19" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 33.158, 0, 0, 0, 19.8949, -39.965, 27.9737, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform19"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform19"]
 
 [node name="platform12" type="StaticBody3D" parent="Level Elements/Terrain"]
 transform = Transform3D(10, 0, 0, 0, 5, 0, 0, 0, 15, -29.7676, 43.4886, -1.81025)
@@ -320,55 +324,37 @@ transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 useAnchorNodeStatsInstead = true
 rootOverride = NodePath("..")
 
-[node name="MovingPlatform2" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9331, 42.8842, -38.0161)
-speed = 10.0
-distance = 30.0
+[node name="spikey_wood_anchor" parent="Level Elements/Floating Boxes" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 10.9331, 32.4491, -38.0161)
+rootOverride = NodePath("")
 
-[node name="spikey_wood_anchor" parent="Level Elements/Floating Boxes/MovingPlatform2" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_75ad7")]
-transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 0, 0, 0)
-rootOverride = NodePath("..")
+[node name="spikey_wood_anchor2" parent="Level Elements/Floating Boxes" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, -11.2923, 34.5388, -38.0161)
+rootOverride = NodePath("")
 
 [node name="MovingPlatform3" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.884, -38.016)
 speed = 2.0
 distance = 30.0
-startDelay = 2.5
+startDelay = 1.0
 
 [node name="FloatingWoodenBlockAnchor" parent="Level Elements/Floating Boxes/MovingPlatform3" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
 transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 useAnchorNodeStatsInstead = true
 rootOverride = NodePath("..")
 
-[node name="MovingPlatform4" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0201, 42.8842, -38.0161)
-speed = 10.0
-distance = 30.0
-
-[node name="spikey_wood_anchor" parent="Level Elements/Floating Boxes/MovingPlatform4" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_75ad7")]
-transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 0, 0, 0)
-rootOverride = NodePath("..")
-
 [node name="MovingPlatform5" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8474, 42.8842, -38.0161)
 speed = 2.0
 distance = 30.0
-startDelay = 5.0
+startDelay = 2.0
 
 [node name="FloatingWoodenBlockAnchor" parent="Level Elements/Floating Boxes/MovingPlatform5" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
-transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
+transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 2.95908, 0, 0)
 useAnchorNodeStatsInstead = true
 rootOverride = NodePath("..")
 
 [node name="Notes" type="Node" parent="Level Elements"]
-
-[node name="Sprite3D" type="Sprite3D" parent="Level Elements/Notes"]
-transform = Transform3D(-2.382e-07, 0, 5.44938, 0, 5.44938, 0, -5.44938, 0, -2.382e-07, 35.6872, 37.3313, 2.75463)
-texture = ExtResource("6_31u70")
-
-[node name="Sprite3D2" type="Sprite3D" parent="Level Elements/Notes"]
-transform = Transform3D(-7.79965, 0, -6.81867e-07, 0, 7.79965, 0, 6.81867e-07, 0, -7.79965, 8.34887, 4.73961, -70.5922)
-texture = ExtResource("7_35ia0")
 
 [node name="SpellCollectable" parent="Level Elements" instance=ExtResource("6_wk5oe")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -85.1105, 23.8213, 45.08)
