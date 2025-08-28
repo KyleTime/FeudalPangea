@@ -270,18 +270,21 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
         if (HP <= 0)
         {
-            GD.Print("DEAD!");
-
-            if (deathState == null)
-                GD.Print("death is null");
-
-            ForceState(deathState, deltaTime, null, true);
+            Die(source);
         }
     }
 
     public int GetHP()
     {
         return HP;
+    }
+
+    public void Die(DamageSource source)
+    {
+        if (deathState == null)
+            QueueFree();
+
+        ForceState(deathState, deltaTime, null, true);
     }
 
     public CreatureState GetState()

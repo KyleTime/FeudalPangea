@@ -9,7 +9,7 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     public bool IsMajor => false;
 
     private Hurtbox hurtbox;
-    
+
     static int bobVariation = 0;
 
     static float height = 0.1f;
@@ -83,5 +83,10 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     public CreatureState GetState()
     {
         return CreatureState.Grounded;
+    }
+
+    public void Die(DamageSource source)
+    {
+        QueueFree();
     }
 }

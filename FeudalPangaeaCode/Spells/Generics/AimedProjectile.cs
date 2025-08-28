@@ -128,7 +128,6 @@ namespace MagicSystem
             active = true;
             hitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
             Visible = true;
-            hitbox.hitsPlayer = true;
             aligning = target;
         }
 

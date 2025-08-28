@@ -18,8 +18,11 @@ public partial class RagdollCreature : RigidBody3D, ICreature
 
     public void Reset()
     {
-        LevelManager.currentLevel.ResetLevel -= Reset;
-        QueueFree();
+        if (IsInstanceValid(this))
+        {
+            LevelManager.currentLevel.ResetLevel -= Reset;
+            QueueFree();
+        }
     }
 
     public int GetHP()
@@ -55,11 +58,16 @@ public partial class RagdollCreature : RigidBody3D, ICreature
     public void Push(Vector3 force)
     {
         LinearVelocity += force;
-        ApplyTorque(force); 
+        ApplyTorque(force);
     }
 
     public CreatureState GetState()
     {
         return CreatureState.Dead;
+    }
+
+    public void Die(DamageSource source)
+    {
+        QueueFree();
     }
 }

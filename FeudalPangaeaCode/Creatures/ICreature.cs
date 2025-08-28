@@ -9,6 +9,7 @@ public interface ICreature
 {
 	int GetHP();
 	void ChangeHP(int change, DamageSource source);
+	void Die(DamageSource source);
 
 	/// <summary>
 	/// Returns the position at the feet of the creature.

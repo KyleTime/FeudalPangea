@@ -192,7 +192,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public void ChangeHP(int change, DamageSource source)
 	{
-		if (iFrames > 0)
+		if (iFrames > 0 && change < 0)
 		{
 			return;
 		}
@@ -232,6 +232,17 @@ public partial class Player : CharacterBody3D, ICreature
 			GD.Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		await hud.HUD_Death_Animation();
 		LevelManager.currentLevel.ReloadLevel();
+	}
+
+	public void Die(DamageSource source)
+	{
+		Death(source);
+
+		if (HP != 0)
+		{
+			HP = 0;
+			EmitSignal(SignalName.HealthChange, HP, MAX_HP);
+		}
 	}
 
 	public void ResetPlayer()

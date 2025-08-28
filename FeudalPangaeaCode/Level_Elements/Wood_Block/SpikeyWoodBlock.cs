@@ -51,4 +51,9 @@ public partial class SpikeyWoodBlock : Node3D, ICreature
     {
         return CreatureState.Grounded;
     }
+
+    public void Die(DamageSource source)
+    {
+        QueueFree();
+    }
 }
