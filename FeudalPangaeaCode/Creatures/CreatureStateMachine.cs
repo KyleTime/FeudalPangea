@@ -24,7 +24,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     //offset from feet to the center of the creature
     private Vector3 creatureCenterOffset = new Vector3(0, 1, 0);
 
-    private AnimationPlayer player;
+    private AnimationPlayer anim;
 
     private bool isMajorCreature;
 
@@ -43,7 +43,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         BehaviorState stunState;
         BehaviorState deathState;
         Vector3 creatureCenterOffset = new Vector3(0, 1, 0);
-        AnimationPlayer player;
+        AnimationPlayer anim;
         bool isMajorCreature = false;
 
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
@@ -55,7 +55,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, player, isMajorCreature);
+            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, anim, isMajorCreature);
         }
 
         public void buildOnExisting(CreatureStateMachine machine)
@@ -66,7 +66,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             machine.HP = HP;
             machine.target = null;
             machine.creatureCenterOffset = creatureCenterOffset;
-            machine.player = player;
+            machine.anim = anim;
             machine.isMajorCreature = isMajorCreature;
         }
 
@@ -104,7 +104,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         /// <returns></returns>
         public Builder SetAnimationPlayer(AnimationPlayer animationPlayer)
         {
-            this.player = animationPlayer;
+            this.anim = animationPlayer;
             return this;
         }
 
@@ -216,14 +216,14 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer player, bool isMajorCreature)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer anim, bool isMajorCreature)
     {
         this.state = initialState;
         this.stunState = stunState;
         this.deathState = deathState;
         this.HP = HP;
         this.creatureCenterOffset = creatureCenterOffset;
-        this.player = player;
+        this.anim = anim;
         this.isMajorCreature = isMajorCreature;
         target = null;
 
@@ -257,8 +257,8 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
         Velocity = state.GetStepVelocity(this, delta);
 
-        if (player != null)
-            state.HandleAnimation(player);
+        if (anim != null)
+            state.HandleAnimation(anim);
 
         MoveAndSlide();
     }
@@ -272,6 +272,11 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         {
             Die(source);
         }
+    }
+
+    public AnimationPlayer GetAnimationPlayer()
+    {
+        return anim;
     }
 
     public int GetHP()
