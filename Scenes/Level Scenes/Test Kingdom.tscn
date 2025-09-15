@@ -1,9 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6acu4ebqswn3"]
+[gd_scene load_steps=15 format=3 uid="uid://c6acu4ebqswn3"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_o8n2q"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_fcabx"]
 [ext_resource type="PackedScene" uid="uid://c2w5oqjuehvfi" path="res://Scenes/Level Scenes/Level Model Scenes/level_v1_scene.tscn" id="4_8lv13"]
-[ext_resource type="Script" uid="uid://bdl7441cqfws" path="res://FeudalPangaeaCode/Garbage/test_moving_platform.cs" id="5_g6egq"]
 [ext_resource type="PackedScene" uid="uid://b8mvhepj4jhg6" path="res://Scenes/Collectables/Coin/coin.tscn" id="6_51eun"]
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ewgxt"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="9_ca7mo"]
@@ -11,14 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="10_fcabx"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_tify5"]
-size = Vector3(6, 1, 6)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8n2q"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_pvjru"]
-material = SubResource("StandardMaterial3D_o8n2q")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xvp6"]
 albedo_color = Color(1, 0, 0, 1)
@@ -61,19 +52,6 @@ omni_range = 454.0
 
 [node name="level_v1" parent="." instance=ExtResource("4_8lv13")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8373, 4.2067, 0)
-gravity_scale = 0.0
-script = ExtResource("5_g6egq")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("BoxShape3D_tify5")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
-transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
-mesh = SubResource("BoxMesh_pvjru")
-skeleton = NodePath("../..")
 
 [node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
 transform = Transform3D(2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, 0, 2.09375, -11.7527)

@@ -60,6 +60,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 		HealthChange += hud.ChangeHPBar;
 
+
 		//wait for stuff to FIGURE IT'S SHIT OUT
 		await Task.Delay(1);
 
@@ -98,7 +99,7 @@ public partial class Player : CharacterBody3D, ICreature
 					Vector3 interPosDir = (interactables[i].GetPosition() - GlobalPosition).Normalized();
 					Vector2 interactDir = new Vector2(interPosDir.X, interPosDir.Z);
 
-					float dot = KMath.DotProduct(playerLook, interactDir);
+					float dot = playerLook.Dot(interactDir);
 
 					if (dot > maxDot)
 					{
@@ -146,9 +147,9 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if(anim.IsRootMotion())
+		if (anim.IsRootMotion())
 			move.ApplyRootMotion(anim.GetRootMotionPosition(), GetProcessDeltaTime());
-		if(IsOnCeiling())
+		if (IsOnCeiling())
 			move.velocity.Y = 0;
 
 		Velocity = move.velocity;
@@ -191,7 +192,7 @@ public partial class Player : CharacterBody3D, ICreature
 
 	public void ChangeHP(int change, DamageSource source)
 	{
-		if (iFrames > 0)
+		if (iFrames > 0 && change < 0)
 		{
 			return;
 		}
@@ -231,6 +232,17 @@ public partial class Player : CharacterBody3D, ICreature
 			GD.Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		await hud.HUD_Death_Animation();
 		LevelManager.currentLevel.ReloadLevel();
+	}
+
+	public void Die(DamageSource source)
+	{
+		Death(source);
+
+		if (HP != 0)
+		{
+			HP = 0;
+			EmitSignal(SignalName.HealthChange, HP, MAX_HP);
+		}
 	}
 
 	public void ResetPlayer()

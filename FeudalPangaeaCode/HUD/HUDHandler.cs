@@ -12,12 +12,16 @@ public partial class HUDHandler : Node
 
     [Export] RichTextLabel coinCounter;
 
+    [Export] AnimationPlayer anim;
+
     public override void _Process(double delta)
     {
         base._Process(delta);
 
         //this is terrible, please do an event somehow
         coinCounter.Text = GlobalData.GetCoinCount().ToString();
+
+        LevelManager.currentLevel.WinLevel += PlayWinHudThingy;
     }
 
 
@@ -26,11 +30,12 @@ public partial class HUDHandler : Node
         float percentage = (float)HP / MAX_HP;
         int hpDisplay = (int)(percentage * 6);
 
-        GD.Print("HP: " + HP + " MAX_HP: " + MAX_HP);
-
-        GD.Print("percentage: " + percentage + " hpDisplay: " + hpDisplay);
-
         rect.Texture = hpFrames[hpDisplay];
+    }
+
+    public void PlayWinHudThingy()
+    {
+        anim.Play("win_hud_anim");
     }
 
     public async Task HUD_Death_Animation()
@@ -74,7 +79,6 @@ public partial class HUDHandler : Node
 
         await Task.Delay(500);
 
-        GD.Print("Routine end");
         diedGraphic.Visible = false;
     }
 }

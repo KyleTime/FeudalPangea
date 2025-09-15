@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4c0obkgvtwru"]
+[gd_scene load_steps=9 format=3 uid="uid://c4c0obkgvtwru"]
 
 [ext_resource type="Script" uid="uid://by42gd74bpsob" path="res://FeudalPangaeaCode/Menu/TitleScreen.cs" id="1_3ubyl"]
 [ext_resource type="Texture2D" uid="uid://bxl7cxqy4crd0" path="res://Sprites/Title/FP title thing.png" id="1_cqbs0"]
 [ext_resource type="PackedScene" uid="uid://bq3cvifj24b05" path="res://Scenes/Menus/Main Menu/level_thumbnail.tscn" id="2_3ubyl"]
 [ext_resource type="Texture2D" uid="uid://b6mm2ewk28mx1" path="res://Sprites/Title/Thumbnail Pictures/Test Kingdom Thumbnail.png" id="3_pcr3m"]
 [ext_resource type="Script" uid="uid://c5u5ace2bopnl" path="res://FeudalPangaeaCode/Menu/LevelMenu.cs" id="3_te5tk"]
-[ext_resource type="PackedScene" uid="uid://cr4vr0cr3qss8" path="res://Scenes/Level Scenes/Test Kingdom.tscn" id="4_te5tk"]
+[ext_resource type="PackedScene" uid="uid://c6acu4ebqswn3" path="res://Scenes/Level Scenes/Test Kingdom.tscn" id="4_te5tk"]
+[ext_resource type="Texture2D" uid="uid://c2vtkdois1c8s" path="res://Sprites/Title/Thumbnail Pictures/BoilingFountain_Thumbnail.png" id="7_lt0sk"]
 [ext_resource type="PackedScene" uid="uid://d2omlm6uv681d" path="res://Scenes/Level Scenes/BoilingFountain/boiling_fountain.tscn" id="7_te5tk"]
 
 [node name="Title Screen" type="Control"]
@@ -108,10 +109,11 @@ offset_bottom = 542.0
 theme_override_font_sizes/font_size = 48
 text = "Back"
 
-[node name="Thumbnail" parent="Level Select" instance=ExtResource("2_3ubyl")]
+[node name="BoilingFountain" parent="Level Select" instance=ExtResource("2_3ubyl")]
 offset_left = -497.0
 offset_top = -449.0
 offset_right = -147.0
 offset_bottom = -99.0
+image = ExtResource("7_lt0sk")
 name = "Boiling Fountain"
 levelScene = ExtResource("7_te5tk")

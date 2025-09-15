@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class EditorBillboard : Sprite3D
+public partial class EditorBillboard : Node
 {
     public override void _Ready()
     {

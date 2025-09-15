@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 public partial class PlayerCamera : Node3D
 {
 	[Export] public float sens = 0.3f;
-	[Export] public float minPitch = -89.9f;
+	[Export] public float minPitch = -80f;
 	[Export] public float maxPitch = 70;
 
 	public PhantomCamera3D playerCam;
@@ -26,7 +26,17 @@ public partial class PlayerCamera : Node3D
 
 	public override void _Input(InputEvent @event)
 	{
-		SetPlayerCamRotation(playerCam, @event);
+		if (Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionJustPressed("CAST3"))
+		{
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
+		else if (Input.IsActionJustPressed("CAST3"))
+		{
+			Input.MouseMode = Input.MouseModeEnum.Captured;
+		}
+
+		if(Input.MouseMode == Input.MouseModeEnum.Captured)
+			SetPlayerCamRotation(playerCam, @event);
     }
 
 	void SetPlayerCamRotation(PhantomCamera3D cam, InputEvent @event)

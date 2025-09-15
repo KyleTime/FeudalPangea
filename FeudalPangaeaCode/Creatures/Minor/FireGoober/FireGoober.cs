@@ -9,13 +9,13 @@ public partial class FireGoober : CreatureStateMachine, ICreature
     {
         CreatureStateMachine.GetNewBuilder()
             .AddState("Idle", new Idle(true, 100, 4))
-            .AddState("Fireball", new ShootProjectile("fireballObject"))
+            .AddState("Fireball", new ShootProjectile("fireballObject", 15, 10, 2))
             .AddState("Stun", new Idle(true))
             .AddState("Death", new DeathQueueFree())
             .SetHP(10)
             .SetStunState("Stun")
             .SetDeathState("Death")
-            .AddTransition("Idle", new SeePlayerAtDistance(15), "Fireball")
+            .AddTransition("Idle", new SeePlayerAtDistance(60), "Fireball")
             .AddTransition("Fireball", new StunOver(), "Idle")
             .buildOnExisting(this);
     }

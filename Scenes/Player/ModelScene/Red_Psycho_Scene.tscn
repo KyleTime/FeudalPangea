@@ -1655,7 +1655,7 @@ skin = SubResource("Skin_xfho1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_motion_track = NodePath("Armature/Skeleton3D:Root")
-root_motion_local = false
+root_motion_local = true
 libraries = {
 &"": SubResource("AnimationLibrary_beysf")
 }

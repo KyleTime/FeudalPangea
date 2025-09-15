@@ -39,6 +39,7 @@ namespace MagicSystem
         public override void _Ready()
         {
             groundbox.BodyShapeEntered += CollideWithGround;
+            hitbox.HitHurtBox += HitTarget;
         }
 
         public override void _PhysicsProcess(double delta)
@@ -122,12 +123,11 @@ namespace MagicSystem
         /// enables the hitbox.
         /// </summary>
         /// <param name="target">Whether the projectile should use aim assist.</param>
-        public void Activate(bool target = false)
+        public virtual void Activate(bool target = false)
         {
             active = true;
             hitbox.collider.SetDeferred(CollisionShape3D.PropertyName.Disabled, false);
             Visible = true;
-            hitbox.hitsPlayer = true;
             aligning = target;
         }
 
@@ -141,10 +141,16 @@ namespace MagicSystem
         /// <param name="localShapeIndex"></param>
         private void CollideWithGround(Rid bodyRid, Node3D body, long bodyShapeIndex, long localShapeIndex)
         {
+            if(body != hitbox.ignore)
+                Deactivate();
+        }
+
+        private void HitTarget(Hurtbox hurtbox)
+        {
             Deactivate();
         }
 
-        public void Deactivate()
+        public virtual void Deactivate()
         {
             active = false;
             Visible = false;

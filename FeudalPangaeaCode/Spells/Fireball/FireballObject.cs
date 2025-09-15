@@ -28,5 +28,11 @@ namespace MagicSystem
             }
         }
 
+
+        public override void Activate(bool target = false)
+        {
+            base.Activate(target);
+            timer = 0;
+        }
     }
 }

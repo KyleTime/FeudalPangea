@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 public partial class PauseMenu : Control
 {
+    public static PauseMenu menu; //there should never be more than one so I think this is fine
+
     [Export] public Button cont;
     [Export] public Button quit;
 
@@ -27,7 +29,7 @@ public partial class PauseMenu : Control
     {
         if (Input.IsActionJustPressed("QUIT"))
         {
-            if (TimeManager.gamePaused)
+            if (TimeManager.gameIsPaused)
             {
                 UnPause();
             }

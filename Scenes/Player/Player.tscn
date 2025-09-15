@@ -47,7 +47,6 @@ collision_mask = 11
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 floor_stop_on_slope = false
-floor_snap_length = 0.25
 safe_margin = 0.1
 script = ExtResource("1_fmy2y")
 

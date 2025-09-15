@@ -24,17 +24,18 @@ public static class KMath
     /// <summary>
     /// Returns the next step in moving towards the target position.
     /// It uses some weird parabolic curve that looks cool.
+    /// This one is 2D btw.
     /// </summary>
     /// <param name="current">Current position</param>
     /// <param name="target">Target position</param>
     /// <param name="speed">speed multiplier</param>
     /// <param name="delta">delta time</param>
     /// <returns>Next step</returns>
-    public static Vector2 MoveTowardParabolic(Vector2 current, Vector2 target, float speed, double delta)
+    public static Vector2 MoveTowardParabolic(Vector2 current, Vector2 target, float speed, double delta, float minSpeed = 0)
     {
         float distance = KMath.Dist2D(current, target);
 
-        Vector2 direction = (target - current).Normalized() * ParabolicSpeed(distance) * speed * (float)delta;
+        Vector2 direction = (target - current).Normalized() * ParabolicSpeed(distance, minSpeed) * speed * (float)delta;
 
         Vector2 step = current + direction;
 
@@ -51,6 +52,65 @@ public static class KMath
         return step;
     }
 
+    /// <summary>
+    /// Returns the next step in moving towards the target position.
+    /// It uses some weird parabolic curve that looks cool.
+    /// This one is 3D btw.
+    /// </summary>
+    /// <param name="current">Current position</param>
+    /// <param name="target">Target position</param>
+    /// <param name="speed">speed multiplier</param>
+    /// <param name="delta">delta time</param>
+    /// <returns>Next step</returns>
+    public static Vector3 MoveTowardParabolic3D(Vector3 current, Vector3 target, float speed, double delta, float minSpeed = 0)
+    {
+        float distance = KMath.Dist3D(current, target);
+
+        Vector3 direction = (target - current).Normalized() * ParabolicSpeed(distance, minSpeed) * speed * (float)delta;
+
+        Vector3 step = current + direction;
+
+        Vector3 dp1 = target - current;
+        Vector3 dp2 = target - step;
+
+        float dot = dp1.Dot(dp2);
+
+        if (dot < 0)
+        {
+            return target;
+        }
+
+        return step;
+    }
+
+    /// <summary>
+    /// Returns the next step in moving towards the target position.
+    /// Straight shooting linear progression.
+    /// This one is 3D btw.
+    /// </summary>
+    /// <param name="current">Current position</param>
+    /// <param name="target">Target position</param>
+    /// <param name="speed">speed multiplier</param>
+    /// <param name="delta">delta time</param>
+    /// <returns>Next step</returns>
+    public static Vector3 MoveTowardLinear3D(Vector3 current, Vector3 target, float speed, double delta)
+    {
+        Vector3 direction = (target - current).Normalized() * speed * (float)delta;
+
+        Vector3 step = current + direction;
+
+        Vector3 dp1 = target - current;
+        Vector3 dp2 = target - step;
+
+        float dot = dp1.Dot(dp2);
+
+        if (dot < 0)
+        {
+            return target;
+        }
+
+        return step;
+    }
 
     /// <summary>
     /// MATHEMATICAL!
@@ -58,18 +118,15 @@ public static class KMath
     /// </summary>
     /// <param name="dist">Distance from the target position.</param>
     /// <returns></returns>
-    public static float ParabolicSpeed(float dist)
+    public static float ParabolicSpeed(float dist, float minSpeed = 0)
     {
         float dMin = 150;
 
         float d = Mathf.Max(dMin, dist + 100);
 
-        return ((dist * (-dist + d)) / d) * 0.25f;
-    }
+        float speed = dist * (-dist + d) / d * 0.25f;
 
-    public static float DotProduct(Godot.Vector2 v1, Godot.Vector2 v2)
-    {
-        return v1.X * v2.X + v1.Y * v2.Y;
+        return Math.Max(speed, minSpeed);
     }
 
     public static double RotateTowards(double current, double target, float speed, double delta)

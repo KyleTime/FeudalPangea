@@ -63,12 +63,17 @@ public partial class Hurtbox : Area3D
         //I know the ordering looks weird, but it's a lil
         //necessary for hitboxes to know they're touching the player
         //even if no damage is being dealt
-        if (!hitbox.hitsPlayer && isPlayer || hitbox.ignore != null && hitbox.ignore == Owner)
+        if (hitbox.ignore != null && hitbox.ignore == Owner)
         {
             return;
         }
 
         hit = true;
+
+        if (hitbox.instantDeath)
+        {
+            self.Die(hitbox.damage_source);
+        }
 
         //if major and not stunned, resist nonmagical damage
         if (self.IsMajor && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))

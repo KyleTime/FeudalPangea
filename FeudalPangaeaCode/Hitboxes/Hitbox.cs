@@ -8,10 +8,14 @@ public partial class Hitbox : Area3D
     [Export] public DamageSource damage_source = DamageSource.Bonk;
     [Export] public CollisionShape3D collider;
     [Export] public float stunDuration = 1;
-    [Export] public bool hitsPlayer = true;
+    [Export] public bool instantDeath = false; //if this is true, the hitbox Just Kills Any Creature
 
     public ICreature ignore; 
 
+    /// <summary>
+    /// Event triggered when the hitbox hits something that is NOT the ignore.
+    /// </summary>
+    /// <param name="hurtbox"></param>
     [Signal]
     public delegate void HitHurtBoxEventHandler(Hurtbox hurtbox);
 
@@ -28,6 +32,9 @@ public partial class Hitbox : Area3D
 
     public void Hit(Hurtbox hurtbox)
     {
+        if (hurtbox.Owner == ignore)
+            return;
+
         EmitSignal(SignalName.HitHurtBox, hurtbox);
     }
 }

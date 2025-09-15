@@ -9,54 +9,33 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     public bool IsMajor => false;
 
     private Hurtbox hurtbox;
-    
+
     static int bobVariation = 0;
 
     static float height = 0.1f;
     static float totalTime = 5;
-    static float frameDelay = 0.05f;
-    static int msDelay = (int)(frameDelay * 1000);
 
-    bool gone = false;
+    Node3D position;
 
     public override void _Ready()
-    {
-        BobRoutine(GlobalPosition.Y);
-    }
-
-    public override void _ExitTree()
-    {
-        gone = true;
-    }
-
-    private async void BobRoutine(float yPos)
     {
         bobVariation += 1;
         bobVariation = bobVariation % 3;
 
-        await Task.Delay(bobVariation * 2000);
-
-        float time = 0;
-        while (!gone)
-        {
-            if (!IsInstanceValid(GetTree()))
-            {
-                return;
-            }
-
-            if (GetTree().Paused)
-            {
-                await Task.Delay(msDelay);
-                continue;
-            }
-
-            time = (time + frameDelay) % totalTime;
-
-            GlobalPosition = GlobalPosition with { Y = yPos + Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
-
-            await Task.Delay(msDelay);
-        }
+        position = GetNode<Node3D>("position");
     }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!IsInstanceValid(position))
+        {
+            return;
+        }
+
+        float time = Time.GetTicksMsec() / 1000.0f;
+        position.Position = new Vector3() with { Y = Mathf.Sin(time * 2 * Mathf.Pi / totalTime) * height };
+    }
+
 
     public int GetHP()
     {
@@ -66,6 +45,7 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     {
         if (change < 0 && source == DamageSource.Fire)
         {
+
             QueueFree();
         }
     }
@@ -103,5 +83,10 @@ public partial class FloatingWoodBlock : Node3D, ICreature
     public CreatureState GetState()
     {
         return CreatureState.Grounded;
+    }
+
+    public void Die(DamageSource source)
+    {
+        QueueFree();
     }
 }

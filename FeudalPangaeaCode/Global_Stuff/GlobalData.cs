@@ -13,16 +13,20 @@ public static class GlobalData
     public const int hurtboxLayer = 16;
     public const int hitboxLayer = 32;
     public const float parryStunTime = 5;
+    public const int standardDelayAfterWinMS = 5000;
     #endregion
 
     #region ResourcePaths
 
+    //TODO: make this list a separate file. It will get *very* big and I don't think compiling it here is a good plan long term. Anyway...
+    //note: it would be really funny if like years down the line I find this comment and go "welp, never got around to that"
     public static Dictionary<string, string> resourcePaths = new Dictionary<string, string>()
     {
         { "fireballThumbnail", "res://Sprites/SpellMenu/Fireball/fire_thumbnail.png" },
         { "fireballPageImage", "res://Sprites/SpellMenu/Fireball/fireball_thingy.png"},
         { "fireballObject", "res://Scenes/Spells/Fireball/fireball.tscn" },
-        {"fatherTime", "res://Scenes/Level Scenes/Level_Needs/father_time.tscn"}
+        {"fatherTime", "res://Scenes/Level Scenes/Level_Needs/father_time.tscn"},
+        {"mainMenu", "res://Scenes/Menus/Main Menu/title_screen.tscn"}
     };
 
     #endregion
@@ -66,14 +70,5 @@ public static class GlobalData
     public static Texture2D GetTexture2D(string name)
     {
         return ResourceLoader.Load<Texture2D>(resourcePaths[name]);
-    }
-
-    /// <summary>
-    /// Call this to reload the current scene.
-    /// </summary>
-    /// <param name="tree"></param>
-    public static void ReloadScene(Node tree)
-    {
-
     }
 }
