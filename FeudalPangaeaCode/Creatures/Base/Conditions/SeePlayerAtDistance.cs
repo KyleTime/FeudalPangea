@@ -32,6 +32,10 @@ namespace CreatureBehaviors.CreatureConditions
 
         public bool Condition(CreatureStateMachine self)
         {
+            //proper tree checking for scene transitions, idk why but this is needed
+            if (Player.player == null || !Player.player.IsInsideTree())
+                return false;
+
             //get space! if you're not Kyle and you're reading this...
             //look!: https://docs.godotengine.org/en/stable/tutorials/physics/ray-casting.html 
             PhysicsDirectSpaceState3D space = self.GetWorld3D().DirectSpaceState;

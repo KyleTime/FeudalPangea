@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 //class to store general logic for movement that many other scripts may want
@@ -14,10 +15,29 @@ public static class CreatureVelocityCalculations
         Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod;
         if (flatVelocity.Length() > 1)
         {
-            node.LookAt(node.GlobalPosition - flatVelocity);
+            node.LookAt(node.GlobalPosition + flatVelocity);
 
             node.Rotation = new Vector3(0, node.Rotation.Y, 0);
         }
+    }
+
+    /// <summary>
+    /// Take in a node and velocity and return a Y rotation to use.
+    /// </summary>
+    /// <param name="node">Node to rotate</param>
+    /// <param name="velocity">Velocity to compare against</param>
+    /// <param name="mod">modifier for the velocity, set to -1 if you want the object to face backwards</param>
+    public static double GetYRotation(Node3D node, Vector3 velocity, float mod = 1)
+    {
+        Vector3 flatVelocity = new Vector3(velocity.X, 0, velocity.Z) * mod * -1;
+        if (flatVelocity.Length() > 1)
+        {
+            Vector3 dir = flatVelocity.Normalized();
+
+            return Math.Atan2(dir.X, dir.Z);
+        }
+
+        return node.Rotation.Y;
     }
 
     /// <summary>

@@ -1,0 +1,98 @@
+[gd_scene load_steps=14 format=3 uid="uid://bfqw31pkrnbgp"]
+
+[ext_resource type="PackedScene" uid="uid://uuqx2jpialad" path="res://Scenes/Player/Player.tscn" id="1_kx1y4"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_fwf6u"]
+[ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="2_q7mjd"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_hfben"]
+[ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="7_hfben"]
+
+[sub_resource type="Resource" id="Resource_kx1y4"]
+script = ExtResource("3_hfben")
+duration = 0.0
+transition = 0
+ease = 2
+
+[sub_resource type="Resource" id="Resource_fwf6u"]
+script = ExtResource("7_hfben")
+keep_aspect = 1
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 90.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+metadata/_custom_type_script = "uid://b8hhnqsugykly"
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_q7mjd"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q7mjd"]
+
+[sub_resource type="Resource" id="Resource_q7mjd"]
+script = ExtResource("3_hfben")
+duration = 1.0
+transition = 0
+ease = 2
+
+[sub_resource type="Resource" id="Resource_hfben"]
+script = ExtResource("7_hfben")
+keep_aspect = 1
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 75.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+metadata/_custom_type_script = "uid://b8hhnqsugykly"
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_hfben"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_fwf6u"]
+
+[node name="Player_Package" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_kx1y4")]
+
+[node name="PlayerCamera" type="Node3D" parent="." node_paths=PackedStringArray("follow_target")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 6)
+script = ExtResource("2_q7mjd")
+follow_mode = 6
+follow_target = NodePath("../Player")
+tween_resource = SubResource("Resource_kx1y4")
+tween_on_load = false
+camera_3d_resource = SubResource("Resource_fwf6u")
+attributes = SubResource("CameraAttributesPhysical_q7mjd")
+follow_offset = Vector3(0, 4.5, 0)
+follow_damping = true
+follow_damping_value = Vector3(0.02, 0.02, 0.02)
+follow_distance = 6.0
+show_viewfinder_in_play = true
+spring_length = 6.0
+shape = SubResource("SphereShape3D_q7mjd")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="DeathCamera" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_q7mjd")
+tween_resource = SubResource("Resource_q7mjd")
+camera_3d_resource = SubResource("Resource_hfben")
+attributes = SubResource("CameraAttributesPhysical_hfben")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 6)
+attributes = SubResource("CameraAttributesPhysical_fwf6u")
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("2_fwf6u")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"

@@ -1,0 +1,678 @@
+[gd_scene load_steps=27 format=3 uid="uid://d2omlm6uv681d"]
+
+[ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
+[ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
+[ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="6_wk5oe"]
+[ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="7_hmw7q"]
+[ext_resource type="PackedScene" uid="uid://ciiv4n3ncxmvk" path="res://Scenes/Level_Elements/Win/Win_Flag.tscn" id="12_cl2ka"]
+[ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
+[ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
+[ext_resource type="PackedScene" uid="uid://1j8uuyuogq0y" path="res://Scenes/Level_Elements/Geyser/buble.tscn" id="15_7x8kf"]
+[ext_resource type="PackedScene" uid="uid://ck4txwt2ocoia" path="res://Scenes/Level_Elements/Anchor/spikey_wood_anchor.tscn" id="15_75ad7"]
+[ext_resource type="PackedScene" uid="uid://cqw7ghvlnlfta" path="res://Scenes/Level_Elements/Moving_Platform/moving_platform.tscn" id="15_c6c5h"]
+[ext_resource type="PackedScene" uid="uid://5bpasprcqyv3" path="res://Scenes/Level_Elements/Anchor/floating_wooden_block_anchor.tscn" id="15_j11i1"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_p2xjw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eulta"]
+albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.246993, 0.537569, 0.594145, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_eulta"]
+material = SubResource("StandardMaterial3D_eulta")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ic1p"]
+albedo_color = Color(0.673899, 0.694103, 0.516753, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p2xjw"]
+material = SubResource("StandardMaterial3D_0ic1p")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_31u70"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31u70"]
+albedo_color = Color(0.180468, 0.530719, 1, 0.686275)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.219608, 0.478431, 0.607843, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ssmnb"]
+material = SubResource("StandardMaterial3D_31u70")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_35ia0"]
+albedo_color = Color(0.105882, 0.501961, 1, 0.686275)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.235294, 0.505882, 0.635294, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_vbihw"]
+material = SubResource("StandardMaterial3D_35ia0")
+
+[sub_resource type="Environment" id="Environment_eulta"]
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cl2ka"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bb7if"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2gv15"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j11i1"]
+
+[node name="BoilingFountain" type="Node3D"]
+script = ExtResource("1_fmtti")
+startPos = Vector3(90, 2, 90)
+
+[node name="Deathplane" type="Area3D" parent="." node_paths=PackedStringArray("collider")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -47.6629, 0)
+script = ExtResource("3_0ic1p")
+dmg = 0
+pushMod = Vector2(0, 0)
+damage_source = 0
+collider = NodePath("CollisionShape3D")
+stunDuration = 0.0
+instantDeath = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Deathplane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.1712, 0)
+shape = SubResource("WorldBoundaryShape3D_p2xjw")
+
+[node name="Player_Package" parent="." instance=ExtResource("14_j11i1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.6029, 4.74974, 86.4418)
+
+[node name="Level Elements" type="Node" parent="."]
+
+[node name="Water" type="Node" parent="Level Elements"]
+
+[node name="WaterLayer0" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(200, 0, 0, 0, 10, 0, 0, 0, 200, 0, 0, 0)
+mesh = SubResource("BoxMesh_eulta")
+skeleton = NodePath("../../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.73, 5, 86.122)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(13.9618, 0, 0, 0, 1, 0, 0, 0, 16.3968, 89.7434, 5, 0.36438)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.000314191)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Water/WaterLayer0/StaticBody3D3"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="Bubble2" type="Area3D" parent="Level Elements/Water/WaterLayer0"]
+transform = Transform3D(10.2791, 0, 0, 0, 10.7347, 0, 0, 0, 10.2791, 86, 9.836, -61)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="WaterLayer1" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.45384, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer1"]
+transform = Transform3D(140, 0, 0, 0, 15, 0, 0, 0, 140, 0, 0, 0)
+mesh = SubResource("BoxMesh_ssmnb")
+skeleton = NodePath("../../../..")
+
+[node name="WaterLayer2" type="Area3D" parent="Level Elements/Water"]
+transform = Transform3D(1, 0, 0, 0, 3.82734, 0, 0, 0, 1, 0, 24.9732, 0)
+collision_mask = 13
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+gravity = 10.0
+linear_damp_space_override = 3
+linear_damp = 0.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Water/WaterLayer2"]
+transform = Transform3D(70, 0, 0, 0, 10, 0, 0, 0, 70, 0, 0, 0)
+mesh = SubResource("BoxMesh_vbihw")
+skeleton = NodePath("../../../..")
+
+[node name="Lighting" type="Node" parent="Level Elements"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level Elements/Lighting"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 140.016, 0)
+light_color = Color(1, 1, 0.917647, 1)
+light_energy = 0.8
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Level Elements/Lighting"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 140.016, 0)
+light_color = Color(1, 1, 0.917647, 1)
+light_energy = 0.4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Level Elements/Lighting"]
+environment = SubResource("Environment_eulta")
+
+[node name="Terrain" type="Node" parent="Level Elements"]
+
+[node name="platform" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 17.2197, 0, 0, 0, 10, 39.7267, 23.1293, -38.3218)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform10" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 27.5449, 0, 0, 0, 10, -39.9655, 20.4942, -39.704)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform10"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform10"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform11" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(15, 0, 0, 0, 35, 0, 0, 0, 25, -39.9655, 20.5792, -22.631)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform11"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform11"]
+shape = SubResource("BoxShape3D_cl2ka")
+
+[node name="platform19" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(20, 0, 0, 0, 35, 0, 0, 0, 20, -39.965, 25.5412, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform19"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform19"]
+shape = SubResource("BoxShape3D_bb7if")
+
+[node name="platform21" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 33.158, 0, 0, 0, 19.8949, -30.0712, 29.6011, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform21"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform21"]
+shape = SubResource("BoxShape3D_2gv15")
+
+[node name="platform20" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 20, 0, 43.424, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform20"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform20"]
+shape = SubResource("BoxShape3D_j11i1")
+
+[node name="platform12" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 5, 0, 0, 0, 15, -29.7676, 43.4886, -1.81025)
+
+[node name="platform13" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 21.1422, -21.0445, 53.6052, -20.1039)
+
+[node name="platform14" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 22.6391, -21.0445, 53.6052, 18.8109)
+
+[node name="platform16" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(-7.66261e-08, 0, 48.1831, 0, 20, 0, -1.753, 0, -2.10615e-06, 2.24909, 53.6052, 30.2306)
+
+[node name="platform18" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(-7.66261e-08, 0, 48.1831, 0, 20, 0, -1.753, 0, -2.10615e-06, 2.24909, 53.6052, -29.9568)
+
+[node name="platform17" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 20, 0, 0, 0, 61.7342, 26.025, 53.605, 0)
+
+[node name="platform15" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(1.753, 0, 0, 0, 5, 0, 0, 0, 19.472, -21.0445, 45.1459, -1.58888)
+
+[node name="platform9" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 16.2028, 0, 0, 0, 10, 39.5997, 22.7813, 1.71863)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform9"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform9"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform2" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(16.0592, 0, 0, 0, 1, 0, 0, 0, 16.0592, 79.988, 0.0542056, -83.0809)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform2"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform2"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform3" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(18.414, 0, 0, 0, 1.8414, 0, 0, 0, 18.414, -79.9594, -0.15603, -83.0532)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform3"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform3"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform5" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(18.414, 0, 0, 0, 1.8414, 0, 0, 0, 6.67397, -69.9175, 19.0963, 47.6069)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0440063)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform5"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform4" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(12.8253, 0, 0, 0, 26.3423, 0, 0, 0, 12.8253, -85.2133, 6.86806, 44.9647)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform4"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform4"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform6" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, -34.2118, 22.2994, 47.5765)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform6"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform6"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform7" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 6.89516, 22.2994, 63.4862)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59613, 0, -0.764282)
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="platform8" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(5, 0, 0, 0, 20, 0, 0, 0, 5, 46.8217, 22.2994, 55.3543)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform8"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform8"]
+shape = SubResource("BoxShape3D_31u70")
+
+[node name="Checkpoint" parent="Level Elements/Terrain" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -85.2133, 21.8379, 48.239)
+
+[node name="Checkpoint2" parent="Level Elements/Terrain" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.7903, 32.1777, 3.47622)
+
+[node name="Floating Boxes" type="Node" parent="Level Elements"]
+
+[node name="MovingPlatform" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.7039, 42.8842, -38.0161)
+speed = 2.0
+distance = 30.0
+
+[node name="FloatingWoodenBlockAnchor" parent="Level Elements/Floating Boxes/MovingPlatform" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
+useAnchorNodeStatsInstead = true
+rootOverride = NodePath("..")
+
+[node name="MovingPlatform3" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.884, -38.016)
+speed = 2.0
+distance = 30.0
+startDelay = 1.0
+
+[node name="FloatingWoodenBlockAnchor" parent="Level Elements/Floating Boxes/MovingPlatform3" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
+useAnchorNodeStatsInstead = true
+rootOverride = NodePath("..")
+
+[node name="MovingPlatform5" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8474, 42.8842, -38.0161)
+speed = 2.0
+distance = 30.0
+startDelay = 2.0
+
+[node name="FloatingWoodenBlockAnchor" parent="Level Elements/Floating Boxes/MovingPlatform5" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 2.95908, 0, 0)
+useAnchorNodeStatsInstead = true
+rootOverride = NodePath("..")
+
+[node name="Notes" type="Node" parent="Level Elements"]
+
+[node name="SpellCollectable" parent="Level Elements" instance=ExtResource("6_wk5oe")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -85.1105, 23.8213, 45.08)
+spell = 1
+
+[node name="Creature" type="Node" parent="Level Elements"]
+
+[node name="Checkpoint" parent="Level Elements" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.0355, 1.63292, 81.5782)
+
+[node name="Checkpoint2" parent="Level Elements" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80.2142, 1.63292, -83.5048)
+
+[node name="Checkpoint3" parent="Level Elements" instance=ExtResource("7_hmw7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.8036, 1.63292, -83.5048)
+
+[node name="Anchors" type="Node" parent="."]
+
+[node name="Fire Goobers" type="Node" parent="Anchors"]
+
+[node name="Group 1" type="Node" parent="Anchors/Fire Goobers"]
+
+[node name="fire_goober_anchor" parent="Anchors/Fire Goobers/Group 1" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 17, -4.5)
+
+[node name="fire_goober_anchor2" parent="Anchors/Fire Goobers/Group 1" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 17, 7.5)
+
+[node name="Group 2" type="Node" parent="Anchors/Fire Goobers"]
+
+[node name="fire_goober_anchor" parent="Anchors/Fire Goobers/Group 2" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2, 17, -69)
+
+[node name="fire_goober_anchor3" parent="Anchors/Fire Goobers/Group 2" instance=ExtResource("14_2gv15")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 17, -69)
+
+[node name="Group 3" type="Node" parent="Anchors/Fire Goobers"]
+
+[node name="Floating Wood" type="Node" parent="Anchors"]
+
+[node name="FloatingWoodenBlockAnchor" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 95, -0.1, 70)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor2" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 89.0456, -0.14935, 58.0856)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor3" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 93.7666, -0.149348, 46.2474)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor4" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 88.6011, -0.149348, 34.1095)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor5" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 90.5866, -0.149348, 21.8682)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor8" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(5.01483, 0, 0, 0, 1.25614, 0, 0, 0, 18.4984, 69, 14.995, 1.5)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor9" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(-2.19205e-07, 0, 18.4984, 0, 1.25614, 0, -5.01483, 0, -8.08591e-07, 7.2, 15, -67)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor6" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 86.6498, -0.149348, -19.5295)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor7" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 94.9588, -0.149348, -33.626)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor10" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 54.837, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor11" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 54.837, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor12" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 48.1299, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor13" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 48.1299, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor14" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 41.3426, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor15" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 41.3426, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor16" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 34.6355, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor17" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 34.6355, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor18" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 28.0248, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor19" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 28.0248, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor20" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 21.3176, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor21" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 21.3176, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor22" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 14.5686, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor23" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 14.5686, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor24" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 7.8615, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor25" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 7.8615, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor26" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0.999804, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor27" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, 0.999804, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor28" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -5.70731, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor29" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -5.70731, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor30" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -12.3683, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor31" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -12.3683, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor32" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -19.0754, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor33" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -19.0754, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor34" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -25.8126, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor35" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -25.8126, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor36" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -32.5197, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor37" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -32.5197, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor38" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -39.3872, 0.00547981, -87.2261)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor39" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -39.3872, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor40" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -80.7785)
+useAnchorNodeStatsInstead = true
+
+[node name="FloatingWoodenBlockAnchor41" parent="Anchors/Floating Wood" instance=ExtResource("15_j11i1")]
+transform = Transform3D(6, 0, 0, 0, 0.5, 0, 0, 0, 6, -46.0943, 0.00547981, -87.2153)
+useAnchorNodeStatsInstead = true
+
+[node name="Geysers" type="Node" parent="Anchors"]
+
+[node name="First Duo" type="Node" parent="Anchors/Geysers"]
+
+[node name="Geyser2" parent="Anchors/Geysers/First Duo" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.5, 0, 0, 0, 1, 0, 0, 0, 2.5, 81.4337, 0.221998, -63.76)
+riseFactor = 3.0
+hangFactor = 0.5
+bobDelay = 0.5
+totalTime = 10.0
+
+[node name="Geyser" parent="Anchors/Geysers/First Duo" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.10334, 0, 0, 0, 1, 0, 0, 0, 2.10334, 90.9272, 0.190391, -48.3872)
+riseFactor = 5.0
+hangFactor = 0.5
+totalTime = 10.0
+
+[node name="Leadup to Fireball" type="Node" parent="Anchors/Geysers"]
+
+[node name="Buble" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 1, 0, 0, 0, 2.175, -84.1456, 0.216267, -52.8919)
+
+[node name="Buble2" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 5, 0, 0, 0, 2.175, -88.246, 2.26266, -27.7607)
+
+[node name="Buble3" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 6, 0, 0, 0, 2.175, -81.6551, 2.58899, -4.15372)
+
+[node name="Buble4" parent="Anchors/Geysers/Leadup to Fireball" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2.175, 0, 0, 0, 6, 0, 0, 0, 2.175, -88.3471, 2.58899, 20.5703)
+riseFactor = 5.0
+
+[node name="Spikey Wood Geysers" type="Node" parent="Anchors/Geysers"]
+
+[node name="Buble" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -48.9773, 15.3121, 47.8073)
+riseFactor = 12.0
+hangFactor = 0.5
+totalTime = 6.0
+
+[node name="Buble2" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -14.2116, 15.3121, 55.0062)
+riseFactor = 12.0
+hangFactor = 0.5
+bobDelay = 3.0
+totalTime = 6.0
+
+[node name="Buble3" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 23.2488, 15.3121, 52.8824)
+riseFactor = 15.0
+hangFactor = 0.5
+bobDelay = 6.0
+totalTime = 6.0
+
+[node name="Buble4" parent="Anchors/Geysers/Spikey Wood Geysers" instance=ExtResource("15_7x8kf")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 46.8914, 15.3121, 34.8812)
+riseFactor = 12.0
+hangFactor = 0.5
+bobDelay = 9.0
+totalTime = 6.0
+
+[node name="Spikey Wood" type="Node" parent="Anchors"]
+
+[node name="spikey_wood_anchor" parent="Anchors/Spikey Wood" instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, -34.5623, 34.139, 47.2826)
+
+[node name="spikey_wood_anchor2" parent="Anchors/Spikey Wood" instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 4.44607, 34.139, 59.3066)
+
+[node name="spikey_wood_anchor3" parent="Anchors/Spikey Wood" instance=ExtResource("15_75ad7")]
+transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 46.8292, 34.139, 54.8929)
+
+[node name="Falling Wood" type="Node" parent="Anchors"]
+
+[node name="MovingPlatform" parent="Anchors/Falling Wood" instance=ExtResource("15_c6c5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.7909, 41, 18)
+speed = 5.0
+distance = 25.0
+
+[node name="FloatingWoodenBlockAnchor" parent="Anchors/Falling Wood/MovingPlatform" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
+transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0, 0)
+useAnchorNodeStatsInstead = true
+rootOverride = NodePath("..")
+
+[node name="MovingPlatform2" parent="Anchors/Falling Wood" instance=ExtResource("15_c6c5h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.7909, 41, -19.4184)
+speed = 5.0
+distance = 25.0
+
+[node name="FloatingWoodenBlockAnchor" parent="Anchors/Falling Wood/MovingPlatform2" node_paths=PackedStringArray("rootOverride") instance=ExtResource("15_j11i1")]
+transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0, 0)
+useAnchorNodeStatsInstead = true
+rootOverride = NodePath("..")
+
+[node name="Win_Flag" parent="." instance=ExtResource("12_cl2ka")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 45.7577, 0)

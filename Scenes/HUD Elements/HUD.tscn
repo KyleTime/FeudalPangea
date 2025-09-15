@@ -1,15 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4s0jb3rhv7ba"]
+[gd_scene load_steps=17 format=3 uid="uid://c4s0jb3rhv7ba"]
 
 [ext_resource type="Script" uid="uid://dm1ayahv0risr" path="res://FeudalPangaeaCode/HUD/HUDHandler.cs" id="1_smdbh"]
 [ext_resource type="Texture2D" uid="uid://dp6j1ja4jrkw0" path="res://Sprites/HUD/HP Counter/HP-0.png" id="2_ajo0l"]
 [ext_resource type="Texture2D" uid="uid://cd6qkoeqjmyn3" path="res://Sprites/HUD/HP Counter/HP-6.png" id="2_ryunw"]
 [ext_resource type="Texture2D" uid="uid://c04y6r13lhcow" path="res://Sprites/HUD/HP Counter/HP-1.png" id="3_6o4el"]
-[ext_resource type="Texture2D" uid="uid://d4k0plad33gx5" path="res://Sprites/HUD/Spell UI/spell UI.png" id="3_ksekh"]
 [ext_resource type="Texture2D" uid="uid://vct5jcp3xsek" path="res://Sprites/HUD/coin count/coin UI.png" id="4_5ihyk"]
 [ext_resource type="Texture2D" uid="uid://cmrld1kwfo801" path="res://Sprites/HUD/HP Counter/HP-2.png" id="4_d7q4b"]
 [ext_resource type="Texture2D" uid="uid://bf3icfk016iis" path="res://Sprites/HUD/HP Counter/HP-3.png" id="5_7ht03"]
 [ext_resource type="Texture2D" uid="uid://bgdat0aq5xemy" path="res://Sprites/HUD/HP Counter/HP-4.png" id="6_wcpbg"]
 [ext_resource type="Texture2D" uid="uid://bil2eau2fadof" path="res://Sprites/HUD/HP Counter/HP-5.png" id="7_t8l4t"]
+[ext_resource type="Texture2D" uid="uid://bfp7k6fmmcohn" path="res://Sprites/HUD/crosshair.png" id="10_tfmn0"]
+[ext_resource type="Texture2D" uid="uid://6y8fkoach13l" path="res://Sprites/HUD/WinIndicator/you win!.png" id="11_mwlmq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gwk3h"]
 font_size = 100
@@ -19,7 +20,79 @@ font_color = Color(1, 0, 0, 1)
 default_base_scale = 10.0
 default_font_size = 140
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel", "coinCounter")]
+[sub_resource type="Animation" id="Animation_knubl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/winPanel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/winPanel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(960, 540)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer/winPanel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.1, 0.1)]
+}
+
+[sub_resource type="Animation" id="Animation_3nqg4"]
+resource_name = "win_hud_anim"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/winPanel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/winPanel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.533333, 0.966667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(2, 2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ddcxi"]
+_data = {
+&"RESET": SubResource("Animation_knubl"),
+&"win_hud_anim": SubResource("Animation_3nqg4")
+}
+
+[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel", "coinCounter", "anim")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +105,7 @@ rect = NodePath("HP_RATIO_CONTAINER/HP")
 diedGraphic = NodePath("Death Panel/YOU DIED")
 diedPanel = NodePath("Death Panel")
 coinCounter = NodePath("RichTextLabel")
+anim = NodePath("AnimationPlayer")
 
 [node name="Death Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -94,24 +168,6 @@ layout_mode = 2
 texture = ExtResource("2_ryunw")
 expand_mode = 1
 
-[node name="SPELL_RATIO_CONTAINER" type="AspectRatioContainer" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -721.0
-offset_top = -513.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.5, 0.5)
-pivot_offset = Vector2(650, 450)
-
-[node name="SpellUI" type="TextureRect" parent="SPELL_RATIO_CONTAINER"]
-layout_mode = 2
-texture = ExtResource("3_ksekh")
-
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 2
 offset_left = 233.0
@@ -130,3 +186,52 @@ offset_bottom = 40.0
 [node name="TextureRect" type="TextureRect" parent="COIN_CONTAINER"]
 layout_mode = 2
 texture = ExtResource("4_5ihyk")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_tfmn0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ddcxi")
+}
+
+[node name="winPanel" type="Panel" parent="AnimationPlayer"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+size_flags_horizontal = 4
+
+[node name="winRect" type="TextureRect" parent="AnimationPlayer/winPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -126.5
+offset_right = 360.0
+offset_bottom = 126.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(360, 126)
+texture = ExtResource("11_mwlmq")

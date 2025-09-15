@@ -1,0 +1,150 @@
+[gd_scene load_steps=6 format=3 uid="uid://dm4v2ukebelgm"]
+
+[ext_resource type="Script" uid="uid://boion0o11361v" path="res://FeudalPangaeaCode/Menu/PauseMenu.cs" id="1_1j166"]
+[ext_resource type="Texture2D" uid="uid://cbu6jxdlacbfe" path="res://Sprites/Pause/pause menu.png" id="1_as6yf"]
+[ext_resource type="Script" uid="uid://cho8yi7i12x47" path="res://FeudalPangaeaCode/Menu/Options.cs" id="3_tf3q2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tf3q2"]
+font_size = 32
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1j166"]
+font_size = 24
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="Control" node_paths=PackedStringArray("cont", "quit")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1j166")
+cont = NodePath("Control/Menu/Buttons/Return")
+quit = NodePath("Control/Menu/Buttons/Quit")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -20.0
+offset_right = 18.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -526.5
+offset_top = -362.0
+offset_right = 526.5
+offset_bottom = 362.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_as6yf")
+
+[node name="Menu" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+offset_left = -395.333
+offset_top = -108.667
+offset_right = -270.333
+offset_bottom = 16.3333
+scale = Vector2(1.76125, 1.81508)
+
+[node name="Buttons" type="VBoxContainer" parent="Control/Menu"]
+layout_mode = 2
+
+[node name="Return" type="Button" parent="Control/Menu/Buttons"]
+layout_mode = 2
+text = "Return"
+
+[node name="Options" type="Button" parent="Control/Menu/Buttons"]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="Control/Menu/Buttons"]
+layout_mode = 2
+text = "Quit"
+
+[node name="GraphicsOptions" type="HBoxContainer" parent="Control" node_paths=PackedStringArray("resOptionButton", "fullscreenCheckBox", "vsyncCheckBox", "screens")]
+layout_mode = 2
+offset_left = 50.0
+offset_top = -268.0
+offset_right = 469.0
+offset_bottom = -248.0
+script = ExtResource("3_tf3q2")
+resOptionButton = NodePath("HorizontalContainer/ResolutionLabel/ResolutionSelect")
+fullscreenCheckBox = NodePath("HorizontalContainer/FullscreenLabel/FullscreenCheckBox")
+vsyncCheckBox = NodePath("HorizontalContainer/VSyncLabel/VSyncCheckBox")
+screens = NodePath("HorizontalContainer/ScreensLabel/ScreenOptionBox")
+
+[node name="HorizontalContainer" type="VBoxContainer" parent="Control/GraphicsOptions"]
+layout_mode = 2
+
+[node name="OptionMenuHeader" type="Label" parent="Control/GraphicsOptions/HorizontalContainer"]
+layout_mode = 2
+text = "Options Menu"
+label_settings = SubResource("LabelSettings_tf3q2")
+
+[node name="ResolutionLabel" type="Label" parent="Control/GraphicsOptions/HorizontalContainer"]
+layout_mode = 2
+text = "Resolution:"
+label_settings = SubResource("LabelSettings_1j166")
+
+[node name="ResolutionSelect" type="OptionButton" parent="Control/GraphicsOptions/HorizontalContainer/ResolutionLabel"]
+layout_mode = 2
+offset_left = 134.0
+offset_top = 8.66667
+offset_right = 166.0
+offset_bottom = 28.6667
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="FullscreenLabel" type="Label" parent="Control/GraphicsOptions/HorizontalContainer"]
+layout_mode = 2
+text = "Fullscreen:"
+label_settings = SubResource("LabelSettings_1j166")
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="Control/GraphicsOptions/HorizontalContainer/FullscreenLabel"]
+layout_mode = 2
+offset_left = 134.0
+offset_top = 6.66667
+offset_right = 166.0
+offset_bottom = 30.6667
+
+[node name="VSyncLabel" type="Label" parent="Control/GraphicsOptions/HorizontalContainer"]
+layout_mode = 2
+text = "VSync:"
+label_settings = SubResource("LabelSettings_1j166")
+
+[node name="VSyncCheckBox" type="CheckBox" parent="Control/GraphicsOptions/HorizontalContainer/VSyncLabel"]
+layout_mode = 2
+offset_left = 134.0
+offset_top = 6.66667
+offset_right = 166.0
+offset_bottom = 30.6667
+
+[node name="ScreensLabel" type="Label" parent="Control/GraphicsOptions/HorizontalContainer"]
+layout_mode = 2
+text = "Display Screen: "
+label_settings = SubResource("LabelSettings_1j166")
+
+[node name="ScreenOptionBox" type="OptionButton" parent="Control/GraphicsOptions/HorizontalContainer/ScreensLabel"]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 10.3333
+offset_right = 214.0
+offset_bottom = 30.3333

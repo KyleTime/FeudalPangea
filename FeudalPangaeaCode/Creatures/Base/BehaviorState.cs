@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 /// <summary>
 /// Interface to be used by the CreatureStateMachine class for state behavior.
@@ -76,28 +77,41 @@ public abstract class BehaviorState
             return null;
 
         foreach (var pair in transitions)
+        {
+            bool condition = false;
+
+            //if we attempt to access a disposed object, catch it and set target to null
+            try
             {
-                if (pair.Key.Condition(self))
-                {
-                    GD.Print("State: " + pair.Value.GetType().Name);
-
-                    //transition out of this state
-                    TransitionOut(self, delta);
-
-                    //grab target from conditional
-                    //if null, assume no change
-                    ICreature target = pair.Key.GetTarget();
-                    if (target != null)
-                    {
-                        self.target = target;
-                    }
-
-                    //transition into new state
-                    self.Velocity = pair.Value.TransitionIn(self, delta);
-
-                    return pair.Value;
-                }
+                condition = pair.Key.Condition(self);
             }
+            catch (System.ObjectDisposedException e)
+            {
+                self.target = null;
+                GD.Print("Creature (" + self.Name + ") tried to access a disposed object in a transition condition.");
+            }
+
+            if (condition)
+            {
+                GD.Print("State: " + pair.Value.GetType().Name);
+
+                //transition out of this state
+                TransitionOut(self, delta);
+
+                //grab target from conditional
+                //if null, assume no change
+                ICreature target = pair.Key.GetTarget();
+                if (target != null)
+                {
+                    self.target = target;
+                }
+
+                //transition into new state
+                self.Velocity = pair.Value.TransitionIn(self, delta);
+
+                return pair.Value;
+            }
+        }
 
         return null;
     }

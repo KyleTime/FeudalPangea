@@ -14,9 +14,22 @@ public partial class HitFx : Node3D
     private Vector3 initialScale;
     float time;
 
-    public override void _Ready()
+    private bool pause;
+
+    public async override void _Ready()
     {
+        if (effect == null)
+        {
+            effect = GetChild<Node3D>(0);
+        }
+
+        effect.Visible = false;
+
         initialScale = effect.Scale.Normalized();
+
+        await Task.Delay(1);
+
+        TimeManager.stn.Pause += Pause;
     }
 
     protected float InvertedParabolaScale(float x, float totalTime)
@@ -33,8 +46,8 @@ public partial class HitFx : Node3D
             return;
         }
 
-        if(freezeTime)
-            GetTree().Paused = true;
+        if (freezeTime)
+            FreezeFrame(true);
 
         effect.GlobalPosition = effectPos;
         effect.Rotation = rotation with { X = 0, Z = 0 };
@@ -42,14 +55,20 @@ public partial class HitFx : Node3D
 
         while (time < pauseTime)
         {
+            if (pause)
+            {
+                await Task.Delay(100);
+                continue;
+            }
+
             ChangeEffectAtStep();
 
             time += step;
             await Task.Delay((int)(step * 1000));
         }
 
-        if(freezeTime)
-            GetTree().Paused = false;
+        if (freezeTime)
+            FreezeFrame(false);
 
         effect.Visible = false;
 
@@ -59,5 +78,15 @@ public partial class HitFx : Node3D
     protected virtual void ChangeEffectAtStep()
     {
         effect.Scale = initialScale * InvertedParabolaScale(time, pauseTime) * scaleMod;
+    }
+
+    protected void FreezeFrame(bool freeze)
+    {
+        TimeManager.FreezeTime(freeze);
+    }
+
+    private void Pause(bool pause)
+    {
+        this.pause = pause;
     }
 }

@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bhgm5ifrwdcg1"
+path.s3tc="res://.godot/imported/meeting_level_blenderRef.jpg-12873c8da3e5a27ea773dc60ca3e3c19.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "9694e17533c3e88ad282b5811f30505d"
+}
+
+[deps]
+
+source_file="res://Models/Level Models/Meeting Blocked Level/meeting_level_blenderRef.jpg"
+dest_files=["res://.godot/imported/meeting_level_blenderRef.jpg-12873c8da3e5a27ea773dc60ca3e3c19.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

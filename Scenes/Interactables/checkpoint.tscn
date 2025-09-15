@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://xofgq1uo542d"]
+
+[ext_resource type="Script" uid="uid://dar1y66180xnx" path="res://FeudalPangaeaCode/Level_Elements/Checkpoint/Checkpoint.cs" id="1_lkanm"]
+[ext_resource type="Script" uid="uid://rt1gact7ryrd" path="res://FeudalPangaeaCode/Hitboxes/Visual Effects/HitFx.cs" id="2_2w6jy"]
+[ext_resource type="Texture2D" uid="uid://bfp7k6fmmcohn" path="res://Sprites/HUD/crosshair.png" id="3_boeas"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkanm"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_tlnd1"]
+material = SubResource("StandardMaterial3D_lkanm")
+
+[node name="Checkpoint" type="Node3D" node_paths=PackedStringArray("visual", "checkpointEffect")]
+script = ExtResource("1_lkanm")
+visual = NodePath("MeshInstance3D")
+checkpointEffect = NodePath("fx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("PrismMesh_tlnd1")
+
+[node name="fx" type="Node3D" parent="." node_paths=PackedStringArray("effect")]
+script = ExtResource("2_2w6jy")
+effect = NodePath("Sprite3D")
+step = 0.05
+scaleMod = 20.0
+freezeTime = false
+
+[node name="Sprite3D" type="Sprite3D" parent="fx"]
+modulate = Color(1, 0.698039, 0.356863, 1)
+billboard = 2
+no_depth_test = true
+texture_filter = 0
+texture = ExtResource("3_boeas")

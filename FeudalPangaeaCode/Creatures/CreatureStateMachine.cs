@@ -24,11 +24,18 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
     //offset from feet to the center of the creature
     private Vector3 creatureCenterOffset = new Vector3(0, 1, 0);
 
-    private AnimationPlayer player;
+    private AnimationPlayer anim;
+
+    private bool isMajorCreature;
+
+    [Export] public Node3D model;
+
+    public bool IsMajor => isMajorCreature;
 
     //This is the builder for the CreatureStateMachine
     // refer to the following link for a resource on the Builder Pattern: https://www.baeldung.com/java-builder-pattern 
     // yes, it's in java, but that's how my classes taught me so anyway
+
     public class Builder
     {
         int HP = 1;
@@ -36,7 +43,8 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         BehaviorState stunState;
         BehaviorState deathState;
         Vector3 creatureCenterOffset = new Vector3(0, 1, 0);
-        AnimationPlayer player;
+        AnimationPlayer anim;
+        bool isMajorCreature = false;
 
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
 
@@ -47,7 +55,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, player);
+            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, anim, isMajorCreature);
         }
 
         public void buildOnExisting(CreatureStateMachine machine)
@@ -58,7 +66,8 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             machine.HP = HP;
             machine.target = null;
             machine.creatureCenterOffset = creatureCenterOffset;
-            machine.player = player;
+            machine.anim = anim;
+            machine.isMajorCreature = isMajorCreature;
         }
 
         /// <summary>
@@ -72,15 +81,42 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             return this;
         }
 
+        /// <summary>
+        /// Sets the offset that the game will use from the position of the creature to get the center.
+        /// Used for things like targeting where it's typically much more consistent to cast a ray from
+        /// one center to the next. However, creature positions are always at their feet, so this 
+        /// seeks to solve that issue.
+        /// </summary>
+        /// <param name="creatureCenterOffset"></param>
+        /// <returns></returns>
         public Builder SetCenterOffset(Vector3 creatureCenterOffset)
         {
             this.creatureCenterOffset = creatureCenterOffset;
             return this;
         }
 
+        /// <summary>
+        /// Set the animation player of the CreatureStateMachine.
+        /// This allows each running state to have free reign of the 
+        /// animations.
+        /// </summary>
+        /// <param name="animationPlayer"></param>
+        /// <returns></returns>
         public Builder SetAnimationPlayer(AnimationPlayer animationPlayer)
         {
-            this.player = animationPlayer;
+            this.anim = animationPlayer;
+            return this;
+        }
+
+        /// <summary>
+        /// Calling this function makes the creature a major creature.
+        /// This means they cannot be harmed by basic punches unless
+        /// stunned.
+        /// </summary>
+        /// <returns>The Builder!</returns>
+        public Builder SetMajor()
+        {
+            isMajorCreature = true;
             return this;
         }
 
@@ -180,35 +216,36 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer player)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer anim, bool isMajorCreature)
     {
         this.state = initialState;
         this.stunState = stunState;
         this.deathState = deathState;
         this.HP = HP;
         this.creatureCenterOffset = creatureCenterOffset;
-        this.player = player;
+        this.anim = anim;
+        this.isMajorCreature = isMajorCreature;
         target = null;
 
         if (deathState == null)
         {
-            GD.Print("WHAT!");
-        }
-        else
-        {
-            GD.Print("death assigned properly!");
+            GD.Print("DEATH STATE IS NULL, CREATURE WILL NOT DIE");
         }
     }
 
+    static CreatureStateMachine one;
+
     public CreatureStateMachine()
     {
+        one = this;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         deltaTime = delta;
 
-        stunTimer = Math.Clamp(stunTimer - (float)delta, 0, 9999);
+        if (IsOnFloor())
+            stunTimer = Math.Clamp(stunTimer - (float)delta, 0, 9999);
 
         BehaviorState nextState = state.StateTransition(this, delta);
 
@@ -223,8 +260,8 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
         Velocity = state.GetStepVelocity(this, delta);
 
-        if(player != null)
-            state.HandleAnimation(player);
+        if (anim != null)
+            state.HandleAnimation(anim);
 
         MoveAndSlide();
     }
@@ -236,18 +273,26 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
         if (HP <= 0)
         {
-            GD.Print("DEAD!");
-
-            if (deathState == null)
-                GD.Print("death is null");
-
-            ForceState(deathState, deltaTime, null, true);
+            Die(source);
         }
+    }
+
+    public AnimationPlayer GetAnimationPlayer()
+    {
+        return anim;
     }
 
     public int GetHP()
     {
         return HP;
+    }
+
+    public void Die(DamageSource source)
+    {
+        if (deathState == null)
+            QueueFree();
+
+        ForceState(deathState, deltaTime, null, true);
     }
 
     public CreatureState GetState()
@@ -290,6 +335,11 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         state = nextState;
 
         state.TransitionIn(this, delta);
+    }
+
+    public void LookAt(Vector3 direction)
+    {
+        model.LookAt(direction);
     }
 
     /// <summary>

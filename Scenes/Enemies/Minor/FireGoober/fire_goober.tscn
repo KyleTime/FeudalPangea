@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://clhw552ipkkos"]
+
+[ext_resource type="Script" uid="uid://cmpkegydua5tb" path="res://FeudalPangaeaCode/Creatures/Minor/FireGoober/FireGoober.cs" id="1_afxd4"]
+[ext_resource type="Script" uid="uid://rpki271kjeu2" path="res://FeudalPangaeaCode/Hitboxes/Hurtbox.cs" id="2_0jwja"]
+[ext_resource type="Texture2D" uid="uid://btu3ybttu2eci" path="res://Sprites/Creature_Tex/fire_turret.png" id="3_t1c8e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rkcbt"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_afxd4"]
+radius = 1.0
+height = 2.5
+
+[node name="fire_goober" type="CharacterBody3D"]
+script = ExtResource("1_afxd4")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Hurtbox" type="Area3D" parent="Body"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("2_0jwja")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_rkcbt")
+
+[node name="Sprite3D" type="Sprite3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+pixel_size = 0.003
+billboard = 2
+texture = ExtResource("3_t1c8e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23773, 0)
+shape = SubResource("CapsuleShape3D_afxd4")
+debug_color = Color(0.970034, 0, 0.457412, 0.42)

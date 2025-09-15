@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://ck4txwt2ocoia"]
+
+[ext_resource type="Script" uid="uid://dsqu3o0sxlpt1" path="res://FeudalPangaeaCode/Level_Elements/Anchors/Anchor.cs" id="1_nyraj"]
+[ext_resource type="PackedScene" uid="uid://dnocf3hsq2edq" path="res://Scenes/Level_Elements/Wood_Stuff/spikey_wood.tscn" id="2_nyraj"]
+[ext_resource type="Script" uid="uid://cyjneovsqmmwb" path="res://FeudalPangaeaCode/Level_Elements/Editor_Elements/EditorBillboard.cs" id="3_nyraj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mbh0y"]
+albedo_color = Color(0.815686, 0.345098, 1, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_nyraj"]
+material = SubResource("StandardMaterial3D_mbh0y")
+
+[node name="spikey_wood_anchor" type="Node3D"]
+script = ExtResource("1_nyraj")
+entity = ExtResource("2_nyraj")
+useAnchorNodeStatsInstead = true
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("3_nyraj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(-0.398349, 0.844868, 0.357094, -0.864116, -0.476235, 0.162803, 0.307607, -0.243718, 0.919771, 0.144137, -0.0695694, 0)
+mesh = SubResource("PrismMesh_nyraj")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(-0.510482, 0.852947, -0.109042, 0.158582, -0.0312505, -0.986851, -0.845139, -0.521062, -0.119309, 0.0938317, -0.0599346, -0.0154916)
+mesh = SubResource("PrismMesh_nyraj")
+skeleton = NodePath("../..")

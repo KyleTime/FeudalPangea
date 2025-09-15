@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqw7ghvlnlfta"]
+
+[ext_resource type="Script" uid="uid://b4fkf6ors4pdt" path="res://FeudalPangaeaCode/Level_Elements/Moving_Platform/FallingObject.cs" id="1_mdooq"]
+
+[node name="MovingPlatform" type="Node3D"]
+script = ExtResource("1_mdooq")

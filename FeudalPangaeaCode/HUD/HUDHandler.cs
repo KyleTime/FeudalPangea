@@ -12,12 +12,16 @@ public partial class HUDHandler : Node
 
     [Export] RichTextLabel coinCounter;
 
+    [Export] AnimationPlayer anim;
+
     public override void _Process(double delta)
     {
         base._Process(delta);
 
         //this is terrible, please do an event somehow
-        coinCounter.Text = GlobalData.getCoinCount().ToString();
+        coinCounter.Text = GlobalData.GetCoinCount().ToString();
+
+        LevelManager.currentLevel.WinLevel += PlayWinHudThingy;
     }
 
 
@@ -26,14 +30,16 @@ public partial class HUDHandler : Node
         float percentage = (float)HP / MAX_HP;
         int hpDisplay = (int)(percentage * 6);
 
-        GD.Print("HP: " + HP + " MAX_HP: " + MAX_HP);
-
-        GD.Print("percentage: " + percentage + " hpDisplay: " + hpDisplay);
-
         rect.Texture = hpFrames[hpDisplay];
     }
 
-    public async Task HUD_Death_Animation(){
+    public void PlayWinHudThingy()
+    {
+        anim.Play("win_hud_anim");
+    }
+
+    public async Task HUD_Death_Animation()
+    {
         await Task.Delay(1000); //time before thing appears
         diedPanel.Scale = new Vector2(1, 1);
         diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, 0);
@@ -45,7 +51,14 @@ public partial class HUDHandler : Node
         float last_time = 1;
 
         float timer = 0;
-        while(timer < first_time){
+        while (timer < first_time)
+        {
+            if (GetTree().Paused)
+            {
+                await Task.Delay(100);
+                continue;
+            }
+
             diedPanel.Scale = new Vector2(1 + timer * 0.2f, 1 + timer * 0.2f);
             diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, Math.Clamp(timer, 0, 1));
             label.LabelSettings.FontColor = new Color(label.LabelSettings.FontColor.R, label.LabelSettings.FontColor.B, label.LabelSettings.FontColor.G, Math.Clamp(timer, 0, 1));
@@ -55,7 +68,8 @@ public partial class HUDHandler : Node
 
         timer = 0;
 
-        while(timer < last_time){
+        while (timer < last_time)
+        {
             diedPanel.Scale = new Vector2(1 + (timer + first_time) * 0.2f, 1 + (timer + first_time) * 0.2f);
             diedGraphic.Color = new Color(diedGraphic.Color.R, diedGraphic.Color.B, diedGraphic.Color.G, Math.Clamp(1 - timer, 0, 1));
             label.LabelSettings.FontColor = new Color(label.LabelSettings.FontColor.R, label.LabelSettings.FontColor.B, label.LabelSettings.FontColor.G, Math.Clamp(1 - timer, 0, 1));
@@ -65,7 +79,6 @@ public partial class HUDHandler : Node
 
         await Task.Delay(500);
 
-        GD.Print("Routine end");
         diedGraphic.Visible = false;
     }
 }

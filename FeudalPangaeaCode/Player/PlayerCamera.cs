@@ -1,74 +1,80 @@
 using Godot;
+using PhantomCamera;
 using System;
 using System.Threading.Tasks;
 
-//this script is to be placed on the "CamOrigin" node
 public partial class PlayerCamera : Node3D
 {
 	[Export] public float sens = 0.3f;
+	[Export] public float minPitch = -80f;
+	[Export] public float maxPitch = 70;
 
-	private Node3D camOriginX;
-
-	private Camera3D camera;
-	[Export] Camera3D cinematicCamera; //used for things like cutscenes and death
+	public PhantomCamera3D playerCam;
+	public PhantomCamera3D deathCam;
+	public Camera3D cam;
 
 	// Called when the node enters the scene tree for the first time.
-	public async override void _Ready()
+	public override void _Ready()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		camOriginX = GetNode<Node3D>("CamOriginX");
-		camera = GetNode<Camera3D>("CamOriginX/SpringArm3D/Camera3D");
-
-		await Task.Delay(10);
-
-		RemoveChild(cinematicCamera);
-		GetTree().Root.GetChild(0).AddChild(cinematicCamera);
-
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public new Basis GetBasis()
 	{
+		return cam.Basis;
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
-		{
-			InputEventMouseMotion m = (InputEventMouseMotion)@event;
-
-			RotateY((float)(Math.PI / 180 * -m.Relative.X * sens));
-			camOriginX.RotateX((float)(Math.PI / 180 * -m.Relative.Y * sens));
-
-			camOriginX.Rotation = new Vector3(Math.Clamp(camOriginX.Rotation.X, (float)(Math.PI / 180 * -90), (float)(Math.PI / 180 * 45)), camOriginX.Rotation.Y, camOriginX.Rotation.Z);
-		}
-
-		if (Input.MouseMode == Input.MouseModeEnum.Visible && Input.IsMouseButtonPressed(MouseButton.Left))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-		else if (Input.IsActionJustPressed("QUIT"))
+		if (Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionJustPressed("CAST3"))
 		{
 			Input.MouseMode = Input.MouseModeEnum.Visible;
 		}
+		else if (Input.IsActionJustPressed("CAST3"))
+		{
+			Input.MouseMode = Input.MouseModeEnum.Captured;
+		}
+
+		if(Input.MouseMode == Input.MouseModeEnum.Captured)
+			SetPlayerCamRotation(playerCam, @event);
     }
 
-	public new Basis GetBasis()
+	void SetPlayerCamRotation(PhantomCamera3D cam, InputEvent @event)
 	{
-		return camera.GlobalBasis;
+		if (@event is InputEventMouseMotion)
+		{
+			InputEventMouseMotion m = (InputEventMouseMotion)@event;
+
+			Vector3 playerCamRotationDegrees = new Vector3();
+
+			playerCamRotationDegrees = cam.GetThirdPersonRotationDegrees();
+
+			playerCamRotationDegrees.X -= m.Relative.Y * sens;
+
+			playerCamRotationDegrees.X = Mathf.Clamp(playerCamRotationDegrees.X, minPitch, maxPitch);
+
+			playerCamRotationDegrees.Y -= m.Relative.X * sens;
+
+			playerCamRotationDegrees.Y = (float)Mathf.Wrap((double)playerCamRotationDegrees.Y, 0, 360);
+
+			cam.SetThirdPersonDegrees(playerCamRotationDegrees);
+		}
 	}
 
 	public void DeathCam(int HP, int MAX_HP)
 	{
-		if(HP <= 0)
+		if (HP <= 0)
 		{
-			camera.Current = false;
-			cinematicCamera.Current = true;
+			deathCam.Node3D.GlobalPosition = playerCam.Node3D.GlobalPosition;
+			deathCam.Node3D.GlobalBasis = playerCam.Node3D.GlobalBasis;
 
-			cinematicCamera.GlobalPosition = camera.GlobalPosition;
-			cinematicCamera.GlobalBasis = camera.GlobalBasis;
-
-			GD.Print("Swous!");
+			deathCam.Priority = 30;
+			playerCam.Priority = 0;
+		}
+		else
+		{
+			deathCam.Priority = 0;
+			playerCam.Priority = 30;
 		}
 	}
 }
