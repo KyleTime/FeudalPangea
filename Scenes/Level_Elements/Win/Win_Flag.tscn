@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://ciiv4n3ncxmvk"]
+
+[ext_resource type="Script" uid="uid://cau32xtk64w43" path="res://FeudalPangaeaCode/Level_Elements/Objectives/WinFlag.cs" id="1_j0bsj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_567ag"]
+albedo_color = Color(0.187904, 2.36894e-07, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j0bsj"]
+material = SubResource("StandardMaterial3D_567ag")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cegl"]
+albedo_color = Color(0.964706, 0.0823529, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_5p8li"]
+material = SubResource("StandardMaterial3D_2cegl")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_567ag"]
+height = 8.29785
+radius = 5.0
+
+[node name="Win_Flag" type="Node3D"]
+script = ExtResource("1_j0bsj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 5.0097, 0)
+mesh = SubResource("CylinderMesh_j0bsj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.74846e-07, 4, 0, -4, -1.74846e-07, 0, 0, 0, 0.2, 2.26978, 7.90778, 0)
+mesh = SubResource("PrismMesh_5p8li")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.08656, 0)
+shape = SubResource("CylinderShape3D_567ag")
+
+[connection signal="body_entered" from="Area3D" to="." method="BodyEntered"]

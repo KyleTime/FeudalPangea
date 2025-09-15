@@ -1,14 +1,27 @@
+using System.Reflection.Metadata.Ecma335;
 using Godot;
 
 public partial class TimeManager : Node
 {
     public static TimeManager stn;
 
-    public static int freezeTimeCount = 0;
-    public static bool gamePaused = false;
+    static int freezeTimeCount;
+    public static int freezeCount
+    {
+        private set { freezeTimeCount = value; }
+        get { return freezeTimeCount; }
+    }
+
+    static bool gamePaused = false;
+    public static bool gameIsPaused
+    {
+        private set { gamePaused = value; }
+        get { return gamePaused; }
+    }
 
     /// <summary>
     /// Triggers whenever the freezeframe pause state changes.
+    /// Freezes the game, useful for impact stuff.
     /// </summary>
     /// <param name="paused">Whether the game is currently in "freezeframe", also denoted by (freezeTimeCount != 0).
     /// Note that the game might be otherwise paused, so please check the GetTree().Paused property too</param>
@@ -17,6 +30,7 @@ public partial class TimeManager : Node
 
     /// <summary>
     /// Triggers whenever the game is paused.
+    /// Higher priority than freeze frame, if this says the game is paused, it's paused until this says so.
     /// </summary>
     /// <param name="paused">Whether the game is paused, also denoted by the (gamePaused) value</param>
     [Signal]

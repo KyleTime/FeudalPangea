@@ -1,10 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://d2omlm6uv681d"]
+[gd_scene load_steps=27 format=3 uid="uid://d2omlm6uv681d"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_fmtti"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_0ic1p"]
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="6_wk5oe"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="7_hmw7q"]
-[ext_resource type="PackedScene" uid="uid://cw3bbuwt8s4qk" path="res://Scenes/Level_Elements/Anchor/rock_mimic_anchor.tscn" id="13_bb7if"]
+[ext_resource type="PackedScene" uid="uid://ciiv4n3ncxmvk" path="res://Scenes/Level_Elements/Win/Win_Flag.tscn" id="12_cl2ka"]
 [ext_resource type="PackedScene" uid="uid://de2urq0totey1" path="res://Scenes/Level_Elements/Anchor/fire_goober_anchor.tscn" id="14_2gv15"]
 [ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="14_j11i1"]
 [ext_resource type="PackedScene" uid="uid://1j8uuyuogq0y" path="res://Scenes/Level_Elements/Geyser/buble.tscn" id="15_7x8kf"]
@@ -60,6 +60,14 @@ material = SubResource("StandardMaterial3D_35ia0")
 
 [sub_resource type="Environment" id="Environment_eulta"]
 glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cl2ka"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bb7if"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2gv15"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j11i1"]
 
 [node name="BoilingFountain" type="Node3D"]
 script = ExtResource("1_fmtti")
@@ -196,20 +204,40 @@ mesh = SubResource("BoxMesh_p2xjw")
 shape = SubResource("BoxShape3D_31u70")
 
 [node name="platform11" type="StaticBody3D" parent="Level Elements/Terrain"]
-transform = Transform3D(10, 0, 0, 0, 29.862, 0, 0, 0, 30, -39.9655, 23.42, -20.0171)
+transform = Transform3D(15, 0, 0, 0, 35, 0, 0, 0, 25, -39.9655, 20.5792, -22.631)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform11"]
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform11"]
+shape = SubResource("BoxShape3D_cl2ka")
 
 [node name="platform19" type="StaticBody3D" parent="Level Elements/Terrain"]
-transform = Transform3D(10, 0, 0, 0, 33.158, 0, 0, 0, 19.8949, -39.965, 27.9737, 0)
+transform = Transform3D(20, 0, 0, 0, 35, 0, 0, 0, 20, -39.965, 25.5412, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform19"]
 mesh = SubResource("BoxMesh_p2xjw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform19"]
+shape = SubResource("BoxShape3D_bb7if")
+
+[node name="platform21" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(10, 0, 0, 0, 33.158, 0, 0, 0, 19.8949, -30.0712, 29.6011, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform21"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform21"]
+shape = SubResource("BoxShape3D_2gv15")
+
+[node name="platform20" type="StaticBody3D" parent="Level Elements/Terrain"]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 20, 0, 43.424, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level Elements/Terrain/platform20"]
+mesh = SubResource("BoxMesh_p2xjw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level Elements/Terrain/platform20"]
+shape = SubResource("BoxShape3D_j11i1")
 
 [node name="platform12" type="StaticBody3D" parent="Level Elements/Terrain"]
 transform = Transform3D(10, 0, 0, 0, 5, 0, 0, 0, 15, -29.7676, 43.4886, -1.81025)
@@ -325,12 +353,6 @@ transform = Transform3D(6, 0, 0, 0, 1, 0, 0, 0, 6, 0, 0, 0)
 useAnchorNodeStatsInstead = true
 rootOverride = NodePath("..")
 
-[node name="spikey_wood_anchor" parent="Level Elements/Floating Boxes" instance=ExtResource("15_75ad7")]
-transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, 10.9331, 32.4491, -38.0161)
-
-[node name="spikey_wood_anchor2" parent="Level Elements/Floating Boxes" instance=ExtResource("15_75ad7")]
-transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, -11.2923, 34.5388, -38.0161)
-
 [node name="MovingPlatform3" parent="Level Elements/Floating Boxes" instance=ExtResource("15_c6c5h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.884, -38.016)
 speed = 2.0
@@ -371,11 +393,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80.2142, 1.63292, -83.5048)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.8036, 1.63292, -83.5048)
 
 [node name="Anchors" type="Node" parent="."]
-
-[node name="Rock Mimics" type="Node" parent="Anchors"]
-
-[node name="RockMimic_Anchor" parent="Anchors/Rock Mimics" instance=ExtResource("13_bb7if")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8025, 3.03452, -33.3442)
 
 [node name="Fire Goobers" type="Node" parent="Anchors"]
 
@@ -656,3 +673,6 @@ distance = 25.0
 transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0, 0)
 useAnchorNodeStatsInstead = true
 rootOverride = NodePath("..")
+
+[node name="Win_Flag" parent="." instance=ExtResource("12_cl2ka")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 45.7577, 0)

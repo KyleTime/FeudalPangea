@@ -87,7 +87,8 @@ public partial class Anchor : Node3D
 
         if (rootIsParent)
         {
-            GetTree().Root.CallDeferred(Node.MethodName.AddChild, ent);
+
+            GetTree().CurrentScene.CallDeferred(Node.MethodName.AddChild, ent);
         }
         else
         {

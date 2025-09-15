@@ -233,8 +233,11 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         }
     }
 
+    static CreatureStateMachine one;
+
     public CreatureStateMachine()
     {
+        one = this;
     }
 
     public override void _PhysicsProcess(double delta)

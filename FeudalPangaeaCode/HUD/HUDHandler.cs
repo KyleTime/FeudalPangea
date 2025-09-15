@@ -12,12 +12,16 @@ public partial class HUDHandler : Node
 
     [Export] RichTextLabel coinCounter;
 
+    [Export] AnimationPlayer anim;
+
     public override void _Process(double delta)
     {
         base._Process(delta);
 
         //this is terrible, please do an event somehow
         coinCounter.Text = GlobalData.GetCoinCount().ToString();
+
+        LevelManager.currentLevel.WinLevel += PlayWinHudThingy;
     }
 
 
@@ -27,6 +31,11 @@ public partial class HUDHandler : Node
         int hpDisplay = (int)(percentage * 6);
 
         rect.Texture = hpFrames[hpDisplay];
+    }
+
+    public void PlayWinHudThingy()
+    {
+        anim.Play("win_hud_anim");
     }
 
     public async Task HUD_Death_Animation()
