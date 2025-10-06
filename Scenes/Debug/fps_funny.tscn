@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://bba5fe10gcwdh"]
+
+[ext_resource type="Script" uid="uid://csw1rrfwtfiuh" path="res://FeudalPangaeaCode/Debug/FPS_Counter.cs" id="1_nqda6"]
+
+[node name="FPS_Counter" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -237.0
+offset_bottom = 40.0
+grow_horizontal = 0
+text = "Swous FPS"
+horizontal_alignment = 2
+script = ExtResource("1_nqda6")

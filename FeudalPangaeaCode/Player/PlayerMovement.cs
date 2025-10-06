@@ -331,7 +331,6 @@ public partial class PlayerMovement : Node3D
 		Gravity((float)delta);
 
 		TryTransition(GroundedCond(), CreatureState.Grounded);
-		TryTransition(DiveCond(), CreatureState.Dive);
 
 		if (BonkCond())
 		{
