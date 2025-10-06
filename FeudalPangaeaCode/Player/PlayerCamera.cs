@@ -26,18 +26,9 @@ public partial class PlayerCamera : Node3D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionJustPressed("CAST3"))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Visible;
-		}
-		else if (Input.IsActionJustPressed("CAST3"))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-
-		if(Input.MouseMode == Input.MouseModeEnum.Captured)
+		if (Input.MouseMode == Input.MouseModeEnum.Captured)
 			SetPlayerCamRotation(playerCam, @event);
-    }
+	}
 
 	void SetPlayerCamRotation(PhantomCamera3D cam, InputEvent @event)
 	{
@@ -45,9 +36,7 @@ public partial class PlayerCamera : Node3D
 		{
 			InputEventMouseMotion m = (InputEventMouseMotion)@event;
 
-			Vector3 playerCamRotationDegrees = new Vector3();
-
-			playerCamRotationDegrees = cam.GetThirdPersonRotationDegrees();
+			Vector3 playerCamRotationDegrees = playerCam.GetThirdPersonRotationDegrees();
 
 			playerCamRotationDegrees.X -= m.Relative.Y * sens;
 
@@ -57,7 +46,7 @@ public partial class PlayerCamera : Node3D
 
 			playerCamRotationDegrees.Y = (float)Mathf.Wrap((double)playerCamRotationDegrees.Y, 0, 360);
 
-			cam.SetThirdPersonDegrees(playerCamRotationDegrees);
+			playerCam.SetThirdPersonDegrees(playerCamRotationDegrees);
 		}
 	}
 
