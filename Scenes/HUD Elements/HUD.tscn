@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4s0jb3rhv7ba"]
+[gd_scene load_steps=14 format=3 uid="uid://c4s0jb3rhv7ba"]
 
 [ext_resource type="Script" uid="uid://dm1ayahv0risr" path="res://FeudalPangaeaCode/HUD/HUDHandler.cs" id="1_smdbh"]
 [ext_resource type="Texture2D" uid="uid://dp6j1ja4jrkw0" path="res://Sprites/HUD/HP Counter/HP-0.png" id="2_ajo0l"]
@@ -19,7 +19,10 @@ font_color = Color(1, 0, 0, 1)
 default_base_scale = 10.0
 default_font_size = 140
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel", "coinCounter")]
+[sub_resource type="Theme" id="Theme_tfmn0"]
+default_font_size = 65
+
+[node name="HUD" type="Control" node_paths=PackedStringArray("rect", "diedGraphic", "diedPanel", "coinCounter", "dialogueBox")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +35,7 @@ rect = NodePath("HP_RATIO_CONTAINER/HP")
 diedGraphic = NodePath("Death Panel/YOU DIED")
 diedPanel = NodePath("Death Panel")
 coinCounter = NodePath("RichTextLabel")
+dialogueBox = NodePath("DialogueBox")
 
 [node name="Death Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -127,3 +131,17 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_tfmn0")
+
+[node name="DialogueBox" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.037
+offset_left = 263.0
+offset_top = 687.0
+offset_right = 1686.0
+offset_bottom = 931.04
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_tfmn0")
+horizontal_alignment = 1
+vertical_alignment = 1

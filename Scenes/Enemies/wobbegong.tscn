@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq68dwcidyhso"]
+
+[ext_resource type="Script" uid="uid://dilotof1xmwj5" path="res://wobbegong.cs" id="1_22p5u"]
+[ext_resource type="Texture2D" uid="uid://ntbbdvr2dj10" path="res://Sprites/Creature_Tex/wobbegongcanspeak.jpg" id="2_m7dfx"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_22p5u")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("2_m7dfx")

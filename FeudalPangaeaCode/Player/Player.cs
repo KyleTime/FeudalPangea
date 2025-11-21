@@ -142,6 +142,11 @@ public partial class Player : CharacterBody3D, ICreature
 
 		// if(Input.IsActionJustPressed("QUIT"))
 		// 	GetTree().Quit();
+
+		if(Input.IsActionJustPressed("UI_ACCEPT") && DM.IsActive())
+		{
+			DM.Advance();
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)

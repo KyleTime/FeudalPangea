@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6acu4ebqswn3"]
+[gd_scene load_steps=21 format=3 uid="uid://c6acu4ebqswn3"]
 
 [ext_resource type="Script" uid="uid://bwx27y30w5l1b" path="res://FeudalPangaeaCode/Levels/LevelManager.cs" id="1_o8n2q"]
 [ext_resource type="Script" uid="uid://b5kfhsiuiix4q" path="res://FeudalPangaeaCode/Hitboxes/Hitbox.cs" id="3_fcabx"]
@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://clbncd38rxe6g" path="res://Scenes/Enemies/Minor/RockMimic/rock_mimic.tscn" id="7_ewgxt"]
 [ext_resource type="PackedScene" uid="uid://xofgq1uo542d" path="res://Scenes/Interactables/checkpoint.tscn" id="9_ca7mo"]
 [ext_resource type="PackedScene" uid="uid://bfqw31pkrnbgp" path="res://Scenes/Player/player_package.tscn" id="9_fcabx"]
+[ext_resource type="PackedScene" uid="uid://5e87g2qlbcu5" path="res://Scenes/Enemies/NEW!RivalTypeCharacter.tscn" id="10_8lv13"]
 [ext_resource type="PackedScene" uid="uid://ck6xqt3u44ymv" path="res://Scenes/Collectables/Spell/spell_collectable.tscn" id="10_fcabx"]
+[ext_resource type="PackedScene" uid="uid://dq68dwcidyhso" path="res://Scenes/Enemies/wobbegong.tscn" id="11_8lv13"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nlxxi"]
 
@@ -187,5 +189,11 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -13.827, 1.57567, 10.0516)
 [node name="SpellCollectable" parent="." instance=ExtResource("10_fcabx")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -20.3246, 3.11157, -11.1094)
 spell = 1
+
+[node name="NEW!!!NEW!!NEW!rivaltypecharacter" parent="." instance=ExtResource("10_8lv13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7283, 2.18554, -64.8821)
+
+[node name="Node3D" parent="." instance=ExtResource("11_8lv13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.7006, 4.24222, -98.109)
 
 [connection signal="body_entered" from="Area3D" to="Area3D" method="OnBodyEntered"]

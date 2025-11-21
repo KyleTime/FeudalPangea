@@ -11,7 +11,12 @@ public partial class HUDHandler : Node
     [Export] Panel diedPanel;
 
     [Export] RichTextLabel coinCounter;
-
+    [Export] RichTextLabel dialogueBox;
+    public override void _Ready()
+    {
+        DM.hud = this;
+        dialogueBox.Visible = false;
+    }
     public override void _Process(double delta)
     {
         base._Process(delta);
@@ -76,5 +81,19 @@ public partial class HUDHandler : Node
 
         GD.Print("Routine end");
         diedGraphic.Visible = false;
+    }
+
+    public void EnterDialogue(DialogueFrame activeFrame)
+    {
+        dialogueBox.Visible = true;
+        UpdateDialogue(activeFrame);
+    }
+    public void UpdateDialogue(DialogueFrame activeFrame)
+    {
+        dialogueBox.Text = activeFrame.getText();
+    }
+    public void ExitDialogue()
+    {
+        dialogueBox.Visible = false;
     }
 }

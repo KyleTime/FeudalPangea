@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://5e87g2qlbcu5"]
+
+[ext_resource type="Script" uid="uid://br17wv5e8f3s7" path="res://NEWRivalTypeCharacter.cs" id="1_mh5t7"]
+[ext_resource type="Texture2D" uid="uid://bdw3er2h7us3x" path="res://Sprites/Creature_Tex/NEWRivalTypeDesign!!.png" id="2_mlxmx"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_mh5t7")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("2_mlxmx")
