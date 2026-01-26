@@ -47,7 +47,7 @@ public partial class HitFx : Node3D
         }
 
         if (freezeTime)
-            FreezeFrame(true);
+            FreezeFrame((int)(pauseTime * 1000));
 
         effect.GlobalPosition = effectPos;
         effect.Rotation = rotation with { X = 0, Z = 0 };
@@ -67,9 +67,6 @@ public partial class HitFx : Node3D
             await Task.Delay((int)(step * 1000));
         }
 
-        if (freezeTime)
-            FreezeFrame(false);
-
         effect.Visible = false;
 
         time = 0;
@@ -80,7 +77,7 @@ public partial class HitFx : Node3D
         effect.Scale = initialScale * InvertedParabolaScale(time, pauseTime) * scaleMod;
     }
 
-    protected void FreezeFrame(bool freeze)
+    protected void FreezeFrame(int freeze)
     {
         TimeManager.FreezeTime(freeze);
     }

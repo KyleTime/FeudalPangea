@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using Godot;
 
@@ -5,12 +6,7 @@ public partial class TimeManager : Node
 {
     public static TimeManager stn;
 
-    static int freezeTimeCount;
-    public static int freezeCount
-    {
-        private set { freezeTimeCount = value; }
-        get { return freezeTimeCount; }
-    }
+    static int freezeTimer;
 
     static bool gamePaused = false;
     public static bool gameIsPaused
@@ -41,24 +37,34 @@ public partial class TimeManager : Node
         stn = this;
     }
 
-    public static void FreezeTime(bool freeze)
+    static IEnumerable<int> HandleFrozenTime()
     {
-        if (freeze)
+        while(freezeTimer > 0)
         {
-            freezeTimeCount++;
-        }
-        else
-        {
-            freezeTimeCount--;
+            yield return 100;
+            freezeTimer -= 100;
         }
 
-        freezeTimeCount = Mathf.Clamp(freezeTimeCount, 0, 999);
+        freezeTimer = 0;
+        stn.GetTree().Paused = ShouldPause();
+    }
+
+    //for things that need to temporarily freeze the game for like, impact and stuff
+    public static void FreezeTime(int hangTime)
+    {
+        bool timeGoing = freezeTimer == 0;
+
+        freezeTimer += hangTime;
 
         stn.GetTree().Paused = ShouldPause();
 
-        stn.EmitSignal(SignalName.FreezeFrame, freezeTimeCount != 0);
+        stn.EmitSignal(SignalName.FreezeFrame, true);
+
+        if(timeGoing)
+            Coroutine.StartCoroutine(HandleFrozenTime());
     }
 
+    //for menus that fully pause the game
     public static void PauseTime(bool pause)
     {
         gamePaused = pause;
@@ -72,6 +78,6 @@ public partial class TimeManager : Node
 
     private static bool ShouldPause()
     {
-        return gamePaused || freezeTimeCount != 0;
+        return gamePaused || freezeTimer > 0;
     }
 }

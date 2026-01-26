@@ -3,4 +3,5 @@
 [ext_resource type="Script" uid="uid://b3p3s2pcgnbp7" path="res://FeudalPangaeaCode/Global_Stuff/TimeManager.cs" id="1_rj6am"]
 
 [node name="FatherTime" type="Node"]
+process_mode = 3
 script = ExtResource("1_rj6am")
