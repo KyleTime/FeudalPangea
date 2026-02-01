@@ -76,7 +76,19 @@ public abstract class BehaviorState
         if (holdTransitions)
             return null;
 
-        foreach (var pair in transitions)
+        BehaviorState state = TransitionHelper(self, transitions, delta);
+
+        if(state == null)
+        {
+            state = TransitionHelper(self, self.universalTransitions, delta);
+        }
+
+        return state;
+    }
+
+    public virtual BehaviorState TransitionHelper(CreatureStateMachine self, Dictionary<BehaviorCondition, BehaviorState> transitionList, double delta)
+    {
+        foreach (var pair in transitionList)
         {
             bool condition = false;
 

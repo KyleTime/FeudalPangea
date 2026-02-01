@@ -28,6 +28,9 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     [Export] public Node3D model;
 
+    //useful for things that tend to interrupt other states, be careful!
+    public Dictionary<BehaviorCondition, BehaviorState> universalTransitions = new Dictionary<BehaviorCondition, BehaviorState>();
+
     //This is the builder for the CreatureStateMachine
     // refer to the following link for a resource on the Builder Pattern: https://www.baeldung.com/java-builder-pattern 
     // yes, it's in java, but that's how my classes taught me so anyway
@@ -42,6 +45,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         AnimationPlayer anim;
 
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
+        Dictionary<BehaviorCondition, BehaviorState> universalTransitions = new Dictionary<BehaviorCondition, BehaviorState>();
 
         public CreatureStateMachine build()
         {
@@ -50,7 +54,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, anim);
+            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, anim, universalTransitions);
         }
 
         public void buildOnExisting(CreatureStateMachine machine)
@@ -62,6 +66,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             machine.target = null;
             machine.creatureCenterOffset = creatureCenterOffset;
             machine.anim = anim;
+            machine.universalTransitions = universalTransitions;
         }
 
         /// <summary>
@@ -185,6 +190,28 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
             return this;
         }
+
+        public Builder AddTransition(BehaviorCondition cond, string next)
+        {
+
+            if (!states.ContainsKey(next))
+            {
+                throw new Exception("One or more states request do not exist! Transition failed to be created in CreatureStateMachine!");
+            }
+
+            if (cond == null)
+            {
+                throw new Exception("Condition was null. Please provide a valid BehaviorCondition for the creation of the transition in CreatureStateMachine!");
+            }
+
+            //get the BehaviorState of the referenced states
+            BehaviorState nextState = states[next];
+
+            //add the transition to universal transitions
+            universalTransitions.Add(cond, nextState);
+
+            return this;
+        }
     }
 
     [Signal]
@@ -198,7 +225,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer anim)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer anim, Dictionary<BehaviorCondition, BehaviorState> universalTransitions)
     {
         this.state = initialState;
         this.stunState = stunState;
@@ -206,7 +233,9 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         this.HP = HP;
         this.creatureCenterOffset = creatureCenterOffset;
         this.anim = anim;
+        this.universalTransitions = universalTransitions;
         target = null;
+    
 
         if (deathState == null)
         {
