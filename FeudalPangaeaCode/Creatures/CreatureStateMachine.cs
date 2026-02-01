@@ -26,11 +26,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
 
     private AnimationPlayer anim;
 
-    private bool isMajorCreature;
-
     [Export] public Node3D model;
-
-    public bool IsMajor => isMajorCreature;
 
     //This is the builder for the CreatureStateMachine
     // refer to the following link for a resource on the Builder Pattern: https://www.baeldung.com/java-builder-pattern 
@@ -44,7 +40,6 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         BehaviorState deathState;
         Vector3 creatureCenterOffset = new Vector3(0, 1, 0);
         AnimationPlayer anim;
-        bool isMajorCreature = false;
 
         Dictionary<string, BehaviorState> states = new Dictionary<string, BehaviorState>();
 
@@ -55,7 +50,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             //CreatureStateMachine the whole dictionary. All of the states are already linked together!
             //This also neatly culls any unused states from memory, which is nice.
 
-            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, anim, isMajorCreature);
+            return new CreatureStateMachine(initialState, HP, stunState, deathState, creatureCenterOffset, anim);
         }
 
         public void buildOnExisting(CreatureStateMachine machine)
@@ -67,7 +62,6 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
             machine.target = null;
             machine.creatureCenterOffset = creatureCenterOffset;
             machine.anim = anim;
-            machine.isMajorCreature = isMajorCreature;
         }
 
         /// <summary>
@@ -105,18 +99,6 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         public Builder SetAnimationPlayer(AnimationPlayer animationPlayer)
         {
             this.anim = animationPlayer;
-            return this;
-        }
-
-        /// <summary>
-        /// Calling this function makes the creature a major creature.
-        /// This means they cannot be harmed by basic punches unless
-        /// stunned.
-        /// </summary>
-        /// <returns>The Builder!</returns>
-        public Builder SetMajor()
-        {
-            isMajorCreature = true;
             return this;
         }
 
@@ -216,7 +198,7 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         return new Builder();
     }
 
-    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer anim, bool isMajorCreature)
+    public CreatureStateMachine(BehaviorState initialState, int HP, BehaviorState stunState, BehaviorState deathState, Vector3 creatureCenterOffset, AnimationPlayer anim)
     {
         this.state = initialState;
         this.stunState = stunState;
@@ -224,7 +206,6 @@ public partial class CreatureStateMachine : CharacterBody3D, ICreature
         this.HP = HP;
         this.creatureCenterOffset = creatureCenterOffset;
         this.anim = anim;
-        this.isMajorCreature = isMajorCreature;
         target = null;
 
         if (deathState == null)

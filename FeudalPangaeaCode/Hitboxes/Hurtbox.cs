@@ -75,26 +75,6 @@ public partial class Hurtbox : Area3D
             self.Die(hitbox.damage_source);
         }
 
-        //if major and not stunned, resist nonmagical damage
-        if (self.IsMajor && !(self.GetState() == CreatureState.Stun || self.GetState() == CreatureState.StunAir))
-        {
-            foreach (DamageSource dmg in majorCreatureVulnerabilities)
-            {
-                if (dmg == hitbox.damage_source)
-                {
-                    Vector3 pushVector = CreatureVelocityCalculations.PushVector(hitbox.GlobalPosition, self.GetCreatureCenter(), hitbox.pushMod.X) with { Y = 0 };
-
-                    self.Push(pushVector.Normalized() * 10f);
-
-                    if (dinkEffect != null)
-                    {
-                        dinkEffect.Effect(hitbox.GlobalPosition, hitbox.Rotation);
-                    }
-                    return;
-                }
-            }
-        }
-
         self.ChangeHP(-hitbox.dmg, hitbox.damage_source);
 
         switch (hitbox.damage_source)

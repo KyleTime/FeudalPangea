@@ -22,7 +22,6 @@ public interface ICreature
 	/// <returns></returns>
 	Vector3 GetCreatureCenter();
 	Vector3 GetCreatureVelocity();
-    bool IsMajor { get; }
     void Stun(float time);
 	void Push(Vector3 force);
 	CreatureState GetState();
