@@ -46,7 +46,7 @@ public partial class PlayerCamera : Node3D
 
 			playerCamRotationDegrees.Y = (float)Mathf.Wrap((double)playerCamRotationDegrees.Y, 0, 360);
 
-			playerCam.SetThirdPersonDegrees(playerCamRotationDegrees);
+			playerCam.SetThirdPersonRotationDegrees(playerCamRotationDegrees);
 		}
 	}
 
